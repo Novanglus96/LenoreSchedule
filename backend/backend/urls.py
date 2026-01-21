@@ -26,6 +26,6 @@ urlpatterns = [
     path("api/v1/", api.urls),
 ]
 
-admin.site.site_title = "{{PROJECT_NAME}} site admin (DEV)"
-admin.site.site_header = "{{PROJECT_NAME}} administraion"
+admin.site.site_title = "LenoreSchedule site admin (DEV)"
+admin.site.site_header = "LenoreSchedule administraion"
 admin.site.index_title = "Site adminstration"

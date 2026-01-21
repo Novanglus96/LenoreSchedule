@@ -9,9 +9,9 @@ from options.api.routers.health import health_router
 from options.api.routers.version import version_router
 
 api = NinjaAPI(auth=[django_auth, GlobalAuth()])
-api.title = "{{PROJECT_NAME}}"
+api.title = "LenoreSchedule"
 api.version = get_version()
-api.description = "API documetation for {{PROJECT_NAME}}"
+api.description = "API documetation for LenoreSchedule"
 
 # Add routers to the API
 api.add_router("/accounts", router)

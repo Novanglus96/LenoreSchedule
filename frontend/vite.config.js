@@ -13,7 +13,7 @@ export default defineConfig({
     createHtmlPlugin({
       inject: {
         data: {
-          title: "{{PROJECT_NAME}}",
+          title: "LenoreSchedule",
         },
       },
     }),

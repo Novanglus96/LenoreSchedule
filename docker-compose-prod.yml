@@ -8,8 +8,8 @@ services:
     restart: unless-stopped
     expose:
       - 80
-    image: {{PROJECT_SLUG}}_frontend:production
-    container_name: {{PROJECT_SLUG}}_frontend
+    image: lenoreschedule_frontend:production
+    container_name: lenoreschedule_frontend
     env_file:
       - ./.env
     environment:
@@ -32,8 +32,8 @@ services:
       - backend
     env_file:
       - ./.env
-    image: {{PROJECT_SLUG}}_backend:production
-    container_name: {{PROJECT_SLUG}}_backend
+    image: lenoreschedule_backend:production
+    container_name: lenoreschedule_backend
   worker:
     build:
       context: ./backend
@@ -50,8 +50,8 @@ services:
       - backend
     env_file:
       - ./.env
-    image: {{PROJECT_SLUG}}_worker:production
-    container_name: {{PROJECT_SLUG}}_worker
+    image: lenoreschedule_worker:production
+    container_name: lenoreschedule_worker
   db:
     image: postgres:18-trixie
     volumes:
@@ -61,7 +61,7 @@ services:
     networks:
       - default
       - backend
-    container_name: {{PROJECT_SLUG}}_db
+    container_name: lenoreschedule_db
     environment:
       - TZ=UTC
       - POSTGRES_USER=${SQL_USER}
@@ -79,7 +79,7 @@ services:
       - default
     ports:
       - 7000:80
-    container_name: {{PROJECT_SLUG}}_proxy
+    container_name: lenoreschedule_proxy
     environment:
       - TZ=${TIMEZONE}
 

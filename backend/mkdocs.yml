@@ -1,8 +1,8 @@
-site_name: {{PROJECT_NAME}}
+site_name: LenoreSchedule
 site_description: An advanced admin dashboard for AD
 site_author: John Adams
-site_url: https://novanglus96.github.io/{{PROJECT_NAME}}/
-repo_url: https://github.com/Novanglus96/{{PROJECT_NAME}}
+site_url: https://novanglus96.github.io/LenoreSchedule/
+repo_url: https://github.com/Novanglus96/LenoreSchedule
 copyright: 2027 John Adams
 nav:
   - Home: index.md
