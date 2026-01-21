@@ -1,0 +1,85 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    networks:
+      - default
+    restart: unless-stopped
+    ports:
+      - 8081:5173
+    image: {{PROJECT_SLUG}}_frontend:development
+    container_name: {{PROJECT_SLUG}}_frontend_dev
+    volumes:
+      - ./frontend:/app
+    environment:
+      - NODE_ENV=development
+      - TZ=${TIMEZONE}
+    command: /bin/sh -c "npm run serve"
+    env_file:
+      - ./.env.dev
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    command: /usr/src/app/start.dev.sh
+    env_file:
+      - ./.env.dev
+    volumes:
+      - ./backend:/usr/src/app
+      - ./backups:/backups
+    environment:
+      - DEBUG=1
+    ports:
+      - 8001:8001
+      - 8002:8002
+    depends_on:
+      - db
+    networks:
+      - default
+      - backend
+    image: {{PROJECT_SLUG}}_backend:development
+    container_name: {{PROJECT_SLUG}}_backend_dev
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    command: /usr/src/app/start_worker.sh
+    env_file:
+      - ./.env.dev
+    volumes:
+      - ./backend:/usr/src/app
+      - ./backups:/backups
+    environment:
+      - DEBUG=1
+    depends_on:
+      - db
+      - backend
+    networks:
+      - backend
+    image: {{PROJECT_SLUG}}_worker:development
+    container_name: {{PROJECT_SLUG}}_worker_dev
+  db:
+    image: postgres:18-trixie
+    volumes:
+      - postgres_data:/var/lib/postgresql/
+    env_file:
+      - ./.env.dev
+    networks:
+      - backend
+    container_name: {{PROJECT_SLUG}}_db_dev
+    environment:
+      - TZ=UTC
+      - POSTGRES_USER=${SQL_USER}
+      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+      - POSTGRES_DB=${SQL_DATABASE}
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+  postgres_bkp:
+
+networks:
+  backend:
+    internal: true
