@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     "django_filters",
     "dbbackup",
     "ninja",
-    "django_q",
 ]
 
 MIDDLEWARE = [
@@ -255,19 +254,6 @@ LOGGING = {
         "handlers": ["stdout_handler"],
         "level": "WARNING",
     },
-}
-
-Q_CLUSTER = {
-    "name": "DjangORM",
-    "workers": 4,
-    "timeout": 599,
-    "retry": 600,
-    "queue_limit": 50,
-    "bulk": 10,
-    "orm": "default",
-    "max_attempts": 1,
-    "label": "Tasks",
-    "catch_up": False,
 }
 
 JAZZMIN_SETTINGS = {
