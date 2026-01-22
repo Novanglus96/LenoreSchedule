@@ -9,7 +9,6 @@ python-dateutil==2.9.0
 django-dbbackup==5.1.0
 django-ninja==1.5.2
 python-decouple==3.8
-django-q2==1.9.0
 django-jazzmin==3.0.1
 django-import-export==4.3.14
 arrow==1.4.0

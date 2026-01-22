@@ -13,7 +13,6 @@ if [ "$DJANGO_SUPERUSER_USERNAME" ]; then
         true
 fi
 
-python manage.py scheduletasks
 python manage.py load_version_fixture
 
 python manage.py runserver 0.0.0.0:8001 &
