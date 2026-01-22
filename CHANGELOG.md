@@ -1,3 +1,10 @@
+# [1.0.0-alpha.4](https://github.com/Novanglus96/LenoreSchedule/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2026-01-22)
+
+
+### Bug Fixes
+
+* reddit post workflow ([4205add](https://github.com/Novanglus96/LenoreSchedule/commit/4205add6568012168a17a9ac5168b71088c857b0))
+
 # [1.0.0-alpha.3](https://github.com/Novanglus96/LenoreSchedule/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2026-01-22)
 
 
