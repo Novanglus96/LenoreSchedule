@@ -59,7 +59,6 @@ jobs:
           
           echo "FRONTEND_NAME=${SLUG}_frontend" >> "GITHUB_ENV"
           echo "BACKEND_NAME=${SLUG}_backend" >> "GITHUB_ENV"
-          echo "WORKER_NAME=${SLUG}_worker" >> "GITHUB_ENV"
 
       - name: Check if Docker tag exists
         env:
@@ -91,12 +90,10 @@ jobs:
           # Tag new images with the release version
           docker tag $BACKEND_NAME:production $DOCKER_HUB_REPO/$BACKEND_NAME:${VERSION}
           docker tag $FRONTEND_NAME:production $DOCKER_HUB_REPO/$FRONTEND_NAME:${VERSION}
-          docker tag $WORKER_NAME:production $DOCKER_HUB_REPO/$WORKER_NAME:${VERSION}
 
           # Push versioned tags
           docker push $DOCKER_HUB_REPO/$BACKEND_NAME:${VERSION}
           docker push $DOCKER_HUB_REPO/$FRONTEND_NAME:${VERSION}
-          docker push $DOCKER_HUB_REPO/$WORKER_NAME:${VERSION}
 
           echo "Prelease = $PRERELEASE : TAG: $PRERELEASE_TAG"
           if [[ "$PRERELEASE" == "true" && -n "$PRERELEASE_TAG" ]]; then
@@ -104,11 +101,9 @@ jobs:
 
             docker tag $BACKEND_NAME:production $DOCKER_HUB_REPO/$BACKEND_NAME:$PRERELEASE_TAG
             docker tag $FRONTEND_NAME:production $DOCKER_HUB_REPO/$FRONTEND_NAME:$PRERELEASE_TAG
-            docker tag $WORKER_NAME:production $DOCKER_HUB_REPO/$WORKER_NAME:$PRERELEASE_TAG
 
             docker push $DOCKER_HUB_REPO/$BACKEND_NAME:$PRERELEASE_TAG
             docker push $DOCKER_HUB_REPO/$FRONTEND_NAME:$PRERELEASE_TAG
-            docker push $DOCKER_HUB_REPO/$WORKER_NAME:$PRERELEASE_TAG
           fi
           
           if [[ "$PRERELEASE" == "false" ]]; then
@@ -117,32 +112,26 @@ jobs:
             # Tag latest tags
             docker tag $BACKEND_NAME:production $DOCKER_HUB_REPO/$BACKEND_NAME:latest
             docker tag $FRONTEND_NAME:production $DOCKER_HUB_REPO/$FRONTEND_NAME:latest
-            docker tag $WORKER_NAME:production $DOCKER_HUB_REPO/$WORKER_NAME:latest
 
             # Push latest tags
             docker push $DOCKER_HUB_REPO/$BACKEND_NAME:latest
             docker push $DOCKER_HUB_REPO/$FRONTEND_NAME:latest
-            docker push $DOCKER_HUB_REPO/$WORKER_NAME:latest
 
             # Tag major tags
             docker tag $BACKEND_NAME:production $DOCKER_HUB_REPO/$BACKEND_NAME:${MAJOR}
             docker tag $FRONTEND_NAME:production $DOCKER_HUB_REPO/$FRONTEND_NAME:${MAJOR}
-            docker tag $WORKER_NAME:production $DOCKER_HUB_REPO/$WORKER_NAME:${MAJOR}
 
             # Push major tags
             docker push $DOCKER_HUB_REPO/$BACKEND_NAME:${MAJOR}
             docker push $DOCKER_HUB_REPO/$FRONTEND_NAME:${MAJOR}
-            docker push $DOCKER_HUB_REPO/$WORKER_NAME:${MAJOR}
 
             # Tag minor tags
             docker tag $BACKEND_NAME:production $DOCKER_HUB_REPO/$BACKEND_NAME:${MINOR}
             docker tag $FRONTEND_NAME:production $DOCKER_HUB_REPO/$FRONTEND_NAME:${MINOR}
-            docker tag $WORKER_NAME:production $DOCKER_HUB_REPO/$WORKER_NAME:${MINOR}
 
             # Push minor tags
             docker push $DOCKER_HUB_REPO/$BACKEND_NAME:${MINOR}
             docker push $DOCKER_HUB_REPO/$FRONTEND_NAME:${MINOR}
-            docker push $DOCKER_HUB_REPO/$WORKER_NAME:${MINOR}
           
           else
             echo "Skipping tagging as latest/major/minor for prerelease version (${VERSION})"
