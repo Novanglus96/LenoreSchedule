@@ -1,3 +1,10 @@
+# [1.0.0-alpha.3](https://github.com/Novanglus96/LenoreSchedule/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2026-01-22)
+
+
+### Bug Fixes
+
+* build issue ([c00975d](https://github.com/Novanglus96/LenoreSchedule/commit/c00975da091b332232f8fcf959a225c431d05b53))
+
 # [1.0.0-alpha.2](https://github.com/Novanglus96/LenoreSchedule/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2026-01-22)
 
 
