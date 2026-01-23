@@ -1,3 +1,16 @@
+## [0.0.1-alpha.1](https://github.com/Novanglus96/LenoreSchedule/compare/v0.0.0...v0.0.1-alpha.1) (2026-01-23)
+
+
+### Bug Fixes
+
+* build issue ([c00975d](https://github.com/Novanglus96/LenoreSchedule/commit/c00975da091b332232f8fcf959a225c431d05b53))
+* reddit post workflow ([4205add](https://github.com/Novanglus96/LenoreSchedule/commit/4205add6568012168a17a9ac5168b71088c857b0))
+* removed django_q2 ([bc08a1c](https://github.com/Novanglus96/LenoreSchedule/commit/bc08a1c629ef067a7dc08419c54802605689131a))
+* removed django_q2 ([a0cc2dd](https://github.com/Novanglus96/LenoreSchedule/commit/a0cc2dd64812ddfdcbd9f7cc8234ceebbe374178))
+* setup initial frontend view ([c89c380](https://github.com/Novanglus96/LenoreSchedule/commit/c89c3802460a80aa9857644e6cdad9682a9b9b83))
+* update readme ([162048f](https://github.com/Novanglus96/LenoreSchedule/commit/162048f314ff2203ef1f560f5394fd516329fa0c))
+* update to build ([250af74](https://github.com/Novanglus96/LenoreSchedule/commit/250af74342f2c59954a507a9d9d336f9187ca61f))
+
 # [1.0.0-alpha.5](https://github.com/Novanglus96/LenoreSchedule/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2026-01-23)
 
 
