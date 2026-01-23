@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "options",
+    "groups",
     "core.apps.CoreConfig",
     "corsheaders",
     "django_filters",
