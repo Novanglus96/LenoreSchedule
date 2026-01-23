@@ -37,7 +37,7 @@
 <h3 align="center">LenoreSchedule</h3>
 
   <p align="center">
-  A template for Django/Vue/Docker projects
+  A schdule creator for departments
     <br />
     <a href="https://github.com/Novanglus96/LenoreSchedule"><strong>Explore the docs »</strong></a>
     <br />
