@@ -194,6 +194,8 @@ def delete_group(request, group_id: int):
         group.delete()
         api_logger.info(f"Group deleted : {group_name}")
         return {"success": True}
+    except Http404:
+        raise
     except Exception as e:
         # Log other types of exceptions
         api_logger.error("Group not deleted")
