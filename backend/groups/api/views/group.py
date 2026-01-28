@@ -1,19 +1,21 @@
 from ninja import Router
-from groups.models import Group
 from groups.api.schemas.group import GroupIn, GroupOut
-from django.db import IntegrityError
 from ninja.errors import HttpError
-from django.shortcuts import get_object_or_404
 from typing import List
 import logging
-from django.http import Http404
 from groups.exceptions import (
     GroupAlreadyExists,
     GroupCreationError,
     GroupDoesNotExist,
 )
-from groups.mappers import schema_to_domain_group
-from groups.services.group_services import create_group, update_group
+from groups.mappers import schema_to_domain_group, domain_group_to_schema
+from groups.services.group_services import (
+    create_group,
+    update_group,
+    get_group,
+    get_ordered_list_of_groups,
+    delete_group,
+)
 
 api_logger = logging.getLogger("api")
 db_logger = logging.getLogger("db")
@@ -103,21 +105,6 @@ def update_group_endpoint(request, group_id: int, payload: GroupIn):
         update_group(group_id, domain_update)
 
         return {"success": True}
-    except IntegrityError as integrity_error:
-        # Check if the integrity error is due to a duplicate
-        if "unique constraint" in str(integrity_error).lower():
-            api_logger.error(
-                f"Group not updated : group exists ({payload.group_name})"
-            )
-            error_logger.error(
-                f"Group not updated : group exists ({payload.group_name})"
-            )
-            raise HttpError(400, "Group already exists")
-        else:
-            # Log other types of integry errors
-            api_logger.error("Group not updated : db integrity error")
-            error_logger.error("Group not updated : db integrity error")
-            raise HttpError(400, "DB integrity error")
 
     except GroupAlreadyExists:
         api_logger.error(
@@ -143,9 +130,9 @@ def update_group_endpoint(request, group_id: int, payload: GroupIn):
 
 
 @group_router.get("/get/{group_id}", response=GroupOut)
-def get_group(request, group_id: int):
+def get_group_endpoint(request, group_id: int):
     """
-    The function `get_group` retrieves the group by id
+    The function `get_group_endpoint` retrieves the group by id
 
     Endpoint:
         - **Path**: `/api/v1/groups/get/{group_id}`
@@ -161,18 +148,25 @@ def get_group(request, group_id: int):
     Raises:
         Http404: If the group with the specified ID does not exist.
     """
-
     try:
-        group = get_object_or_404(Group, id=group_id)
-        api_logger.debug(f"Group retrieved : {group.group_name}")
-        return group
-    except Http404:
-        raise
+        group = get_group(group_id)
+
+        return domain_group_to_schema(group)
+
+    except GroupDoesNotExist:
+        api_logger.error(f"Group not retreived : group id {group_id} not found")
+        error_logger.error(
+            f"Group not retreived : group id {group_id} not found"
+        )
+        raise HttpError(
+            404, f"Group not retreived : group id {group_id} not found"
+        )
+
     except Exception as e:
         # Log other types of exceptions
-        api_logger.error("Group not retrieved")
+        api_logger.error("Group not retreived")
         error_logger.error(f"{str(e)}")
-        raise HttpError(500, "Record retrieval error")
+        raise HttpError(500, "Group not retreived")
 
 
 @group_router.get("/list", response=List[GroupOut])
@@ -193,9 +187,9 @@ def list_groups(request):
     """
 
     try:
-        qs = Group.objects.all().order_by("group_name")
-        api_logger.debug("Group list retrieved")
-        return qs
+        groups = get_ordered_list_of_groups()
+
+        return [domain_group_to_schema(g) for g in groups]
     except Exception as e:
         # Log other types of exceptions
         api_logger.error("Group list not retrieved")
@@ -204,9 +198,9 @@ def list_groups(request):
 
 
 @group_router.delete("/delete/{group_id}")
-def delete_group(request, group_id: int):
+def delete_group_endpoint(request, group_id: int):
     """
-    The function `delete_group` deletes the group specified by id.
+    The function `delete_group_endpoint` deletes the group specified by id.
 
     Endpoint:
         - **Path**: `/api/v1/groups/delete/{group_id}`
@@ -224,15 +218,17 @@ def delete_group(request, group_id: int):
     """
 
     try:
-        group = get_object_or_404(Group, id=group_id)
-        group_name = group.group_name
-        group.delete()
-        api_logger.info(f"Group deleted : {group_name}")
+        group = delete_group(group_id)
+        api_logger.info(f"Group deleted : {group}")
         return {"success": True}
-    except Http404:
-        raise
+    except GroupDoesNotExist:
+        api_logger.error(f"Group not deleted : group id {group_id} not found")
+        error_logger.error(f"Group not deleted : group id {group_id} not found")
+        raise HttpError(
+            404, f"Group not deleted : group id {group_id} not found"
+        )
     except Exception as e:
         # Log other types of exceptions
         api_logger.error("Group not deleted")
         error_logger.error(f"{str(e)}")
-        raise HttpError(500, "Record retrieval error")
+        raise HttpError(500, "Group deletion error")
