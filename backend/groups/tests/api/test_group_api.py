@@ -88,7 +88,19 @@ def test_update_group_duplicate(api_client):
     )
 
     assert response.status_code == 400
-    assert response.json()["detail"] == "Group already exists"
+    assert response.json()["detail"] == "Group not updated: group name exists"
+
+
+@pytest.mark.django_db
+@pytest.mark.api
+def test_update_group_not_found(api_client):
+    response = api_client.put(
+        "/groups/update/999",
+        json={"group_name": "Group2"},
+        headers={"Authorization": "Bearer test-api-key"},
+    )
+
+    assert response.status_code == 404
 
 
 @pytest.mark.django_db

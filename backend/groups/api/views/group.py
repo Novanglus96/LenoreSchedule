@@ -7,6 +7,13 @@ from django.shortcuts import get_object_or_404
 from typing import List
 import logging
 from django.http import Http404
+from groups.exceptions import (
+    GroupAlreadyExists,
+    GroupCreationError,
+    GroupDoesNotExist,
+)
+from groups.mappers import schema_to_domain_group
+from groups.services.group_services import create_group, update_group
 
 api_logger = logging.getLogger("api")
 db_logger = logging.getLogger("db")
@@ -17,9 +24,9 @@ group_router = Router(tags=["Groups"])
 
 
 @group_router.post("/create")
-def create_group(request, payload: GroupIn):
+def create_group_endpoint(request, payload: GroupIn):
     """
-    The function `create_group` creats a group object.
+    The function `create_group_endpoint` creats a group object.
 
     Endpoint:
         - **Path**: `/api/v1/groups/create`
@@ -33,35 +40,47 @@ def create_group(request, payload: GroupIn):
         (dict): {'id': The ID of the created group}.
     """
     try:
-        group = Group.objects.create(**payload.dict())
-        api_logger.info(f"Group created : {group.group_name}")
-        return {"id": group.id}
-    except IntegrityError as integrity_error:
-        # Check if the integrity error is due to a duplicate
-        if "unique constraint" in str(integrity_error).lower():
-            api_logger.error(
-                f"Group not created : group exists ({payload.group_name})"
-            )
-            error_logger.error(
-                f"Group not created : group exists ({payload.group_name})"
-            )
-            raise HttpError(400, "Group already exists")
-        else:
-            # Log other types of integry errors
-            api_logger.error("Group not created : db integrity error")
-            error_logger.error("Group not created : db integrity error")
-            raise HttpError(400, "DB integrity error")
-    except Exception as e:
-        # Log other types of exceptions
-        api_logger.error("Group not created")
-        error_logger.error(f"{str(e)}")
-        raise HttpError(500, "Record creation error")
+        domain_in = schema_to_domain_group(payload)
+        domain_group = create_group(domain_in)
+
+        api_logger.info(
+            "Group created",
+            extra={
+                "group_id": domain_group.id,
+                "group_name": domain_group.group_name,
+            },
+        )
+
+        return {"id": domain_group.id}
+
+    except GroupAlreadyExists:
+        api_logger.error(
+            f"Unable to create group({domain_in.group_name}): Group already exists"
+        )
+        error_logger.error(
+            f"Unable to create group({domain_in.group_name}): Group already exists"
+        )
+        raise HttpError(400, "Group already exists")
+
+    except GroupCreationError:
+        api_logger.error(
+            f"Unable to create group({domain_in.group_name}): DB integrity error"
+        )
+        error_logger.error(
+            f"Unable to create group({domain_in.group_name}): DB integrity error"
+        )
+        raise HttpError(400, "DB integrity error")
+
+    except Exception:
+        api_logger.error("Group creation failed")
+        error_logger.error("Group creation failed")
+        raise HttpError(500, "Group creation error")
 
 
 @group_router.put("/update/{group_id}")
-def update_group(request, group_id: int, payload: GroupIn):
+def update_group_endpoint(request, group_id: int, payload: GroupIn):
     """
-    The function `update_group` updates the group specified by id.
+    The function `update_group_endpoint` updates the group specified by id.
 
     Endpoint:
         - **Path**: `/api/v1/groups/update/{group_id}`
@@ -80,10 +99,9 @@ def update_group(request, group_id: int, payload: GroupIn):
     """
 
     try:
-        group = get_object_or_404(Group, id=group_id)
-        group.group_name = payload.group_name
-        group.save()
-        api_logger.info(f"Group updated : {group.group_name}")
+        domain_update = schema_to_domain_group(payload)
+        update_group(group_id, domain_update)
+
         return {"success": True}
     except IntegrityError as integrity_error:
         # Check if the integrity error is due to a duplicate
@@ -100,11 +118,28 @@ def update_group(request, group_id: int, payload: GroupIn):
             api_logger.error("Group not updated : db integrity error")
             error_logger.error("Group not updated : db integrity error")
             raise HttpError(400, "DB integrity error")
+
+    except GroupAlreadyExists:
+        api_logger.error(
+            f"Group not updated : group namee xists ({payload.group_name})"
+        )
+        error_logger.error(
+            f"Group not updated : group name exists ({payload.group_name})"
+        )
+        raise HttpError(400, "Group not updated: group name exists")
+
+    except GroupDoesNotExist:
+        api_logger.error(f"Group not updated : group id {group_id} not found")
+        error_logger.error(f"Group not updated : group id {group_id} not found")
+        raise HttpError(
+            404, f"Group not updated : group id {group_id} not found"
+        )
+
     except Exception as e:
         # Log other types of exceptions
         api_logger.error("Group not updated")
         error_logger.error(f"{str(e)}")
-        raise HttpError(500, "Record update error")
+        raise HttpError(500, "Group update error")
 
 
 @group_router.get("/get/{group_id}", response=GroupOut)
