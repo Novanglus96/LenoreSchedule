@@ -1,3 +1,10 @@
+# [0.1.0-alpha.1](https://github.com/Novanglus96/LenoreSchedule/compare/v0.0.1-alpha.1...v0.1.0-alpha.1) (2026-01-29)
+
+
+### Features
+
+* added groups ([#9](https://github.com/Novanglus96/LenoreSchedule/issues/9)) ([a3a0e61](https://github.com/Novanglus96/LenoreSchedule/commit/a3a0e612b91b08a783e22bfb04c2f1e8c54d3b33))
+
 ## [0.0.1-alpha.1](https://github.com/Novanglus96/LenoreSchedule/compare/v0.0.0...v0.0.1-alpha.1) (2026-01-23)
 
 
