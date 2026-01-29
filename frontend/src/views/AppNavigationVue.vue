@@ -1,5 +1,20 @@
 <template>
   <div>
+    <v-navigation-drawer color="primary" permanent v-if="mdAndUp">
+      <v-list density="compact" nav>
+        <div class="d-flex flex-column align-center">
+          <v-img :width="200" aspect-ratio="1/1" cover src="logov2.png"></v-img>
+          <span class="text-caption font-weight-bold">v{{ version }}</span>
+        </div>
+        <v-list-item
+          prepend-icon="mdi-view-dashboard-variant"
+          v-bind="props"
+          color="selected"
+          @click="setAccount(null, True)"
+          title="Dashboard"
+        ></v-list-item>
+      </v-list>
+    </v-navigation-drawer>
     <v-app-bar color="surface" density="compact">
       <template v-slot:prepend>
         <v-menu v-if="isMobile" width="200">
@@ -15,11 +30,7 @@
             ></v-list-item>
           </v-list>
         </v-menu>
-        <v-img :width="132" aspect-ratio="1/1" cover src="logov2.png"></v-img>
       </template>
-      <v-app-bar-title>
-        <span class="text-caption font-weight-bold">v{{ version }}</span>
-      </v-app-bar-title>
       <v-btn
         icon="mdi-theme-light-dark"
         @click="handleToggle"
@@ -27,17 +38,6 @@
         size="small"
       ></v-btn>
     </v-app-bar>
-    <v-navigation-drawer color="primary" permanent v-if="mdAndUp">
-      <v-list density="compact" nav>
-        <v-list-item
-          prepend-icon="mdi-view-dashboard-variant"
-          v-bind="props"
-          color="selected"
-          @click="setAccount(null, True)"
-          title="Dashboard"
-        ></v-list-item>
-      </v-list>
-    </v-navigation-drawer>
   </div>
 </template>
 <script setup>
