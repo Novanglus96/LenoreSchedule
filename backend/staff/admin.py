@@ -1,5 +1,5 @@
 from django.contrib import admin
-from staff.models import Group
+from staff.models import Group, Department
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
@@ -13,4 +13,13 @@ class GroupAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     ordering = ["group_name"]
 
 
+class DepartmentAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["id", "department_name"]
+
+    list_display_links = ["department_name"]
+
+    ordering = ["department_name"]
+
+
 admin.site.register(Group, GroupAdmin)
+admin.site.register(Department, DepartmentAdmin)
