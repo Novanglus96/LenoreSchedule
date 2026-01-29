@@ -24,3 +24,17 @@ class DepartmentDoesNotExist(Exception):
     def __init__(self, department_id: int):
         super().__init__(f"Department {department_id} does not exist")
         self.department_id = department_id
+
+
+class EmployeeAlreadyExists(Exception):
+    pass
+
+
+class EmployeeCreationError(Exception):
+    pass
+
+
+class EmployeeDoesNotExist(Exception):
+    def __init__(self, employee_id: int):
+        super().__init__(f"Employee {employee_id} does not exist")
+        self.employee_id = employee_id
