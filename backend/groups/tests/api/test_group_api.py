@@ -6,6 +6,9 @@ from groups.factories import GroupFactory
 @pytest.mark.django_db
 @pytest.mark.api
 def test_create_group_success(api_client):
+    """
+    Test group created succssfully.
+    """
     response = api_client.post(
         "/groups/create",
         json={"group_name": "New Group"},
@@ -19,6 +22,9 @@ def test_create_group_success(api_client):
 @pytest.mark.django_db
 @pytest.mark.api
 def test_get_group_success(api_client):
+    """
+    Test getting a group is successful.
+    """
     group = GroupFactory()
     response = api_client.get(
         f"/groups/get/{group.id}",
@@ -32,6 +38,9 @@ def test_get_group_success(api_client):
 @pytest.mark.django_db
 @pytest.mark.api
 def test_get_group_not_found(api_client):
+    """
+    Test getting a group that doesn't exist raises error.
+    """
     response = api_client.get(
         "/groups/get/9999",
         headers={"Authorization": "Bearer test-api-key"},
@@ -43,6 +52,9 @@ def test_get_group_not_found(api_client):
 @pytest.mark.django_db
 @pytest.mark.api
 def test_list_groups(api_client):
+    """
+    Test list of groups is retrieved and ordered.
+    """
     GroupFactory(group_name="B Group")
     GroupFactory(group_name="A Group")
 
@@ -61,6 +73,9 @@ def test_list_groups(api_client):
 @pytest.mark.django_db
 @pytest.mark.api
 def test_update_group_success(api_client):
+    """
+    Test updating a group is successful.
+    """
     group = GroupFactory()
     response = api_client.put(
         f"/groups/update/{group.id}",
@@ -78,6 +93,9 @@ def test_update_group_success(api_client):
 @pytest.mark.django_db
 @pytest.mark.api
 def test_update_group_duplicate(api_client):
+    """
+    Test updating a group with a duplicate name raises error.
+    """
     group1 = GroupFactory(group_name="Group1")
     GroupFactory(group_name="Group2")
 
@@ -94,6 +112,9 @@ def test_update_group_duplicate(api_client):
 @pytest.mark.django_db
 @pytest.mark.api
 def test_update_group_not_found(api_client):
+    """
+    Test upraing a group that doesn't exist raises error.
+    """
     response = api_client.put(
         "/groups/update/999",
         json={"group_name": "Group2"},
@@ -106,6 +127,9 @@ def test_update_group_not_found(api_client):
 @pytest.mark.django_db
 @pytest.mark.api
 def test_delete_group_success(api_client):
+    """
+    Test deleting a group is successful.
+    """
     group = GroupFactory()
     response = api_client.delete(
         f"/groups/delete/{group.id}",
@@ -120,6 +144,9 @@ def test_delete_group_success(api_client):
 @pytest.mark.django_db
 @pytest.mark.api
 def test_delete_group_not_found(api_client):
+    """
+    Test deleting a group that doesn't exist raises error.
+    """
     response = api_client.delete(
         "/groups/delete/9999",
         headers={"Authorization": "Bearer test-api-key"},
