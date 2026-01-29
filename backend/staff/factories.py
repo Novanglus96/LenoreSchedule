@@ -1,5 +1,5 @@
 import factory
-from groups.models import Group
+from staff.models import Group
 
 
 class GroupFactory(factory.django.DjangoModelFactory):

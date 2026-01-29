@@ -1,5 +1,5 @@
 from django.contrib import admin
-from groups.models import Group
+from staff.models import Group
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.

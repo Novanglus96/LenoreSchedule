@@ -1,14 +1,14 @@
 import pytest
-from groups.services.group_services import (
+from staff.services.group_services import (
     create_group,
     update_group,
     get_group,
     get_ordered_list_of_groups,
     delete_group,
 )
-from groups.dto import DomainGroupIn, DomainGroup
-from groups.exceptions import GroupAlreadyExists, GroupDoesNotExist
-from groups.models import Group
+from staff.dto import DomainGroupIn, DomainGroup
+from staff.exceptions import GroupAlreadyExists, GroupDoesNotExist
+from staff.models import Group
 
 
 @pytest.mark.django_db

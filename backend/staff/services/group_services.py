@@ -1,12 +1,12 @@
 from django.db import IntegrityError, transaction
-from groups.models import Group
-from groups.dto import DomainGroup, DomainGroupIn
-from groups.exceptions import (
+from staff.models import Group
+from staff.dto import DomainGroup, DomainGroupIn
+from staff.exceptions import (
     GroupAlreadyExists,
     GroupCreationError,
     GroupDoesNotExist,
 )
-from groups.mappers import domain_group_to_model, model_to_domain_group
+from staff.mappers import domain_group_to_model, model_to_domain_group
 from typing import List
 
 

@@ -1,15 +1,15 @@
 from ninja import Router
-from groups.api.schemas.group import GroupIn, GroupOut
+from staff.api.schemas.group import GroupIn, GroupOut
 from ninja.errors import HttpError
 from typing import List
 import logging
-from groups.exceptions import (
+from staff.exceptions import (
     GroupAlreadyExists,
     GroupCreationError,
     GroupDoesNotExist,
 )
-from groups.mappers import schema_to_domain_group, domain_group_to_schema
-from groups.services.group_services import (
+from staff.mappers import schema_to_domain_group, domain_group_to_schema
+from staff.services.group_services import (
     create_group,
     update_group,
     get_group,

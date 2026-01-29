@@ -1,6 +1,6 @@
 import pytest
-from groups.models import Group
-from groups.factories import GroupFactory
+from staff.models import Group
+from staff.factories import GroupFactory
 
 
 @pytest.mark.django_db

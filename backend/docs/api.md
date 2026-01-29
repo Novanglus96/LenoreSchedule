@@ -14,11 +14,11 @@
 #### ::: options.api.schemas.version.VersionOut
 ## Groups
 ### Views
-#### ::: groups.api.views.group.create_group
-#### ::: groups.api.views.group.update_group
-#### ::: groups.api.views.group.get_group
-#### ::: groups.api.views.group.list_groups
-#### ::: groups.api.views.group.delete_group
+#### ::: staff.api.views.group.create_group
+#### ::: staff.api.views.group.update_group
+#### ::: staff.api.views.group.get_group
+#### ::: staff.api.views.group.list_groups
+#### ::: staff.api.views.group.delete_group
 ### Schemas
-#### ::: groups.api.schemas.group.GroupIn
-#### ::: groups.api.schemas.group.GroupOut
+#### ::: staff.api.schemas.group.GroupIn
+#### ::: staff.api.schemas.group.GroupOut

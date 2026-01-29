@@ -1,6 +1,6 @@
-from groups.dto import DomainGroup, DomainGroupIn
-from groups.api.schemas.group import GroupOut, GroupIn
-from groups.models import Group
+from staff.dto import DomainGroup, DomainGroupIn
+from staff.api.schemas.group import GroupOut, GroupIn
+from staff.models import Group
 
 
 def domain_group_to_schema(

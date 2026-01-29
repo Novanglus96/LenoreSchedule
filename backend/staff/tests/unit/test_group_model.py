@@ -1,5 +1,5 @@
 import pytest
-from groups.models import Group
+from staff.models import Group
 
 
 @pytest.mark.django_db
