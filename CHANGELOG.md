@@ -1,3 +1,12 @@
+# [0.1.0-alpha.2](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.1...v0.1.0-alpha.2) (2026-01-29)
+
+
+### Bug Fixes
+
+* admin dashboard jazzmin theme ([f08d00c](https://github.com/Novanglus96/LenoreSchedule/commit/f08d00c3865596729510c63380a9c9f4e16f0b4d))
+* created groups api ([5a425c9](https://github.com/Novanglus96/LenoreSchedule/commit/5a425c9e2797578382de3ea9253fb3295a6a87e4))
+* setup initial colors and logos ([83e63e7](https://github.com/Novanglus96/LenoreSchedule/commit/83e63e7101d925d57b0b51d5cdcd33a4265b137a))
+
 # [0.1.0-alpha.1](https://github.com/Novanglus96/LenoreSchedule/compare/v0.0.1-alpha.1...v0.1.0-alpha.1) (2026-01-29)
 
 
