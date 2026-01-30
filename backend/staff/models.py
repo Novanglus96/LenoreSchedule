@@ -76,6 +76,9 @@ class Employee(models.Model):
         email (CharField): The email of the employee. 512 chars. Unique. Required.
         division (ForeignKey): The division of the employee.  Required.
         group (ForeignKey): The group for the employee. Required.
+        location (ForeignKey): The locations for the employee. Required.
+        start_date (date): The start date for the employee. Optional. Default None.
+        end_date (date): The end date for the employee. Optional. Default None.
     """
 
     first_name = models.CharField(max_length=256)
