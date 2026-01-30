@@ -1,5 +1,5 @@
 import pytest
-from staff.models import Employee, Group, Department
+from staff.models import Employee, Group, Division
 
 
 @pytest.mark.django_db
@@ -9,12 +9,12 @@ def test_employee_creation():
     Test employee is created successfully.
     """
     group = Group.objects.create(group_name="Test Group")
-    department = Department.objects.create(department_name="Test Department")
+    division = Division.objects.create(division_name="Test Division")
     employee = Employee.objects.create(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
-        department=department,
+        division=division,
         group=group,
     )
 
@@ -22,7 +22,7 @@ def test_employee_creation():
     assert employee.first_name == "John"
     assert employee.last_name == "Doe"
     assert employee.email == "someone@somewhere.com"
-    assert employee.department.department_name == "Test Department"
+    assert employee.division.division_name == "Test Division"
     assert employee.group.group_name == "Test Group"
 
 
@@ -33,12 +33,12 @@ def test_employee_str():
     Test the string representation of the employee
     """
     group = Group.objects.create(group_name="Test Group")
-    department = Department.objects.create(department_name="Test Department")
+    division = Division.objects.create(division_name="Test Division")
     employee = Employee.objects.create(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
-        department=department,
+        division=division,
         group=group,
     )
 

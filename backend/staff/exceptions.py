@@ -12,18 +12,18 @@ class GroupDoesNotExist(Exception):
         self.group_id = group_id
 
 
-class DepartmentAlreadyExists(Exception):
+class DivisionAlreadyExists(Exception):
     pass
 
 
-class DepartmentCreationError(Exception):
+class DivisionCreationError(Exception):
     pass
 
 
-class DepartmentDoesNotExist(Exception):
-    def __init__(self, department_id: int):
-        super().__init__(f"Department {department_id} does not exist")
-        self.department_id = department_id
+class DivisionDoesNotExist(Exception):
+    def __init__(self, division_id: int):
+        super().__init__(f"Division {division_id} does not exist")
+        self.division_id = division_id
 
 
 class EmployeeAlreadyExists(Exception):

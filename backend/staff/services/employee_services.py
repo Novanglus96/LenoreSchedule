@@ -94,8 +94,8 @@ def update_employee(employee_id: int, dto: DomainEmployeeIn) -> DomainEmployee:
     if dto.group_id is not None:
         employee.group_id = dto.group_id
 
-    if dto.department_id is not None:
-        employee.department_id = dto.department_id
+    if dto.division_id is not None:
+        employee.division_id = dto.division_id
 
     employee.save()
 

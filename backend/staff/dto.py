@@ -13,14 +13,14 @@ class DomainGroupIn:
 
 
 @dataclass
-class DomainDepartment:
+class DomainDivision:
     id: int
-    department_name: str
+    division_name: str
 
 
 @dataclass(frozen=True)
-class DomainDepartmentIn:
-    department_name: str
+class DomainDivisionIn:
+    division_name: str
 
 
 @dataclass
@@ -29,7 +29,7 @@ class DomainEmployee:
     first_name: str
     last_name: str
     email: str
-    department: DomainDepartment
+    division: DomainDivision
     group: DomainGroup
 
 
@@ -38,5 +38,5 @@ class DomainEmployeeIn:
     first_name: str
     last_name: str
     email: str
-    department_id: int
+    division_id: int
     group_id: int

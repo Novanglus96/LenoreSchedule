@@ -1,15 +1,15 @@
 from staff.dto import (
     DomainGroup,
     DomainGroupIn,
-    DomainDepartment,
-    DomainDepartmentIn,
+    DomainDivision,
+    DomainDivisionIn,
     DomainEmployee,
     DomainEmployeeIn,
 )
 from staff.api.schemas.group import GroupOut, GroupIn
-from staff.api.schemas.department import DepartmentIn, DepartmentOut
+from staff.api.schemas.division import DivisionIn, DivisionOut
 from staff.api.schemas.employee import EmployeeIn, EmployeeOut
-from staff.models import Group, Department, Employee
+from staff.models import Group, Division, Employee
 
 
 def domain_group_to_schema(
@@ -37,30 +37,28 @@ def model_to_domain_group(model: Group) -> DomainGroup:
     )
 
 
-def domain_department_to_schema(
-    department: DomainDepartment,
-) -> DepartmentOut:
-    return DepartmentOut(
-        id=department.id, department_name=department.department_name
+def domain_division_to_schema(
+    division: DomainDivision,
+) -> DivisionOut:
+    return DivisionOut(id=division.id, division_name=division.division_name)
+
+
+def schema_to_domain_division(schema: DivisionIn) -> DomainDivisionIn:
+    return DomainDivisionIn(
+        division_name=schema.division_name,
     )
 
 
-def schema_to_domain_department(schema: DepartmentIn) -> DomainDepartmentIn:
-    return DomainDepartmentIn(
-        department_name=schema.department_name,
+def domain_division_to_model(dto: DomainDivisionIn) -> Division:
+    return Division(
+        division_name=dto.division_name,
     )
 
 
-def domain_department_to_model(dto: DomainDepartmentIn) -> Department:
-    return Department(
-        department_name=dto.department_name,
-    )
-
-
-def model_to_domain_department(model: Department) -> DomainDepartment:
-    return DomainDepartment(
+def model_to_domain_division(model: Division) -> DomainDivision:
+    return DomainDivision(
         id=model.id,
-        department_name=model.department_name,
+        division_name=model.division_name,
     )
 
 
@@ -72,7 +70,7 @@ def domain_employee_to_schema(
         first_name=employee.first_name,
         last_name=employee.last_name,
         email=employee.email,
-        department=domain_department_to_schema(employee.department),
+        division=domain_division_to_schema(employee.division),
         group=domain_group_to_schema(employee.group),
     )
 
@@ -82,7 +80,7 @@ def schema_to_domain_employee(schema: EmployeeIn) -> DomainEmployeeIn:
         first_name=schema.first_name,
         last_name=schema.last_name,
         email=schema.email,
-        department_id=schema.department_id,
+        division_id=schema.division_id,
         group_id=schema.group_id,
     )
 
@@ -92,7 +90,7 @@ def domain_employee_to_model(dto: DomainEmployeeIn) -> Employee:
         first_name=dto.first_name,
         last_name=dto.last_name,
         email=dto.email,
-        department_id=dto.department_id,
+        division_id=dto.division_id,
         group_id=dto.group_id,
     )
 
@@ -103,6 +101,6 @@ def model_to_domain_employee(model: Employee) -> DomainEmployee:
         first_name=model.first_name,
         last_name=model.last_name,
         email=model.email,
-        department=model_to_domain_department(model.department),
+        division=model_to_domain_division(model.division),
         group=model_to_domain_group(model.group),
     )

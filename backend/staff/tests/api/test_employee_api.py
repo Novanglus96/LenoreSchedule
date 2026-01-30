@@ -1,6 +1,6 @@
 import pytest
 from staff.models import Employee
-from staff.factories import EmployeeFactory, GroupFactory, DepartmentFactory
+from staff.factories import EmployeeFactory, GroupFactory, DivisionFactory
 
 
 @pytest.mark.django_db
@@ -10,14 +10,14 @@ def test_create_employee_success(api_client):
     Test employee created succssfully.
     """
     group = GroupFactory()
-    department = DepartmentFactory()
+    division = DivisionFactory()
     response = api_client.post(
         "/employees/create",
         json={
             "first_name": "John",
             "last_name": "Doe",
             "email": "someone@somewhere.com",
-            "department_id": department.id,
+            "division_id": division.id,
             "group_id": group.id,
         },
         headers={"Authorization": "Bearer test-api-key"},
@@ -35,14 +35,14 @@ def test_create_employee_duplicate_email_raises(api_client):
     """
     employee = EmployeeFactory()
     group = GroupFactory()
-    department = DepartmentFactory()
+    division = DivisionFactory()
     response = api_client.post(
         "/employees/create",
         json={
             "first_name": "John",
             "last_name": "Doe",
             "email": employee.email,
-            "department_id": department.id,
+            "division_id": division.id,
             "group_id": group.id,
         },
         headers={"Authorization": "Bearer test-api-key"},
@@ -121,7 +121,7 @@ def test_update_employee_success(api_client):
             "first_name": employee.first_name,
             "email": employee.email,
             "group_id": employee.group.id,
-            "department_id": employee.department.id,
+            "division_id": employee.division.id,
         },
         headers={"Authorization": "Bearer test-api-key"},
     )
@@ -149,7 +149,7 @@ def test_update_employee_duplicate(api_client):
             "first_name": employee1.first_name,
             "email": "someone@somewhere.com",
             "group_id": employee1.group.id,
-            "department_id": employee1.department.id,
+            "division_id": employee1.division.id,
         },
         headers={"Authorization": "Bearer test-api-key"},
     )
@@ -174,7 +174,7 @@ def test_update_employee_not_found(api_client):
             "first_name": "John",
             "email": "someone@somewhere.com",
             "group_id": 1,
-            "department_id": 1,
+            "division_id": 1,
         },
         headers={"Authorization": "Bearer test-api-key"},
     )

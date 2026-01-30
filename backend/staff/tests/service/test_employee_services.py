@@ -9,7 +9,7 @@ from staff.services.employee_services import (
 from staff.dto import DomainEmployeeIn, DomainEmployee
 from staff.exceptions import EmployeeAlreadyExists, EmployeeDoesNotExist
 from staff.models import Employee
-from staff.factories import DepartmentFactory, GroupFactory, EmployeeFactory
+from staff.factories import DivisionFactory, GroupFactory, EmployeeFactory
 
 
 @pytest.mark.django_db
@@ -19,12 +19,12 @@ def test_create_employee_success():
     Creating a employee should be successful and persistent.
     """
     group = GroupFactory()
-    department = DepartmentFactory()
+    division = DivisionFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
-        department_id=department.id,
+        division_id=division.id,
         group_id=group.id,
     )
 
@@ -33,7 +33,7 @@ def test_create_employee_success():
     assert employee.first_name == "John"
     assert employee.last_name == "Doe"
     assert employee.email == "someone@somewhere.com"
-    assert employee.department.id == department.id
+    assert employee.division.id == division.id
     assert employee.group.id == group.id
     assert Employee.objects.filter(email="someone@somewhere.com").exists()
 
@@ -45,12 +45,12 @@ def test_create_employee_duplicate_email_raises():
     Creating a employee with a duplciate employee email should raise an error.
     """
     group = GroupFactory()
-    department = DepartmentFactory()
+    division = DivisionFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
-        department_id=department.id,
+        division_id=division.id,
         group_id=group.id,
     )
 
@@ -62,7 +62,7 @@ def test_create_employee_duplicate_email_raises():
                 first_name="John",
                 last_name="Smith",
                 email="someone@somewhere.com",
-                department_id=department.id,
+                division_id=division.id,
                 group_id=group.id,
             )
         )
@@ -75,12 +75,12 @@ def test_create_employee_dto():
     Creating a employee should return a DomainEmployee object
     """
     group = GroupFactory()
-    department = DepartmentFactory()
+    division = DivisionFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
-        department_id=department.id,
+        division_id=division.id,
         group_id=group.id,
     )
 
@@ -96,12 +96,12 @@ def test_update_employee_success():
     Updating a employee should be successfull and persistent.
     """
     group = GroupFactory()
-    department = DepartmentFactory()
+    division = DivisionFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
-        department_id=department.id,
+        division_id=division.id,
         group_id=group.id,
     )
 
@@ -113,7 +113,7 @@ def test_update_employee_success():
             first_name="Updated",
             last_name="Name",
             email="someone@somewhere.com",
-            department_id=department.id,
+            division_id=division.id,
             group_id=group.id,
         ),
     )
@@ -131,12 +131,12 @@ def test_update_employee_duplicate_email_raises():
     Updating a employee with a duplciate employee email should raise an error.
     """
     group = GroupFactory()
-    department = DepartmentFactory()
+    division = DivisionFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
-        department_id=department.id,
+        division_id=division.id,
         group_id=group.id,
     )
 
@@ -146,7 +146,7 @@ def test_update_employee_duplicate_email_raises():
             first_name="Jane",
             last_name="Smith",
             email="jsmith@somewhere.com",
-            department_id=department.id,
+            division_id=division.id,
             group_id=group.id,
         )
     )
@@ -158,7 +158,7 @@ def test_update_employee_duplicate_email_raises():
                 first_name="John",
                 last_name="Doe",
                 email="jsmith@somewhere.com",
-                department_id=department.id,
+                division_id=division.id,
                 group_id=group.id,
             ),
         )
@@ -172,14 +172,14 @@ def test_update_employee_not_found():
     """
     with pytest.raises(EmployeeDoesNotExist):
         group = GroupFactory()
-        department = DepartmentFactory()
+        division = DivisionFactory()
         update_employee(
             999,
             DomainEmployeeIn(
                 first_name="John",
                 last_name="Doe",
                 email="jsmith@somewhere.com",
-                department_id=department.id,
+                division_id=division.id,
                 group_id=group.id,
             ),
         )
@@ -192,12 +192,12 @@ def test_update_employee_dto():
     Updating an employee should return a DomainEmployee
     """
     group = GroupFactory()
-    department = DepartmentFactory()
+    division = DivisionFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
-        department_id=department.id,
+        division_id=division.id,
         group_id=group.id,
     )
 
@@ -209,7 +209,7 @@ def test_update_employee_dto():
             first_name="Updated",
             last_name="Name",
             email="someone@somewhere.com",
-            department_id=department.id,
+            division_id=division.id,
             group_id=group.id,
         ),
     )
@@ -224,12 +224,12 @@ def test_get_employee_dto():
     Getting a employee should return a DomainEmployee.
     """
     group = GroupFactory()
-    department = DepartmentFactory()
+    division = DivisionFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
-        department_id=department.id,
+        division_id=division.id,
         group_id=group.id,
     )
 

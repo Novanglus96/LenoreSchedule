@@ -1,5 +1,5 @@
 from django.contrib import admin
-from staff.models import Group, Department, Employee
+from staff.models import Group, Division, Employee
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
@@ -13,12 +13,12 @@ class GroupAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     ordering = ["group_name"]
 
 
-class DepartmentAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["id", "department_name"]
+class DivisionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["id", "division_name"]
 
-    list_display_links = ["department_name"]
+    list_display_links = ["division_name"]
 
-    ordering = ["department_name"]
+    ordering = ["division_name"]
 
 
 class EmployeeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
@@ -27,7 +27,7 @@ class EmployeeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         "last_name",
         "first_name",
         "email",
-        "department",
+        "division",
         "group",
     ]
 
@@ -37,5 +37,5 @@ class EmployeeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 
 admin.site.register(Group, GroupAdmin)
-admin.site.register(Department, DepartmentAdmin)
+admin.site.register(Division, DivisionAdmin)
 admin.site.register(Employee, EmployeeAdmin)

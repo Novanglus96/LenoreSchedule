@@ -1,6 +1,6 @@
 from ninja import Schema
 from pydantic import ConfigDict
-from staff.api.schemas.department import DepartmentOut
+from staff.api.schemas.division import DivisionOut
 from staff.api.schemas.group import GroupOut
 
 
@@ -13,14 +13,14 @@ class EmployeeIn(Schema):
         first_name (str): The first name of the employee. Required. 256 Max.
         last_name (str): The last name of the employee. Required. 256 Max.
         email (str): The email of the employee. Optional. 512 max.
-        department_id (int): The ID of the employee department.
+        division_id (int): The ID of the employee division.
         group_id (int): The ID of the employee group.
     """
 
     first_name: str
     last_name: str
     email: str
-    department_id: int
+    division_id: int
     group_id: int
 
 
@@ -34,7 +34,7 @@ class EmployeeOut(Schema):
         first_name (str): The first name of the employee. Required. 256 Max.
         last_name (str): The last name of the employee. Required. 256 Max.
         email (str): The email of the employee. Optional. 512 max.
-        department (DepartmentOut): The department of the employee.
+        division (DivisionOut): The division of the employee.
         group (GroupOut): The group of the employee.
     """
 
@@ -42,7 +42,7 @@ class EmployeeOut(Schema):
     first_name: str
     last_name: str
     email: str
-    department: DepartmentOut
+    division: DivisionOut
     group: GroupOut
 
     model_config = ConfigDict(from_attributes=True)
