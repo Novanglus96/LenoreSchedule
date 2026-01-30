@@ -11,6 +11,7 @@ from staff.api.routers.group import group_router
 from staff.api.routers.division import division_router
 from staff.api.routers.employee import employee_router
 from staff.api.routers.location import location_router
+from staff.api.routers.holiday import holiday_router
 
 api = NinjaAPI(auth=[django_auth, GlobalAuth()])
 api.title = "LenoreSchedule"
@@ -25,3 +26,4 @@ api.add_router("/groups", group_router)
 api.add_router("/divisions", division_router)
 api.add_router("/employees", employee_router)
 api.add_router("/locations", location_router)
+api.add_router("/holidays", holiday_router)
