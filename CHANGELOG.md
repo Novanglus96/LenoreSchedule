@@ -1,3 +1,18 @@
+# [0.1.0-alpha.3](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.2...v0.1.0-alpha.3) (2026-01-30)
+
+
+### Bug Fixes
+
+* typo in employee router ([9254ec2](https://github.com/Novanglus96/LenoreSchedule/commit/9254ec2c91484051eafb1d6fcdd098b039e31462))
+
+
+### Features
+
+* added departments ([44cc78c](https://github.com/Novanglus96/LenoreSchedule/commit/44cc78c1b9680d7704e64b8a10c7615918c5bafd))
+* added location ([37bc64d](https://github.com/Novanglus96/LenoreSchedule/commit/37bc64d85731c782d27ed2efe5500668c068f565))
+* added location, start date, end date to employees ([115b2d6](https://github.com/Novanglus96/LenoreSchedule/commit/115b2d62a7be6f607d9a91e2f41e4a3d2bbdb5d9))
+* created employees ([2f86aea](https://github.com/Novanglus96/LenoreSchedule/commit/2f86aeaf3e7ec99530775e6c74c53ebad566d9db))
+
 # [0.1.0-alpha.2](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.1...v0.1.0-alpha.2) (2026-01-29)
 
 
