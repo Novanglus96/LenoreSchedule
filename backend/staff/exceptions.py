@@ -38,3 +38,17 @@ class EmployeeDoesNotExist(Exception):
     def __init__(self, employee_id: int):
         super().__init__(f"Employee {employee_id} does not exist")
         self.employee_id = employee_id
+
+
+class LocationAlreadyExists(Exception):
+    pass
+
+
+class LocationCreationError(Exception):
+    pass
+
+
+class LocationDoesNotExist(Exception):
+    def __init__(self, location_id: int):
+        super().__init__(f"Location {location_id} does not exist")
+        self.location_id = location_id

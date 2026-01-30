@@ -1,5 +1,5 @@
 import factory
-from staff.models import Group, Division, Employee
+from staff.models import Group, Division, Employee, Location
 
 
 class GroupFactory(factory.django.DjangoModelFactory):
@@ -25,3 +25,10 @@ class EmployeeFactory(factory.django.DjangoModelFactory):
     email = factory.Faker("email")
     division = factory.SubFactory(DivisionFactory)
     group = factory.SubFactory(GroupFactory)
+
+
+class LocationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Location
+
+    location_name = factory.Sequence(lambda n: f"Location {n}")

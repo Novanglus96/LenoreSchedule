@@ -45,6 +45,27 @@ class Division(models.Model):
         return f"{self.division_name}"
 
 
+class Location(models.Model):
+    """
+    Model representing a division to be used for employees.
+
+    Attributes:
+        division_name (CharField): The name of the division.  Unique.
+    """
+
+    location_name = models.CharField(unique=True)
+
+    def __str__(self):
+        """
+        __str__ Overrides the string representation for Location and returns the
+        location name.
+
+        Returns:
+            (str): The string representation of the location name.
+        """
+        return f"{self.location_name}"
+
+
 class Employee(models.Model):
     """
     Model representing an employee.

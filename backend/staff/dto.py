@@ -40,3 +40,14 @@ class DomainEmployeeIn:
     email: str
     division_id: int
     group_id: int
+
+
+@dataclass
+class DomainLocation:
+    id: int
+    location_name: str
+
+
+@dataclass(frozen=True)
+class DomainLocationIn:
+    location_name: str

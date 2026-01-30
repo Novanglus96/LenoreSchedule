@@ -5,11 +5,14 @@ from staff.dto import (
     DomainDivisionIn,
     DomainEmployee,
     DomainEmployeeIn,
+    DomainLocation,
+    DomainLocationIn,
 )
 from staff.api.schemas.group import GroupOut, GroupIn
 from staff.api.schemas.division import DivisionIn, DivisionOut
 from staff.api.schemas.employee import EmployeeIn, EmployeeOut
-from staff.models import Group, Division, Employee
+from staff.api.schemas.location import LocationIn, LocationOut
+from staff.models import Group, Division, Employee, Location
 
 
 def domain_group_to_schema(
@@ -103,4 +106,29 @@ def model_to_domain_employee(model: Employee) -> DomainEmployee:
         email=model.email,
         division=model_to_domain_division(model.division),
         group=model_to_domain_group(model.group),
+    )
+
+
+def domain_location_to_schema(
+    location: DomainLocation,
+) -> LocationOut:
+    return LocationOut(id=location.id, location_name=location.location_name)
+
+
+def schema_to_domain_location(schema: LocationIn) -> DomainLocationIn:
+    return DomainLocationIn(
+        location_name=schema.location_name,
+    )
+
+
+def domain_location_to_model(dto: DomainLocationIn) -> Location:
+    return Location(
+        location_name=dto.location_name,
+    )
+
+
+def model_to_domain_location(model: Location) -> DomainLocation:
+    return DomainLocation(
+        id=model.id,
+        location_name=model.location_name,
     )
