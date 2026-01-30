@@ -97,6 +97,15 @@ def update_employee(employee_id: int, dto: DomainEmployeeIn) -> DomainEmployee:
     if dto.division_id is not None:
         employee.division_id = dto.division_id
 
+    if dto.location_id is not None:
+        employee.location_id = dto.location_id
+
+    if dto.start_date is not None:
+        employee.start_date = dto.start_date
+
+    if dto.end_date is not None:
+        employee.end_date = dto.end_date
+
     employee.save()
 
     return model_to_domain_employee(employee)

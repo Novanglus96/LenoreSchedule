@@ -1,16 +1,22 @@
 import pytest
 from staff.models import Employee
-from staff.factories import EmployeeFactory, GroupFactory, DivisionFactory
+from staff.factories import (
+    EmployeeFactory,
+    GroupFactory,
+    DivisionFactory,
+    LocationFactory,
+)
 
 
 @pytest.mark.django_db
 @pytest.mark.api
-def test_create_employee_success(api_client):
+def test_create_employee_success(api_client, today_date):
     """
     Test employee created succssfully.
     """
     group = GroupFactory()
     division = DivisionFactory()
+    location = LocationFactory()
     response = api_client.post(
         "/employees/create",
         json={
@@ -19,6 +25,35 @@ def test_create_employee_success(api_client):
             "email": "someone@somewhere.com",
             "division_id": division.id,
             "group_id": group.id,
+            "location_id": location.id,
+            "start_date": today_date,
+            "end_date": today_date,
+        },
+        headers={"Authorization": "Bearer test-api-key"},
+    )
+
+    assert response.status_code == 200
+    assert "id" in response.json()
+
+
+@pytest.mark.django_db
+@pytest.mark.api
+def test_create_employee_success_optional_dates(api_client):
+    """
+    Test employee created succssfully and dates optional.
+    """
+    group = GroupFactory()
+    division = DivisionFactory()
+    location = LocationFactory()
+    response = api_client.post(
+        "/employees/create",
+        json={
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "someone@somewhere.com",
+            "division_id": division.id,
+            "group_id": group.id,
+            "location_id": location.id,
         },
         headers={"Authorization": "Bearer test-api-key"},
     )
@@ -36,6 +71,7 @@ def test_create_employee_duplicate_email_raises(api_client):
     employee = EmployeeFactory()
     group = GroupFactory()
     division = DivisionFactory()
+    location = LocationFactory()
     response = api_client.post(
         "/employees/create",
         json={
@@ -44,6 +80,7 @@ def test_create_employee_duplicate_email_raises(api_client):
             "email": employee.email,
             "division_id": division.id,
             "group_id": group.id,
+            "location_id": location.id,
         },
         headers={"Authorization": "Bearer test-api-key"},
     )
@@ -122,6 +159,7 @@ def test_update_employee_success(api_client):
             "email": employee.email,
             "group_id": employee.group.id,
             "division_id": employee.division.id,
+            "location_id": employee.location.id,
         },
         headers={"Authorization": "Bearer test-api-key"},
     )
@@ -150,6 +188,7 @@ def test_update_employee_duplicate(api_client):
             "email": "someone@somewhere.com",
             "group_id": employee1.group.id,
             "division_id": employee1.division.id,
+            "location_id": employee1.location.id,
         },
         headers={"Authorization": "Bearer test-api-key"},
     )
@@ -175,6 +214,7 @@ def test_update_employee_not_found(api_client):
             "email": "someone@somewhere.com",
             "group_id": 1,
             "division_id": 1,
+            "location_id": 1,
         },
         headers={"Authorization": "Bearer test-api-key"},
     )

@@ -9,23 +9,32 @@ from staff.services.employee_services import (
 from staff.dto import DomainEmployeeIn, DomainEmployee
 from staff.exceptions import EmployeeAlreadyExists, EmployeeDoesNotExist
 from staff.models import Employee
-from staff.factories import DivisionFactory, GroupFactory, EmployeeFactory
+from staff.factories import (
+    DivisionFactory,
+    GroupFactory,
+    EmployeeFactory,
+    LocationFactory,
+)
 
 
 @pytest.mark.django_db
 @pytest.mark.service
-def test_create_employee_success():
+def test_create_employee_success(today_date):
     """
     Creating a employee should be successful and persistent.
     """
     group = GroupFactory()
     division = DivisionFactory()
+    location = LocationFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
         division_id=division.id,
         group_id=group.id,
+        location_id=location.id,
+        start_date=today_date,
+        end_date=today_date,
     )
 
     employee = create_employee(dto)
@@ -40,18 +49,45 @@ def test_create_employee_success():
 
 @pytest.mark.django_db
 @pytest.mark.service
-def test_create_employee_duplicate_email_raises():
+def test_create_employee_success_dates_optional():
     """
-    Creating a employee with a duplciate employee email should raise an error.
+    Creating a employee should be successful and dates null by default.
     """
     group = GroupFactory()
     division = DivisionFactory()
+    location = LocationFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
         division_id=division.id,
         group_id=group.id,
+        location_id=location.id,
+    )
+
+    employee = create_employee(dto)
+
+    assert employee.start_date is None
+    assert employee.end_date is None
+    assert Employee.objects.filter(email="someone@somewhere.com").exists()
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_create_employee_duplicate_email_raises():
+    """
+    Creating a employee with a duplciate employee email should raise an error.
+    """
+    group = GroupFactory()
+    division = DivisionFactory()
+    location = LocationFactory()
+    dto = DomainEmployeeIn(
+        first_name="John",
+        last_name="Doe",
+        email="someone@somewhere.com",
+        division_id=division.id,
+        group_id=group.id,
+        location_id=location.id,
     )
 
     create_employee(dto)
@@ -64,6 +100,7 @@ def test_create_employee_duplicate_email_raises():
                 email="someone@somewhere.com",
                 division_id=division.id,
                 group_id=group.id,
+                location_id=location.id,
             )
         )
 
@@ -76,12 +113,14 @@ def test_create_employee_dto():
     """
     group = GroupFactory()
     division = DivisionFactory()
+    location = LocationFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
         division_id=division.id,
         group_id=group.id,
+        location_id=location.id,
     )
 
     employee = create_employee(dto)
@@ -97,12 +136,14 @@ def test_update_employee_success():
     """
     group = GroupFactory()
     division = DivisionFactory()
+    location = LocationFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
         division_id=division.id,
         group_id=group.id,
+        location_id=location.id,
     )
 
     employee = create_employee(dto)
@@ -115,6 +156,7 @@ def test_update_employee_success():
             email="someone@somewhere.com",
             division_id=division.id,
             group_id=group.id,
+            location_id=location.id,
         ),
     )
 
@@ -132,12 +174,14 @@ def test_update_employee_duplicate_email_raises():
     """
     group = GroupFactory()
     division = DivisionFactory()
+    location = LocationFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
         division_id=division.id,
         group_id=group.id,
+        location_id=location.id,
     )
 
     employee = create_employee(dto)
@@ -148,6 +192,7 @@ def test_update_employee_duplicate_email_raises():
             email="jsmith@somewhere.com",
             division_id=division.id,
             group_id=group.id,
+            location_id=location.id,
         )
     )
 
@@ -160,6 +205,7 @@ def test_update_employee_duplicate_email_raises():
                 email="jsmith@somewhere.com",
                 division_id=division.id,
                 group_id=group.id,
+                location_id=location.id,
             ),
         )
 
@@ -173,6 +219,7 @@ def test_update_employee_not_found():
     with pytest.raises(EmployeeDoesNotExist):
         group = GroupFactory()
         division = DivisionFactory()
+        location = LocationFactory()
         update_employee(
             999,
             DomainEmployeeIn(
@@ -181,6 +228,7 @@ def test_update_employee_not_found():
                 email="jsmith@somewhere.com",
                 division_id=division.id,
                 group_id=group.id,
+                location_id=location.id,
             ),
         )
 
@@ -193,12 +241,14 @@ def test_update_employee_dto():
     """
     group = GroupFactory()
     division = DivisionFactory()
+    location = LocationFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
         division_id=division.id,
         group_id=group.id,
+        location_id=location.id,
     )
 
     employee = create_employee(dto)
@@ -211,6 +261,7 @@ def test_update_employee_dto():
             email="someone@somewhere.com",
             division_id=division.id,
             group_id=group.id,
+            location_id=location.id,
         ),
     )
 
@@ -225,12 +276,14 @@ def test_get_employee_dto():
     """
     group = GroupFactory()
     division = DivisionFactory()
+    location = LocationFactory()
     dto = DomainEmployeeIn(
         first_name="John",
         last_name="Doe",
         email="someone@somewhere.com",
         division_id=division.id,
         group_id=group.id,
+        location_id=location.id,
     )
 
     created_employee = create_employee(dto)

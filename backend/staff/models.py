@@ -83,6 +83,9 @@ class Employee(models.Model):
     email = models.CharField(max_length=512, unique=True)
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    start_date = models.DateField(default=None, null=True, blank=True)
+    end_date = models.DateField(default=None, null=True, blank=True)
 
     def __str__(self):
         """

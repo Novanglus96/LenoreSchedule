@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+from datetime import date
+from typing import Optional
 
 
 @dataclass
@@ -24,6 +26,17 @@ class DomainDivisionIn:
 
 
 @dataclass
+class DomainLocation:
+    id: int
+    location_name: str
+
+
+@dataclass(frozen=True)
+class DomainLocationIn:
+    location_name: str
+
+
+@dataclass
 class DomainEmployee:
     id: int
     first_name: str
@@ -31,6 +44,9 @@ class DomainEmployee:
     email: str
     division: DomainDivision
     group: DomainGroup
+    location: DomainLocation
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None
 
 
 @dataclass(frozen=True)
@@ -40,14 +56,6 @@ class DomainEmployeeIn:
     email: str
     division_id: int
     group_id: int
-
-
-@dataclass
-class DomainLocation:
-    id: int
-    location_name: str
-
-
-@dataclass(frozen=True)
-class DomainLocationIn:
-    location_name: str
+    location_id: int
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None

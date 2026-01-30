@@ -2,6 +2,9 @@ from ninja import Schema
 from pydantic import ConfigDict
 from staff.api.schemas.division import DivisionOut
 from staff.api.schemas.group import GroupOut
+from staff.api.schemas.location import LocationOut
+from typing import Optional
+from datetime import date
 
 
 # The class EmployeeIn is a schema for validating employees.
@@ -15,6 +18,9 @@ class EmployeeIn(Schema):
         email (str): The email of the employee. Optional. 512 max.
         division_id (int): The ID of the employee division.
         group_id (int): The ID of the employee group.
+        location_id (int): The ID of the employee location.
+        start_date (date): The start date of the employee. Optional.
+        end_date (date): The end date of the employee. Optional.
     """
 
     first_name: str
@@ -22,6 +28,9 @@ class EmployeeIn(Schema):
     email: str
     division_id: int
     group_id: int
+    location_id: int
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None
 
 
 # The class GtroupOut is a schema for representing employees.
@@ -44,5 +53,8 @@ class EmployeeOut(Schema):
     email: str
     division: DivisionOut
     group: GroupOut
+    location: LocationOut
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None
 
     model_config = ConfigDict(from_attributes=True)

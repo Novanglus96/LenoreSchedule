@@ -75,6 +75,9 @@ def domain_employee_to_schema(
         email=employee.email,
         division=domain_division_to_schema(employee.division),
         group=domain_group_to_schema(employee.group),
+        location=domain_location_to_schema(employee.location),
+        start_date=employee.start_date,
+        end_date=employee.end_date,
     )
 
 
@@ -85,6 +88,9 @@ def schema_to_domain_employee(schema: EmployeeIn) -> DomainEmployeeIn:
         email=schema.email,
         division_id=schema.division_id,
         group_id=schema.group_id,
+        location_id=schema.location_id,
+        start_date=schema.start_date,
+        end_date=schema.end_date,
     )
 
 
@@ -95,6 +101,9 @@ def domain_employee_to_model(dto: DomainEmployeeIn) -> Employee:
         email=dto.email,
         division_id=dto.division_id,
         group_id=dto.group_id,
+        location_id=dto.location_id,
+        start_date=dto.start_date,
+        end_date=dto.end_date,
     )
 
 
@@ -106,6 +115,9 @@ def model_to_domain_employee(model: Employee) -> DomainEmployee:
         email=model.email,
         division=model_to_domain_division(model.division),
         group=model_to_domain_group(model.group),
+        location=model_to_domain_location(model.location),
+        start_date=model.start_date,
+        end_date=model.end_date,
     )
 
 

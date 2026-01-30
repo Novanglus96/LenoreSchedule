@@ -16,6 +16,13 @@ class DivisionFactory(factory.django.DjangoModelFactory):
     division_name = factory.Sequence(lambda n: f"Division {n}")
 
 
+class LocationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Location
+
+    location_name = factory.Sequence(lambda n: f"Location {n}")
+
+
 class EmployeeFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Employee
@@ -25,10 +32,4 @@ class EmployeeFactory(factory.django.DjangoModelFactory):
     email = factory.Faker("email")
     division = factory.SubFactory(DivisionFactory)
     group = factory.SubFactory(GroupFactory)
-
-
-class LocationFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Location
-
-    location_name = factory.Sequence(lambda n: f"Location {n}")
+    location = factory.SubFactory(LocationFactory)
