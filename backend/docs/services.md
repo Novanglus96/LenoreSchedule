@@ -22,10 +22,18 @@
 ### ::: staff.services.location_services.get_ordered_list_of_locations
 ### ::: staff.services.location_services.delete_location
 
-## Employee
+## Employees
 ### ::: staff.services.employee_services.get_employee_model_or_raise
 ### ::: staff.services.employee_services.create_employee
 ### ::: staff.services.employee_services.update_employee
 ### ::: staff.services.employee_services.get_employee
 ### ::: staff.services.employee_services.get_ordered_list_of_employees
 ### ::: staff.services.employee_services.delete_employee
+
+## Holidays
+### ::: staff.services.holiday_services.get_holiday_model_or_raise
+### ::: staff.services.holiday_services.create_holiday
+### ::: staff.services.holiday_services.update_holiday
+### ::: staff.services.holiday_services.get_holiday
+### ::: staff.services.holiday_services.get_ordered_list_of_holidays
+### ::: staff.services.holiday_services.delete_holiday
