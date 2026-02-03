@@ -16,6 +16,7 @@ from staff.mappers import domain_holiday_to_model, model_to_domain_holiday
 from typing import List
 from datetime import date, timedelta
 import calendar
+from django.core.exceptions import ValidationError
 
 
 def get_last_weekday(year, month, weekday):
@@ -68,7 +69,6 @@ def get_nth_weekday(year, month, nth, weekday):
         return days_of_month[nth - 1]
     except IndexError:
         return None  # In case you ask for the 5th Monday and there are only 4
-from django.core.exceptions import ValidationError
 
 
 def get_holiday_model_or_raise(holiday_id: int) -> Holiday:
