@@ -14,6 +14,60 @@ from staff.exceptions import (
 )
 from staff.mappers import domain_holiday_to_model, model_to_domain_holiday
 from typing import List
+from datetime import date, timedelta
+import calendar
+
+
+def get_last_weekday(year, month, weekday):
+    """
+    weekday: 0 for Mon, 1 for Tue, ..., 6 for Sun
+    """
+    # Returns a matrix of weeks (0 represents days outside the month)
+    cal = calendar.monthcalendar(year, month)
+
+    # Extract the column for the specific weekday and filter out the zeros
+    last_day = [week[weekday] for week in cal if week[weekday] != 0][-1]
+
+    return last_day
+
+
+def calculate_easter(year):
+    # The Anonymous Gregorian Algorithm
+    a = year % 19
+    b = year // 100
+    c = year % 100
+    d = b // 4
+    e = b % 4
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30
+    i = c // 4
+    k = c % 4
+    L = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * L) // 451
+
+    month = (h + L - 7 * m + 114) // 31
+    day = ((h + L - 7 * m + 114) % 31) + 1
+
+    return date(year, month, day)
+
+
+def get_nth_weekday(year, month, nth, weekday):
+    """
+    weekday: 0 for Mon, 1 for Tue, ..., 6 for Sun
+    nth: 1 for 1st occurrence, 2 for 2nd, etc.
+    """
+    # Returns a list of lists representing the calendar month
+    cal = calendar.monthcalendar(year, month)
+
+    # Extract the specific column for the weekday you want
+    # This gives you a list of dates for that weekday across all weeks
+    days_of_month = [week[weekday] for week in cal if week[weekday] != 0]
+
+    try:
+        return days_of_month[nth - 1]
+    except IndexError:
+        return None  # In case you ask for the 5th Monday and there are only 4
 from django.core.exceptions import ValidationError
 
 
@@ -171,10 +225,65 @@ def delete_holiday(holiday_id: int) -> str:
         holiday_id (int): The id of the holiday to delete.
 
     Returns:
-        str: The name of the deleted holiday.
+        (str): The name of the deleted holiday.
     """
     holiday = get_holiday_model_or_raise(holiday_id)
     holiday_name = holiday.holiday_name
 
     holiday.delete()
     return holiday_name
+
+
+def get_holiday_date_for_year(holiday_id: int, year: int) -> dict:
+    """
+    `get_holiday_date_for_year` gets the date of a holiday for the provided
+    year.  Returns the holiday name, date, and wether it is observed in a dictionary.
+
+    Args:
+        holiday_id (int): The id of the holiday to delete.
+        year (in): 4 digit year
+
+    Returns:
+        (dict): {holiday: holiday name, date: date of holiday, observed: true/false}
+    """
+    holiday = get_holiday_model_or_raise(holiday_id)
+    holiday_date = None
+    observed = False
+
+    if holiday.rule_type == "fixed_date":
+        holiday_date = date(year, holiday.month, holiday.day)
+        if holiday.observed_rule == "nearest_weekday":
+            if holiday_date.weekday() == 5:
+                holiday_date = holiday_date - timedelta(days=1)
+                observed = True
+            elif holiday_date.weekday() == 6:
+                holiday_date = holiday_date + timedelta(days=1)
+                observed = True
+        elif holiday.observed_rule == "next_business_day":
+            if holiday_date.weekday() == 5:
+                holiday_date = holiday_date + timedelta(days=2)
+                observed = True
+            elif holiday_date.weekday() == 6:
+                holiday_date = holiday_date + timedelta(days=1)
+                observed = True
+    elif holiday.rule_type == "nth_weekday":
+        nth_day = get_nth_weekday(
+            year, holiday.month, holiday.week, holiday.weekday
+        )
+        holiday_date = date(year, holiday.month, nth_day)
+    elif holiday.rule_type == "last_weekday":
+        last_day = get_last_weekday(year, holiday.month, holiday.weekday)
+        holiday_date = date(year, holiday.month, last_day)
+    elif holiday.rule_type == "custom":
+        if "easter" in holiday.holiday_name.lower():
+            holiday_date = calculate_easter(year)
+        if "good friday" in holiday.holiday_name.lower():
+            holiday_date = calculate_easter(year) - timedelta(days=2)
+        if "election" in holiday.holiday_name.lower():
+            nth_day = get_nth_weekday(year, 11, 1, 0)
+            holiday_date = date(year, 11, nth_day) + timedelta(days=1)
+    return {
+        "holiday_name": holiday.holiday_name,
+        "holiday_date": holiday_date,
+        "observed": observed,
+    }

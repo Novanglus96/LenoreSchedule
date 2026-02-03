@@ -5,6 +5,7 @@ from staff.services.holiday_services import (
     get_holiday,
     get_ordered_list_of_holidays,
     delete_holiday,
+    get_holiday_date_for_year,
 )
 from staff.dto import DomainHolidayIn, DomainHoliday
 from staff.exceptions import (
@@ -18,6 +19,7 @@ from staff.exceptions import (
     HolidayInvalidMonthError,
 )
 from staff.models import Holiday
+from datetime import date
 
 
 @pytest.mark.django_db
@@ -529,3 +531,274 @@ def test_delete_holiday_not_found_raises():
     """
     with pytest.raises(HolidayDoesNotExist):
         delete_holiday(999)
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_get_holiday_date_fixed_observation_none():
+    """
+    Test holiday date is return correctly for fixed dates with
+    no observation rule.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Some Holiday",
+        rule_type="fixed_date",
+        observed_rule="none",
+        month=7,
+        day=4,
+        weekday=0,
+        week=1,
+    )
+
+    holiday = create_holiday(dto)
+
+    holiday_date = get_holiday_date_for_year(holiday.id, 2026)
+    expected = {
+        "holiday_name": holiday.holiday_name,
+        "holiday_date": date(2026, 7, 4),
+        "observed": False,
+    }
+
+    assert holiday_date == expected
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_get_holiday_date_fixed_observation_next_weekday_sat():
+    """
+    Test holiday date is return correctly for fixed dates with
+    nearest weekday observation rule, falling on a saturday.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Some Holiday",
+        rule_type="fixed_date",
+        observed_rule="nearest_weekday",
+        month=7,
+        day=4,
+        weekday=0,
+        week=1,
+    )
+
+    holiday = create_holiday(dto)
+
+    holiday_date = get_holiday_date_for_year(holiday.id, 2026)
+    expected = {
+        "holiday_name": holiday.holiday_name,
+        "holiday_date": date(2026, 7, 3),
+        "observed": True,
+    }
+
+    assert holiday_date == expected
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_get_holiday_date_fixed_observation_next_weekday_sun():
+    """
+    Test holiday date is return correctly for fixed dates with
+    nearest weekday observation rule, falling on a sunday.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Some Holiday",
+        rule_type="fixed_date",
+        observed_rule="nearest_weekday",
+        month=7,
+        day=5,
+        weekday=0,
+        week=1,
+    )
+
+    holiday = create_holiday(dto)
+
+    holiday_date = get_holiday_date_for_year(holiday.id, 2026)
+    expected = {
+        "holiday_name": holiday.holiday_name,
+        "holiday_date": date(2026, 7, 6),
+        "observed": True,
+    }
+
+    assert holiday_date == expected
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_get_holiday_date_fixed_observation_next_business_day_sat():
+    """
+    Test holiday date is return correctly for fixed dates with
+    next business day observation rule, falling on a saturday.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Some Holiday",
+        rule_type="fixed_date",
+        observed_rule="next_business_day",
+        month=7,
+        day=4,
+        weekday=0,
+        week=1,
+    )
+
+    holiday = create_holiday(dto)
+
+    holiday_date = get_holiday_date_for_year(holiday.id, 2026)
+    expected = {
+        "holiday_name": holiday.holiday_name,
+        "holiday_date": date(2026, 7, 6),
+        "observed": True,
+    }
+
+    assert holiday_date == expected
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_get_holiday_date_fixed_observation_next_business_day_sun():
+    """
+    Test holiday date is return correctly for fixed dates with
+    next business day observation rule, falling on a sunday.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Some Holiday",
+        rule_type="fixed_date",
+        observed_rule="next_business_day",
+        month=7,
+        day=5,
+        weekday=0,
+        week=1,
+    )
+
+    holiday = create_holiday(dto)
+
+    holiday_date = get_holiday_date_for_year(holiday.id, 2026)
+    expected = {
+        "holiday_name": holiday.holiday_name,
+        "holiday_date": date(2026, 7, 6),
+        "observed": True,
+    }
+
+    assert holiday_date == expected
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_get_holiday_date_nth_weekday():
+    """
+    Test holiday date is return correctly for nth weekday.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Some Holiday",
+        rule_type="nth_weekday",
+        observed_rule="none",
+        month=11,
+        day=0,
+        weekday=3,
+        week=4,
+    )
+
+    holiday = create_holiday(dto)
+
+    holiday_date = get_holiday_date_for_year(holiday.id, 2026)
+    expected = {
+        "holiday_name": holiday.holiday_name,
+        "holiday_date": date(2026, 11, 26),
+        "observed": False,
+    }
+
+    assert holiday_date == expected
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_get_holiday_date_custom_easter():
+    """
+    Test holiday date is return correctly for custom date (easter).
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Easter Sunday",
+        rule_type="custom",
+        observed_rule="none",
+    )
+
+    holiday = create_holiday(dto)
+
+    holiday_date = get_holiday_date_for_year(holiday.id, 2026)
+    expected = {
+        "holiday_name": holiday.holiday_name,
+        "holiday_date": date(2026, 4, 5),
+        "observed": False,
+    }
+
+    assert holiday_date == expected
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_get_holiday_date_custom_good_friday():
+    """
+    Test holiday date is return correctly for custom date (good friday).
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Good Friday",
+        rule_type="custom",
+        observed_rule="none",
+    )
+
+    holiday = create_holiday(dto)
+
+    holiday_date = get_holiday_date_for_year(holiday.id, 2026)
+    expected = {
+        "holiday_name": holiday.holiday_name,
+        "holiday_date": date(2026, 4, 3),
+        "observed": False,
+    }
+
+    assert holiday_date == expected
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_get_holiday_date_custom_election_day():
+    """
+    Test holiday date is return correctly for custom date (election day).
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Election Day",
+        rule_type="custom",
+        observed_rule="none",
+    )
+
+    holiday = create_holiday(dto)
+
+    holiday_date = get_holiday_date_for_year(holiday.id, 2026)
+    expected = {
+        "holiday_name": holiday.holiday_name,
+        "holiday_date": date(2026, 11, 3),
+        "observed": False,
+    }
+
+    assert holiday_date == expected
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_get_holiday_date_last_week_day():
+    """
+    Test holiday date is return correctly for last week day of month.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Election Day",
+        rule_type="last_weekday",
+        observed_rule="none",
+        month=3,
+        weekday=3,
+    )
+
+    holiday = create_holiday(dto)
+
+    holiday_date = get_holiday_date_for_year(holiday.id, 2026)
+    expected = {
+        "holiday_name": holiday.holiday_name,
+        "holiday_date": date(2026, 3, 26),
+        "observed": False,
+    }
+
+    assert holiday_date == expected
