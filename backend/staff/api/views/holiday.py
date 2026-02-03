@@ -7,6 +7,12 @@ from staff.exceptions import (
     HolidayAlreadyExists,
     HolidayCreationError,
     HolidayDoesNotExist,
+    HolidayInvalidDayError,
+    HolidayInvalidMonthError,
+    HolidayInvalidObservedRuleError,
+    HolidayInvalidRuleError,
+    HolidayInvalidWeekDayError,
+    HolidayInvalidWeekError,
 )
 from staff.mappers import (
     schema_to_domain_holiday,
@@ -66,6 +72,60 @@ def create_holiday_endpoint(request, payload: HolidayIn):
             f"Unable to create holiday({domain_in.holiday_name}): Holiday already exists"
         )
         raise HttpError(400, "Holiday already exists")
+
+    except HolidayInvalidRuleError:
+        api_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday rule"
+        )
+        error_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday rule"
+        )
+        raise HttpError(400, "Invalid holiday rule")
+
+    except HolidayInvalidObservedRuleError:
+        api_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday observed rule"
+        )
+        error_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday observed rule"
+        )
+        raise HttpError(400, "Invalid holiday observed rule")
+
+    except HolidayInvalidMonthError:
+        api_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday month"
+        )
+        error_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday month"
+        )
+        raise HttpError(400, "Invalid holiday month")
+
+    except HolidayInvalidDayError:
+        api_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday day"
+        )
+        error_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday day"
+        )
+        raise HttpError(400, "Invalid holiday day")
+
+    except HolidayInvalidWeekDayError:
+        api_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday week day"
+        )
+        error_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday week day"
+        )
+        raise HttpError(400, "Invalid holiday week day")
+
+    except HolidayInvalidWeekError:
+        api_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday week"
+        )
+        error_logger.error(
+            f"Unable to create holiday({domain_in.holiday_name}): Invalid holiday week"
+        )
+        raise HttpError(400, "Invalid holiday week")
 
     except HolidayCreationError:
         api_logger.error(

@@ -13,7 +13,7 @@ def test_create_holiday_success(api_client):
         "/holidays/create",
         json={
             "holiday_name": "New Holiday",
-            "rule_type": "fixed_day",
+            "rule_type": "fixed_date",
             "observed_rule": "none",
             "month": 1,
             "day": 1,

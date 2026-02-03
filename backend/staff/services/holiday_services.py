@@ -5,9 +5,16 @@ from staff.exceptions import (
     HolidayAlreadyExists,
     HolidayCreationError,
     HolidayDoesNotExist,
+    HolidayInvalidRuleError,
+    HolidayInvalidObservedRuleError,
+    HolidayInvalidMonthError,
+    HolidayInvalidDayError,
+    HolidayInvalidWeekDayError,
+    HolidayInvalidWeekError,
 )
 from staff.mappers import domain_holiday_to_model, model_to_domain_holiday
 from typing import List
+from django.core.exceptions import ValidationError
 
 
 def get_holiday_model_or_raise(holiday_id: int) -> Holiday:
@@ -49,6 +56,30 @@ def create_holiday(dto: DomainHolidayIn) -> DomainHoliday:
         raise HolidayAlreadyExists()
 
     holiday = domain_holiday_to_model(dto)
+    try:
+        holiday.full_clean()
+    except ValidationError as exc:
+        if "rule_type" in exc.message_dict:
+            raise HolidayInvalidRuleError(
+                f"Invalid rule_type: {dto.rule_type}"
+            ) from exc
+        elif "observed_rule" in exc.message_dict:
+            raise HolidayInvalidObservedRuleError(
+                f"Invalid observed_rule: {dto.observed_rule}"
+            ) from exc
+        raise  # re-raise anything else
+
+    if holiday.month and (holiday.month < 1 or holiday.month > 12):
+        raise HolidayInvalidMonthError
+
+    if holiday.day and (holiday.day < 1 or holiday.day > 31):
+        raise HolidayInvalidDayError
+
+    if holiday.weekday and (holiday.weekday < 0 or holiday.weekday > 6):
+        raise HolidayInvalidWeekDayError
+
+    if holiday.week and (holiday.week < 1 or holiday.week > 5):
+        raise HolidayInvalidWeekError
 
     try:
         with transaction.atomic():

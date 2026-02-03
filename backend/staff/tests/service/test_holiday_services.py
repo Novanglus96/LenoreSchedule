@@ -7,7 +7,16 @@ from staff.services.holiday_services import (
     delete_holiday,
 )
 from staff.dto import DomainHolidayIn, DomainHoliday
-from staff.exceptions import HolidayAlreadyExists, HolidayDoesNotExist
+from staff.exceptions import (
+    HolidayAlreadyExists,
+    HolidayDoesNotExist,
+    HolidayInvalidDayError,
+    HolidayInvalidObservedRuleError,
+    HolidayInvalidRuleError,
+    HolidayInvalidWeekDayError,
+    HolidayInvalidWeekError,
+    HolidayInvalidMonthError,
+)
 from staff.models import Holiday
 
 
@@ -82,6 +91,130 @@ def test_create_holiday_duplicate_name_raises():
                 week=1,
             )
         )
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_create_holiday_invalid_rule_raises():
+    """
+    Creating a holiday should raise an error with invalid rule.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Holiday",
+        rule_type="non_rule",
+        observed_rule="none",
+        month=1,
+        day=1,
+        weekday=0,
+        week=1,
+    )
+
+    with pytest.raises(HolidayInvalidRuleError) as exc:
+        create_holiday(dto)
+
+    assert "non_rule" in str(exc.value)
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_create_holiday_invalid_month_raises():
+    """
+    Creating a holiday should raise an error with invalid month.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Holiday",
+        rule_type="fixed_date",
+        observed_rule="none",
+        month=13,
+        day=1,
+        weekday=0,
+        week=1,
+    )
+
+    with pytest.raises(HolidayInvalidMonthError):
+        create_holiday(dto)
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_create_holiday_invalid_day_raises():
+    """
+    Creating a holiday should raise an error with invalid day.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Holiday",
+        rule_type="fixed_date",
+        observed_rule="none",
+        month=1,
+        day=32,
+        weekday=0,
+        week=1,
+    )
+
+    with pytest.raises(HolidayInvalidDayError):
+        create_holiday(dto)
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_create_holiday_invalid_weekday_raises():
+    """
+    Creating a holiday should raise an error with invalid weekday.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Holiday",
+        rule_type="fixed_date",
+        observed_rule="none",
+        month=1,
+        day=1,
+        weekday=8,
+        week=1,
+    )
+
+    with pytest.raises(HolidayInvalidWeekDayError):
+        create_holiday(dto)
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_create_holiday_invalid_week_raises():
+    """
+    Creating a holiday should raise an error with invalid week.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Holiday",
+        rule_type="fixed_date",
+        observed_rule="none",
+        month=1,
+        day=1,
+        weekday=0,
+        week=6,
+    )
+
+    with pytest.raises(HolidayInvalidWeekError):
+        create_holiday(dto)
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_create_holiday_invalid_observed_rule_raises():
+    """
+    Creating a holiday should raise an error with invalid observed rule.
+    """
+    dto = DomainHolidayIn(
+        holiday_name="Holiday",
+        rule_type="fixed_date",
+        observed_rule="non_rule",
+        month=1,
+        day=1,
+        weekday=0,
+        week=1,
+    )
+
+    with pytest.raises(HolidayInvalidObservedRuleError) as exc:
+        create_holiday(dto)
+
+    assert "non_rule" in str(exc.value)
 
 
 @pytest.mark.django_db
