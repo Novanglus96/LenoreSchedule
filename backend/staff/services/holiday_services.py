@@ -19,9 +19,17 @@ import calendar
 from django.core.exceptions import ValidationError
 
 
-def get_last_weekday(year, month, weekday):
+def get_last_weekday(year, month, weekday) -> int:
     """
-    weekday: 0 for Mon, 1 for Tue, ..., 6 for Sun
+    `get_last_weekday` gets the last day (M-Su) of a month for a year.
+
+    Args:
+        year (int): 4 digit year
+        month (int): 1-12 for month.
+        weekday (int): 0-6 for M-Su
+
+    Returns:
+        (int): The date of the last day.
     """
     # Returns a matrix of weeks (0 represents days outside the month)
     cal = calendar.monthcalendar(year, month)
@@ -32,7 +40,16 @@ def get_last_weekday(year, month, weekday):
     return last_day
 
 
-def calculate_easter(year):
+def calculate_easter(year) -> date:
+    """
+    `calculate_easter` calculates the date of easter for a given year.
+
+    Args:
+        year (int): 4 digit year
+
+    Returns:
+        (date): The date of easter for the year.
+    """
     # The Anonymous Gregorian Algorithm
     a = year % 19
     b = year // 100
@@ -53,10 +70,18 @@ def calculate_easter(year):
     return date(year, month, day)
 
 
-def get_nth_weekday(year, month, nth, weekday):
+def get_nth_weekday(year, month, nth, weekday) -> int:
     """
-    weekday: 0 for Mon, 1 for Tue, ..., 6 for Sun
-    nth: 1 for 1st occurrence, 2 for 2nd, etc.
+    `get_nth_weekday` calculates the nth weekday of the month.
+
+    Args:
+        year (int): 4 digit year
+        month (int): 1-12 for month.
+        nth (int): The nth occurrence
+        weekday (int): 0-6 for M-Su
+
+    Returns:
+        (int): The date of the nth occurrence.
     """
     # Returns a list of lists representing the calendar month
     cal = calendar.monthcalendar(year, month)
@@ -241,10 +266,10 @@ def get_holiday_date_for_year(holiday_id: int, year: int) -> dict:
 
     Args:
         holiday_id (int): The id of the holiday to delete.
-        year (in): 4 digit year
+        year (int): 4 digit year
 
     Returns:
-        (dict): {holiday: holiday name, date: date of holiday, observed: true/false}
+        (dict): {"holiday_name": holiday name, "holiday_date": date of holiday, "observed": True/False}
     """
     holiday = get_holiday_model_or_raise(holiday_id)
     holiday_date = None
