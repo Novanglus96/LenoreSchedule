@@ -1,3 +1,16 @@
+# [0.1.0-alpha.4](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.3...v0.1.0-alpha.4) (2026-02-04)
+
+
+### Bug Fixes
+
+* errors ([46d8444](https://github.com/Novanglus96/LenoreSchedule/commit/46d8444425d7f267f959ec9eb79ba987c7e8563d))
+
+
+### Features
+
+* added service to calculate date of holiday for a year ([b550f20](https://github.com/Novanglus96/LenoreSchedule/commit/b550f20161e93eb23a7ec4ce89081762c9abee09))
+* created holidays ([efd59c3](https://github.com/Novanglus96/LenoreSchedule/commit/efd59c34c6c48b2ef978cec00e1d224543207696))
+
 # [0.1.0-alpha.3](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.2...v0.1.0-alpha.3) (2026-01-30)
 
 
