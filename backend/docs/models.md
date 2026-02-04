@@ -13,3 +13,5 @@
 ### ::: staff.models.Location
 
 ### ::: staff.models.Employee
+
+### ::: staff.models.Holiday

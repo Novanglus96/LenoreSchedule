@@ -7,12 +7,15 @@ from staff.dto import (
     DomainEmployeeIn,
     DomainLocation,
     DomainLocationIn,
+    DomainHoliday,
+    DomainHolidayIn,
 )
 from staff.api.schemas.group import GroupOut, GroupIn
 from staff.api.schemas.division import DivisionIn, DivisionOut
 from staff.api.schemas.employee import EmployeeIn, EmployeeOut
 from staff.api.schemas.location import LocationIn, LocationOut
-from staff.models import Group, Division, Employee, Location
+from staff.api.schemas.holiday import HolidayIn, HolidayOut
+from staff.models import Group, Division, Employee, Location, Holiday
 
 
 def domain_group_to_schema(
@@ -143,4 +146,56 @@ def model_to_domain_location(model: Location) -> DomainLocation:
     return DomainLocation(
         id=model.id,
         location_name=model.location_name,
+    )
+
+
+def domain_holiday_to_schema(
+    holiday: DomainHoliday,
+) -> HolidayOut:
+    return HolidayOut(
+        id=holiday.id,
+        holiday_name=holiday.holiday_name,
+        rule_type=holiday.rule_type,
+        observed_rule=holiday.observed_rule,
+        month=holiday.month,
+        day=holiday.day,
+        weekday=holiday.weekday,
+        week=holiday.week,
+    )
+
+
+def schema_to_domain_holiday(schema: HolidayIn) -> DomainHolidayIn:
+    return DomainHolidayIn(
+        holiday_name=schema.holiday_name,
+        rule_type=schema.rule_type,
+        observed_rule=schema.observed_rule,
+        month=schema.month,
+        day=schema.day,
+        weekday=schema.weekday,
+        week=schema.week,
+    )
+
+
+def domain_holiday_to_model(dto: DomainHolidayIn) -> Holiday:
+    return Holiday(
+        holiday_name=dto.holiday_name,
+        rule_type=dto.rule_type,
+        observed_rule=dto.observed_rule,
+        month=dto.month,
+        day=dto.day,
+        weekday=dto.weekday,
+        week=dto.week,
+    )
+
+
+def model_to_domain_holiday(model: Holiday) -> DomainHoliday:
+    return DomainHoliday(
+        id=model.id,
+        holiday_name=model.holiday_name,
+        rule_type=model.rule_type,
+        observed_rule=model.observed_rule,
+        month=model.month,
+        day=model.day,
+        weekday=model.weekday,
+        week=model.week,
     )

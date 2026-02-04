@@ -1,5 +1,5 @@
 from django.contrib import admin
-from staff.models import Group, Division, Employee, Location
+from staff.models import Group, Division, Employee, Location, Holiday
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
@@ -44,7 +44,16 @@ class LocationAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     ordering = ["location_name"]
 
 
+class HolidayAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["id", "holiday_name"]
+
+    list_display_links = ["holiday_name"]
+
+    ordering = ["holiday_name"]
+
+
 admin.site.register(Group, GroupAdmin)
 admin.site.register(Division, DivisionAdmin)
 admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Location, LocationAdmin)
+admin.site.register(Holiday, HolidayAdmin)
