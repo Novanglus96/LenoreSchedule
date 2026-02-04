@@ -34,3 +34,17 @@ class HolidayInvalidWeekError(Exception):
 
 class HolidayInvalidObservedRuleError(Exception):
     pass
+
+
+class CalendarEntryAlreadyExists(Exception):
+    pass
+
+
+class CalendarEntryCreationError(Exception):
+    pass
+
+
+class CalendarEntryDoesNotExist(Exception):
+    def __init__(self, calendar_entry_id: int):
+        super().__init__(f"Calendar Entry {calendar_entry_id} does not exist")
+        self.calendar_entry_id = calendar_entry_id

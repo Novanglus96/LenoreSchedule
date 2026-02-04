@@ -1,4 +1,5 @@
 from django.db import models
+from staff.models import Employee, Location
 
 # Create your models here.
 
@@ -53,3 +54,31 @@ class Holiday(models.Model):
 
     def __str__(self):
         return self.holiday_name
+
+
+class CalendarEntry(models.Model):
+    """
+    Model representing a calendar entry.
+
+    Attributes:
+        employee (ForeignKey): an employeee object
+        calendar_date (DateField): a date
+        start_time (TimeField): the starting time
+        end_time (TimeField): the end time
+        confirmed (BooleanField): Wether this entry is confirmed or not
+        location (ForeignKey): a location object
+    """
+
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    calendar_date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    confirmed = models.BooleanField(default=False)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Calendar Entry"
+        verbose_name_plural = "Calendar Entries"
+
+    def __str__(self):
+        return f"{self.calendar_date} {self.start_time} - {self.end_time}: {self.employee.last_name}, {self.employee.first_name} "
