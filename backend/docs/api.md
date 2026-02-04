@@ -60,11 +60,11 @@
 
 ## Holidays
 ### Views
-#### ::: staff.api.views.holiday.create_holiday_endpoint
-#### ::: staff.api.views.holiday.update_holiday_endpoint
-#### ::: staff.api.views.holiday.get_holiday_endpoint
-#### ::: staff.api.views.holiday.list_holidays
-#### ::: staff.api.views.holiday.delete_holiday_endpoint
+#### ::: planner.api.views.holiday.create_holiday_endpoint
+#### ::: planner.api.views.holiday.update_holiday_endpoint
+#### ::: planner.api.views.holiday.get_holiday_endpoint
+#### ::: planner.api.views.holiday.list_holidays
+#### ::: planner.api.views.holiday.delete_holiday_endpoint
 ### Schemas
-#### ::: staff.api.schemas.holiday.HolidayIn
-#### ::: staff.api.schemas.holiday.HolidayOut
+#### ::: planner.api.schemas.holiday.HolidayIn
+#### ::: planner.api.schemas.holiday.HolidayOut
