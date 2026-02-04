@@ -590,6 +590,34 @@ version.
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#staff.models.Holiday" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Holiday
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Holiday">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#staff.models.Holiday.__str__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __str__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -879,6 +907,34 @@ version.
         
           <li class="md-nav__item">
   <a href="#staff.models.Employee.__str__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __str__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#staff.models.Holiday" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Holiday
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Holiday">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#staff.models.Holiday.__str__" class="md-nav__link">
     <span class="md-ellipsis">
       
         __str__
@@ -2147,6 +2203,273 @@ first_name.</p>
 <span class="sd">        (str): The string representation of the employee.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="staff.models.Holiday" class="doc doc-heading">
+            <code>Holiday</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Model representing a holiday.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="staff.models.Holiday.holiday_name">holiday_name</span></code></td>
+            <td>
+                  <code><span title="CharField">CharField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The name of the holiday</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="staff.models.Holiday.rule_type">rule_type</span></code></td>
+            <td>
+                  <code><span title="CharField">CharField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Type of repeating rule for the holiday.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="staff.models.Holiday.month">month</span></code></td>
+            <td>
+                  <code><span title="PositiveSmallIntegerField">PositiveSmallIntegerField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The month of the year for the holiday.
+Optional. Default None.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="staff.models.Holiday.day">day</span></code></td>
+            <td>
+                  <code><span title="PositiveSmallIntegerField">PositiveSmallIntegerField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The day of the month for the holiday.
+Optional. Default None.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="staff.models.Holiday.weekday">weekday</span></code></td>
+            <td>
+                  <code><span title="PositiveSmallIntegerField">PositiveSmallIntegerField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The day of the week for the holiday.
+Optional. Default None.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="staff.models.Holiday.week">week</span></code></td>
+            <td>
+                  <code><span title="PositiveSmallIntegerField">PositiveSmallIntegerField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The week of the month for the holiday.
+Optional. Default None.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="staff.models.Holiday.observed_rule">observed_rule</span></code></td>
+            <td>
+                  <code><span title="CharField">CharField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Observed rule for the holiday. Required. Default None.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>backend/staff/models.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Holiday</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Model representing a holiday.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        holiday_name (CharField): The name of the holiday</span>
+<span class="sd">        rule_type (CharField): Type of repeating rule for the holiday.</span>
+<span class="sd">        month (PositiveSmallIntegerField): The month of the year for the holiday.</span>
+<span class="sd">          Optional. Default None.</span>
+<span class="sd">        day (PositiveSmallIntegerField): The day of the month for the holiday.</span>
+<span class="sd">          Optional. Default None.</span>
+<span class="sd">        weekday (PositiveSmallIntegerField): The day of the week for the holiday.</span>
+<span class="sd">          Optional. Default None.</span>
+<span class="sd">        week (PositiveSmallIntegerField): The week of the month for the holiday.</span>
+<span class="sd">          Optional. Default None.</span>
+<span class="sd">        observed_rule (CharField): Observed rule for the holiday. Required. Default None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">holiday_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">rule_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;fixed_date&quot;</span><span class="p">,</span> <span class="s2">&quot;Fixed date&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;nth_weekday&quot;</span><span class="p">,</span> <span class="s2">&quot;Nth weekday of month&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;last_weekday&quot;</span><span class="p">,</span> <span class="s2">&quot;Last weekday of month&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;custom&quot;</span><span class="p">,</span> <span class="s2">&quot;Custom rule&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">month</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span>
+    <span class="n">day</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">weekday</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span>  <span class="c1"># 0=Mon</span>
+    <span class="n">week</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span>  <span class="c1"># 1–5</span>
+    <span class="n">observed_rule</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;No observation&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;next_business_day&quot;</span><span class="p">,</span> <span class="s2">&quot;Next business day&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;nearest_weekday&quot;</span><span class="p">,</span> <span class="s2">&quot;Nearest weekday&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">holiday_name</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="staff.models.Holiday.__str__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__str__</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>backend/staff/models.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">holiday_name</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
