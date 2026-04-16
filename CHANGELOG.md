@@ -1,3 +1,10 @@
+# [0.1.0-alpha.9](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.8...v0.1.0-alpha.9) (2026-04-16)
+
+
+### Features
+
+* add UserProfile with division-scoped access control ([#18](https://github.com/Novanglus96/LenoreSchedule/issues/18)) ([eae8637](https://github.com/Novanglus96/LenoreSchedule/commit/eae8637dbba900696be3812adb02dcc920fa441d))
+
 # [0.1.0-alpha.8](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.7...v0.1.0-alpha.8) (2026-04-16)
 
 
