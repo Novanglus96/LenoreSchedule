@@ -56,3 +56,50 @@ class Version(SingletonModel):
             (str): The string representation of the version number.
         """
         return self.version_number
+
+
+class PayrollInfo(models.Model):
+    """
+    Model representing a years payroll info.
+
+    Attributes:
+        payroll_year (IntegerField): The payroll year. Unique.
+        payroll_start (DateField): The 1st day of the years payroll
+        payroll_frequency (CharField): Choice of frequency. 50 char max.
+        first_day (PositiveSmallIntegerField): 1st day of the month for frequency. Optional.
+        second_day (PositiveSmallIntegerField): 2nd day of the month for frequency. Optional.
+    """
+
+    payroll_year = models.IntegerField(unique=True)
+    payroll_start = models.DateField()
+    payroll_frequency = models.CharField(
+        max_length=50,
+        choices=[
+            ("weekly", "Weekly"),
+            ("biweekly", "Biweekly"),
+            ("semi-monthly", "Semi-Monthly"),
+            ("monthly", "Monthly"),
+            ("quadriweekly", "Quadriweekly"),
+            ("daily", "Daily"),
+        ],
+    )
+    first_day = models.PositiveSmallIntegerField(
+        null=True, blank=True, default=None
+    )
+    second_day = models.PositiveSmallIntegerField(
+        null=True, blank=True, default=None
+    )
+
+    class Meta:
+        verbose_name = "Payroll Info"
+        verbose_name_plural = "Payroll Info"
+
+    def __str__(self):
+        """
+        __str__ Overrides the string representation for PayrollInfo and returns the
+        payroll year.
+
+        Returns:
+            (str): The year of the payroll.
+        """
+        return str(self.payroll_year)

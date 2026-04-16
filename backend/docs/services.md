@@ -30,6 +30,14 @@
 ### ::: staff.services.employee_services.get_ordered_list_of_employees
 ### ::: staff.services.employee_services.delete_employee
 
+## Payroll Info
+### ::: options.services.payroll_services.get_payroll_info_model_or_raise
+### ::: options.services.payroll_services.create_payroll_info
+### ::: options.services.payroll_services.update_payroll_info
+### ::: options.services.payroll_services.get_payroll_info
+### ::: options.services.payroll_services.get_ordered_list_of_payroll_infos
+### ::: options.services.payroll_services.delete_payroll_info
+
 ## Holidays
 ### ::: planner.services.holiday_services.get_holiday_model_or_raise
 ### ::: planner.services.holiday_services.create_holiday

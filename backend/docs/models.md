@@ -15,3 +15,5 @@
 ### ::: staff.models.Employee
 
 ### ::: planner.models.Holiday
+
+### ::: options.models.PayrollInfo

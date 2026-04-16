@@ -11,8 +11,23 @@ from planner.mappers import (
     model_to_domain_calendar_entry,
 )
 from typing import List, Optional
-from datetime import timedelta
+from datetime import timedelta, date
 from core.utils.date_utils import current_date
+
+
+def dates_in_year(year: int):
+    """
+    `dates_in_year` gets a list of all dates in a year.
+
+    Args:
+        year (int): The year to get dates for.
+
+    Returns:
+        (List[date]): A list of dates.
+    """
+    start = date(year, 1, 1)
+    end = date(year + 1, 1, 1)
+    return [start + timedelta(days=i) for i in range((end - start).days)]
 
 
 def get_calendar_entry_model_or_raise(calendar_entry_id: int) -> CalendarEntry:
@@ -129,13 +144,14 @@ def get_calendar(
         List[DomainCalendarEntry]: A list of domain calendar_entry objects.
     """
     today = current_date()
-    year = today.year
+    current_year = today.year
+    last_year = current_year - 1
+    next_year = current_year + 1
+    year = current_year
     if timeframe == "last":
-        last_year = today - timedelta(year=1)
-        year = last_year.year
+        year = last_year
     if timeframe == "next":
-        next_year = today + timedelta(year=1)
-        year = next_year.year
+        year = next_year
     calendar_entries = CalendarEntry.objects.filter(
         calendar_date__year=year
     ).order_by("calendar_date")
