@@ -48,3 +48,27 @@ class CalendarEntryDoesNotExist(Exception):
     def __init__(self, calendar_entry_id: int):
         super().__init__(f"Calendar Entry {calendar_entry_id} does not exist")
         self.calendar_entry_id = calendar_entry_id
+
+
+class CalendarEntryInvalidEntryType(Exception):
+    pass
+
+
+class ScheduleTemplateDoesNotExist(Exception):
+    def __init__(self, schedule_template_id: int):
+        super().__init__(
+            f"Schedule Template {schedule_template_id} does not exist"
+        )
+        self.schedule_template_id = schedule_template_id
+
+
+class ScheduleTemplateCreationError(Exception):
+    pass
+
+
+class ScheduleTemplateInvalidDayOfWeek(Exception):
+    pass
+
+
+class ScheduleTemplateInvalidTimeRange(Exception):
+    pass

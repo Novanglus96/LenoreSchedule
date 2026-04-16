@@ -38,6 +38,21 @@
 ### ::: options.services.payroll_services.get_ordered_list_of_payroll_infos
 ### ::: options.services.payroll_services.delete_payroll_info
 
+## Calendar Entries
+### ::: planner.services.calendar_services.get_calendar_entry_model_or_raise
+### ::: planner.services.calendar_services.create_calendar_entry
+### ::: planner.services.calendar_services.update_calendar_entry
+### ::: planner.services.calendar_services.get_calendar
+### ::: planner.services.calendar_services.delete_calendar_entry
+
+## Schedule Templates
+### ::: planner.services.schedule_template_services.get_schedule_template_model_or_raise
+### ::: planner.services.schedule_template_services.create_schedule_template
+### ::: planner.services.schedule_template_services.update_schedule_template
+### ::: planner.services.schedule_template_services.get_schedule_template
+### ::: planner.services.schedule_template_services.get_schedule_templates_for_employee
+### ::: planner.services.schedule_template_services.delete_schedule_template
+
 ## Holidays
 ### ::: planner.services.holiday_services.get_holiday_model_or_raise
 ### ::: planner.services.holiday_services.create_holiday

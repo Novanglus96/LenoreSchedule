@@ -69,6 +69,28 @@
 #### ::: options.api.schemas.payroll_info.PayrollInfoIn
 #### ::: options.api.schemas.payroll_info.PayrollInfoOut
 
+## Calendar Entries
+### Views
+#### ::: planner.api.views.calendar_entry.create_calendar_entry_endpoint
+#### ::: planner.api.views.calendar_entry.update_calendar_entry_endpoint
+#### ::: planner.api.views.calendar_entry.list_calendar_entries
+#### ::: planner.api.views.calendar_entry.list_calendar_entries_by_employee
+#### ::: planner.api.views.calendar_entry.delete_calendar_entry_endpoint
+### Schemas
+#### ::: planner.api.schemas.calendar_entry.CalendarEntryIn
+#### ::: planner.api.schemas.calendar_entry.CalendarEntryOut
+
+## Schedule Templates
+### Views
+#### ::: planner.api.views.schedule_template.create_schedule_template_endpoint
+#### ::: planner.api.views.schedule_template.update_schedule_template_endpoint
+#### ::: planner.api.views.schedule_template.get_schedule_template_endpoint
+#### ::: planner.api.views.schedule_template.list_schedule_templates_for_employee
+#### ::: planner.api.views.schedule_template.delete_schedule_template_endpoint
+### Schemas
+#### ::: planner.api.schemas.schedule_template.ScheduleTemplateIn
+#### ::: planner.api.schemas.schedule_template.ScheduleTemplateOut
+
 ## Holidays
 ### Views
 #### ::: planner.api.views.holiday.create_holiday_endpoint

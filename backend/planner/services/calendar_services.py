@@ -52,15 +52,18 @@ def get_calendar_entry_model_or_raise(calendar_entry_id: int) -> CalendarEntry:
 
 def create_calendar_entry(dto: DomainCalendarEntryIn) -> DomainCalendarEntry:
     """
-    `create_calendar_entry` creates a calendar_entry if a duplicate calendar_entry does
-    not exist.
+    `create_calendar_entry` creates a calendar_entry if a duplicate does not exist.
+
+    A duplicate is defined as the same employee, date, start_time, end_time, and
+    entry_type. Full-day entries (null times) are matched on employee, date, and
+    entry_type only.
 
     Args:
         dto (DomainCalendarEntryIn): A domain calendar_entry object.
 
     Raises:
         CalendarEntryAlreadyExists: CalendarEntry already exists.
-        CalendarEntryCreationError: CalendarEntrye creation error.
+        CalendarEntryCreationError: CalendarEntry creation error.
 
     Returns:
         DomainCalendarEntry: A domain calendar_entry object.
@@ -70,6 +73,7 @@ def create_calendar_entry(dto: DomainCalendarEntryIn) -> DomainCalendarEntry:
         employee_id=dto.employee_id,
         start_time=dto.start_time,
         end_time=dto.end_time,
+        entry_type=dto.entry_type,
     ).exists():
         raise CalendarEntryAlreadyExists()
 
@@ -107,7 +111,8 @@ def update_calendar_entry(
         employee_id=dto.employee_id,
         start_time=dto.start_time,
         end_time=dto.end_time,
-    ).exists():
+        entry_type=dto.entry_type,
+    ).exclude(id=calendar_entry_id).exists():
         raise CalendarEntryAlreadyExists()
 
     if dto.calendar_date is not None:
@@ -127,6 +132,11 @@ def update_calendar_entry(
 
     if dto.location_id is not None:
         calendar_entry.location_id = dto.location_id
+
+    if dto.entry_type is not None:
+        calendar_entry.entry_type = dto.entry_type
+
+    calendar_entry.notes = dto.notes
 
     calendar_entry.save()
 
