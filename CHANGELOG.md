@@ -1,3 +1,10 @@
+# [0.1.0-alpha.16](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.15...v0.1.0-alpha.16) (2026-04-16)
+
+
+### Bug Fixes
+
+* chown logs directory in entrypoint to handle stale volume ownership ([#25](https://github.com/Novanglus96/LenoreSchedule/issues/25)) ([cf8c1f7](https://github.com/Novanglus96/LenoreSchedule/commit/cf8c1f77cc7cba6424e089fcdd35676030f9b1e1))
+
 # [0.1.0-alpha.15](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.14...v0.1.0-alpha.15) (2026-04-16)
 
 
