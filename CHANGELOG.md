@@ -1,3 +1,10 @@
+# [0.1.0-alpha.12](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.11...v0.1.0-alpha.12) (2026-04-16)
+
+
+### Features
+
+* consolidate frontend, backend, and nginx into single production container ([#21](https://github.com/Novanglus96/LenoreSchedule/issues/21)) ([d48784e](https://github.com/Novanglus96/LenoreSchedule/commit/d48784ea2b11a03074b5a5565550a386d9833cc4))
+
 # [0.1.0-alpha.11](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.10...v0.1.0-alpha.11) (2026-04-16)
 
 
