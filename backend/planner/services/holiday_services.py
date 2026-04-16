@@ -1,7 +1,7 @@
 from django.db import IntegrityError, transaction
-from staff.models import Holiday
-from staff.dto import DomainHoliday, DomainHolidayIn
-from staff.exceptions import (
+from planner.models import Holiday
+from planner.dto import DomainHoliday, DomainHolidayIn
+from planner.exceptions import (
     HolidayAlreadyExists,
     HolidayCreationError,
     HolidayDoesNotExist,
@@ -12,7 +12,7 @@ from staff.exceptions import (
     HolidayInvalidWeekDayError,
     HolidayInvalidWeekError,
 )
-from staff.mappers import domain_holiday_to_model, model_to_domain_holiday
+from planner.mappers import domain_holiday_to_model, model_to_domain_holiday
 from typing import List
 from datetime import date, timedelta
 import calendar

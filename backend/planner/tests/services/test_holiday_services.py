@@ -1,5 +1,5 @@
 import pytest
-from staff.services.holiday_services import (
+from planner.services.holiday_services import (
     create_holiday,
     update_holiday,
     get_holiday,
@@ -7,8 +7,8 @@ from staff.services.holiday_services import (
     delete_holiday,
     get_holiday_date_for_year,
 )
-from staff.dto import DomainHolidayIn, DomainHoliday
-from staff.exceptions import (
+from planner.dto import DomainHolidayIn, DomainHoliday
+from planner.exceptions import (
     HolidayAlreadyExists,
     HolidayDoesNotExist,
     HolidayInvalidDayError,
@@ -18,7 +18,7 @@ from staff.exceptions import (
     HolidayInvalidWeekError,
     HolidayInvalidMonthError,
 )
-from staff.models import Holiday
+from planner.models import Holiday
 from datetime import date
 
 

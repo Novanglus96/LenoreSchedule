@@ -58,13 +58,24 @@
 #### ::: staff.api.schemas.employee.EmployeeIn
 #### ::: staff.api.schemas.employee.EmployeeOut
 
+## Payroll Info
+### Views
+#### ::: options.api.views.payroll_info.create_payroll_info_endpoint
+#### ::: options.api.views.payroll_info.update_payroll_info_endpoint
+#### ::: options.api.views.payroll_info.get_payroll_info_endpoint
+#### ::: options.api.views.payroll_info.list_payroll_infos
+#### ::: options.api.views.payroll_info.delete_payroll_info_endpoint
+### Schemas
+#### ::: options.api.schemas.payroll_info.PayrollInfoIn
+#### ::: options.api.schemas.payroll_info.PayrollInfoOut
+
 ## Holidays
 ### Views
-#### ::: staff.api.views.holiday.create_holiday_endpoint
-#### ::: staff.api.views.holiday.update_holiday_endpoint
-#### ::: staff.api.views.holiday.get_holiday_endpoint
-#### ::: staff.api.views.holiday.list_holidays
-#### ::: staff.api.views.holiday.delete_holiday_endpoint
+#### ::: planner.api.views.holiday.create_holiday_endpoint
+#### ::: planner.api.views.holiday.update_holiday_endpoint
+#### ::: planner.api.views.holiday.get_holiday_endpoint
+#### ::: planner.api.views.holiday.list_holidays
+#### ::: planner.api.views.holiday.delete_holiday_endpoint
 ### Schemas
-#### ::: staff.api.schemas.holiday.HolidayIn
-#### ::: staff.api.schemas.holiday.HolidayOut
+#### ::: planner.api.schemas.holiday.HolidayIn
+#### ::: planner.api.schemas.holiday.HolidayOut

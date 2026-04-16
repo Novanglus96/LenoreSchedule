@@ -1,5 +1,6 @@
 from django.contrib import admin
-from options.models import Version
+from options.models import Version, PayrollInfo
+from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 
@@ -24,4 +25,13 @@ class VersionAdmin(admin.ModelAdmin):
         return False
 
 
+class PayrollInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ["payroll_year"]
+
+    list_display_links = ["payroll_year"]
+
+    ordering = ["payroll_year"]
+
+
 admin.site.register(Version, VersionAdmin)
+admin.site.register(PayrollInfo, PayrollInfoAdmin)

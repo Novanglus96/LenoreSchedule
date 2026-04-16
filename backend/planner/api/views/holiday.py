@@ -1,9 +1,9 @@
 from ninja import Router
-from staff.api.schemas.holiday import HolidayIn, HolidayOut
+from planner.api.schemas.holiday import HolidayIn, HolidayOut
 from ninja.errors import HttpError
 from typing import List
 import logging
-from staff.exceptions import (
+from planner.exceptions import (
     HolidayAlreadyExists,
     HolidayCreationError,
     HolidayDoesNotExist,
@@ -14,11 +14,11 @@ from staff.exceptions import (
     HolidayInvalidWeekDayError,
     HolidayInvalidWeekError,
 )
-from staff.mappers import (
+from planner.mappers import (
     schema_to_domain_holiday,
     domain_holiday_to_schema,
 )
-from staff.services.holiday_services import (
+from planner.services.holiday_services import (
     create_holiday,
     update_holiday,
     get_holiday,

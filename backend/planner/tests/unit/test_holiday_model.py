@@ -1,5 +1,5 @@
 import pytest
-from staff.models import Holiday
+from planner.models import Holiday
 
 
 @pytest.mark.django_db

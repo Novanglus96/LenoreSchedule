@@ -30,14 +30,22 @@
 ### ::: staff.services.employee_services.get_ordered_list_of_employees
 ### ::: staff.services.employee_services.delete_employee
 
+## Payroll Info
+### ::: options.services.payroll_services.get_payroll_info_model_or_raise
+### ::: options.services.payroll_services.create_payroll_info
+### ::: options.services.payroll_services.update_payroll_info
+### ::: options.services.payroll_services.get_payroll_info
+### ::: options.services.payroll_services.get_ordered_list_of_payroll_infos
+### ::: options.services.payroll_services.delete_payroll_info
+
 ## Holidays
-### ::: staff.services.holiday_services.get_holiday_model_or_raise
-### ::: staff.services.holiday_services.create_holiday
-### ::: staff.services.holiday_services.update_holiday
-### ::: staff.services.holiday_services.get_holiday
-### ::: staff.services.holiday_services.get_ordered_list_of_holidays
-### ::: staff.services.holiday_services.delete_holiday
-### ::: staff.services.holiday_services.get_last_weekday
-### ::: staff.services.holiday_services.calculate_easter
-### ::: staff.services.holiday_services.get_nth_weekday
-### ::: staff.services.holiday_services.get_holiday_date_for_year
+### ::: planner.services.holiday_services.get_holiday_model_or_raise
+### ::: planner.services.holiday_services.create_holiday
+### ::: planner.services.holiday_services.update_holiday
+### ::: planner.services.holiday_services.get_holiday
+### ::: planner.services.holiday_services.get_ordered_list_of_holidays
+### ::: planner.services.holiday_services.delete_holiday
+### ::: planner.services.holiday_services.get_last_weekday
+### ::: planner.services.holiday_services.calculate_easter
+### ::: planner.services.holiday_services.get_nth_weekday
+### ::: planner.services.holiday_services.get_holiday_date_for_year

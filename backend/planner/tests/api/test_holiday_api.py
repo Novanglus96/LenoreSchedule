@@ -1,6 +1,6 @@
 import pytest
-from staff.models import Holiday
-from staff.factories import HolidayFactory
+from planner.models import Holiday
+from planner.factories import HolidayFactory
 
 
 @pytest.mark.django_db
@@ -10,7 +10,7 @@ def test_create_holiday_success(api_client):
     Test holiday created succssfully.
     """
     response = api_client.post(
-        "/holidays/create",
+        "/calendar/holidays/create",
         json={
             "holiday_name": "New Holiday",
             "rule_type": "fixed_date",
@@ -35,7 +35,7 @@ def test_get_holiday_success(api_client):
     """
     holiday = HolidayFactory()
     response = api_client.get(
-        f"/holidays/get/{holiday.id}",
+        f"/calendar/holidays/get/{holiday.id}",
         headers={"Authorization": "Bearer test-api-key"},
     )
 
@@ -50,7 +50,7 @@ def test_get_holiday_not_found(api_client):
     Test getting a holiday that doesn't exist raises error.
     """
     response = api_client.get(
-        "/holidays/get/9999",
+        "/calendar/holidays/get/9999",
         headers={"Authorization": "Bearer test-api-key"},
     )
 
@@ -67,7 +67,8 @@ def test_list_holidays(api_client):
     HolidayFactory(holiday_name="A Holiday")
 
     response = api_client.get(
-        "/holidays/list", headers={"Authorization": "Bearer test-api-key"}
+        "/calendar/holidays/list",
+        headers={"Authorization": "Bearer test-api-key"},
     )
 
     assert response.status_code == 200
@@ -86,7 +87,7 @@ def test_update_holiday_success(api_client):
     """
     holiday = HolidayFactory()
     response = api_client.put(
-        f"/holidays/update/{holiday.id}",
+        f"/calendar/holidays/update/{holiday.id}",
         json={
             "holiday_name": "Updated Name",
             "rule_type": "fixed_day",
@@ -116,7 +117,7 @@ def test_update_holiday_duplicate(api_client):
     HolidayFactory(holiday_name="Holiday2")
 
     response = api_client.put(
-        f"/holidays/update/{holiday1.id}",
+        f"/calendar/holidays/update/{holiday1.id}",
         json={
             "holiday_name": "Holiday2",
             "rule_type": "fixed_day",
@@ -142,7 +143,7 @@ def test_update_holiday_not_found(api_client):
     Test upraing a holiday that doesn't exist raises error.
     """
     response = api_client.put(
-        "/holidays/update/999",
+        "/calendar/holidays/update/999",
         json={
             "holiday_name": "New Holiday",
             "rule_type": "fixed_day",
@@ -166,7 +167,7 @@ def test_delete_holiday_success(api_client):
     """
     holiday = HolidayFactory()
     response = api_client.delete(
-        f"/holidays/delete/{holiday.id}",
+        f"/calendar/holidays/delete/{holiday.id}",
         headers={"Authorization": "Bearer test-api-key"},
     )
 
@@ -182,7 +183,7 @@ def test_delete_holiday_not_found(api_client):
     Test deleting a holiday that doesn't exist raises error.
     """
     response = api_client.delete(
-        "/holidays/delete/9999",
+        "/calendar/holidays/delete/9999",
         headers={"Authorization": "Bearer test-api-key"},
     )
 
