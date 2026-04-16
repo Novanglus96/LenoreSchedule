@@ -21,6 +21,7 @@ from planner.services.calendar_services import (
     get_calendar,
     delete_calendar_entry,
 )
+from core.utils.auth import get_user_divisions
 
 api_logger = logging.getLogger("api")
 db_logger = logging.getLogger("db")
@@ -161,7 +162,7 @@ def list_calendar_entries(request, timeframe: str):
     """
 
     try:
-        calendar_entries = get_calendar(timeframe)
+        calendar_entries = get_calendar(timeframe, divisions=get_user_divisions(request))
         return [domain_calendar_entry_to_schema(g) for g in calendar_entries]
     except Exception as e:
         # Log other types of exceptions
@@ -194,7 +195,9 @@ def list_calendar_entries_by_employee(
     """
 
     try:
-        calendar_entries = get_calendar(timeframe, employee_id)
+        calendar_entries = get_calendar(
+            timeframe, employee_id, divisions=get_user_divisions(request)
+        )
 
         return [domain_calendar_entry_to_schema(g) for g in calendar_entries]
     except Exception as e:

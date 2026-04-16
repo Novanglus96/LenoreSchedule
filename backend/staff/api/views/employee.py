@@ -19,6 +19,7 @@ from staff.services.employee_services import (
     get_ordered_list_of_employees,
     delete_employee,
 )
+from core.utils.auth import get_user_divisions
 
 api_logger = logging.getLogger("api")
 db_logger = logging.getLogger("db")
@@ -158,7 +159,7 @@ def get_employee_endpoint(request, employee_id: int):
         Http404: If the employee with the specified ID does not exist.
     """
     try:
-        employee = get_employee(employee_id)
+        employee = get_employee(employee_id, divisions=get_user_divisions(request))
 
         return domain_employee_to_schema(employee)
 
@@ -199,7 +200,7 @@ def list_employees(request):
     """
 
     try:
-        employees = get_ordered_list_of_employees()
+        employees = get_ordered_list_of_employees(divisions=get_user_divisions(request))
 
         return [domain_employee_to_schema(g) for g in employees]
     except Exception as e:

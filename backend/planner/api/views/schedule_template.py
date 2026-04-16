@@ -20,6 +20,9 @@ from planner.services.schedule_template_services import (
     get_schedule_templates_for_employee,
     delete_schedule_template,
 )
+from staff.services.employee_services import get_employee
+from staff.exceptions import EmployeeDoesNotExist
+from core.utils.auth import get_user_divisions
 
 api_logger = logging.getLogger("api")
 error_logger = logging.getLogger("error")
@@ -201,8 +204,18 @@ def list_schedule_templates_for_employee(request, employee_id: int):
         (List[ScheduleTemplateOut]): A list of schedule_template objects.
     """
     try:
+        get_employee(employee_id, divisions=get_user_divisions(request))
         templates = get_schedule_templates_for_employee(employee_id)
         return [domain_schedule_template_to_schema(t) for t in templates]
+
+    except EmployeeDoesNotExist:
+        api_logger.error(
+            f"ScheduleTemplates not retrieved: employee {employee_id} not found"
+        )
+        error_logger.error(
+            f"ScheduleTemplates not retrieved: employee {employee_id} not found"
+        )
+        raise HttpError(404, f"Employee {employee_id} not found")
 
     except Exception as e:
         api_logger.error(f"ScheduleTemplates for employee {employee_id} not retrieved")

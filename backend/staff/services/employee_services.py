@@ -111,32 +111,43 @@ def update_employee(employee_id: int, dto: DomainEmployeeIn) -> DomainEmployee:
     return model_to_domain_employee(employee)
 
 
-def get_employee(employee_id: int) -> DomainEmployee:
+def get_employee(employee_id: int, divisions=None) -> DomainEmployee:
     """
     `get_employee` returns a domain employee object.
 
     Args:
         employee_id (int): ID of the employee to get.
+        divisions: Optional Division queryset. When provided, raises
+            EmployeeDoesNotExist if the employee's division is not in the set.
 
     Returns:
         DomainEmployee: The domain employee object.
     """
     employee = get_employee_model_or_raise(employee_id)
 
+    if divisions is not None and not divisions.filter(id=employee.division_id).exists():
+        raise EmployeeDoesNotExist(employee_id)
+
     return model_to_domain_employee(employee)
 
 
-def get_ordered_list_of_employees() -> List[DomainEmployee]:
+def get_ordered_list_of_employees(divisions=None) -> List[DomainEmployee]:
     """
     `get_ordered_list_of_employees` gets a list of domain employee objects, ordered
     by last_name ascending, first_name ascending, id ascending.
 
+    Args:
+        divisions: Optional Division queryset. When provided, only employees
+            belonging to those divisions are returned.
+
     Returns:
         List[DomainEmployee]: A list of domain employee objects.
     """
-    employees = Employee.objects.all().order_by("last_name", "first_name", "id")
+    qs = Employee.objects.all()
+    if divisions is not None:
+        qs = qs.filter(division__in=divisions)
 
-    return [model_to_domain_employee(g) for g in employees]
+    return [model_to_domain_employee(e) for e in qs.order_by("last_name", "first_name", "id")]
 
 
 def delete_employee(employee_id: int) -> str:

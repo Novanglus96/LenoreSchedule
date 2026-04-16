@@ -147,9 +147,16 @@ def update_calendar_entry(
 def get_calendar(
     timeframe: str,
     employee_id: Optional[int] = None,
+    divisions=None,
 ) -> List[DomainCalendarEntry]:
     """
-    `get_calendar` returns the entire calendar and optionally filters by employee
+    `get_calendar` returns the calendar, optionally filtered by employee and/or divisions.
+
+    Args:
+        timeframe (str): "last", "current", or "next" year.
+        employee_id (Optional[int]): Restrict to a single employee.
+        divisions: Optional Division queryset. When provided, only entries for
+            employees belonging to those divisions are returned.
 
     Returns:
         List[DomainCalendarEntry]: A list of domain calendar_entry objects.
@@ -163,12 +170,15 @@ def get_calendar(
         year = last_year
     if timeframe == "next":
         year = next_year
-    calendar_entries = CalendarEntry.objects.filter(
-        calendar_date__year=year
-    ).order_by("calendar_date")
+    calendar_entries = CalendarEntry.objects.filter(calendar_date__year=year)
+    if divisions is not None:
+        calendar_entries = calendar_entries.filter(employee__division__in=divisions)
     if employee_id:
         calendar_entries = calendar_entries.filter(employee_id=employee_id)
-    return [model_to_domain_calendar_entry(g) for g in calendar_entries]
+    return [
+        model_to_domain_calendar_entry(g)
+        for g in calendar_entries.order_by("calendar_date")
+    ]
 
 
 def delete_calendar_entry(calendar_entry_id: int) -> str:
