@@ -1,3 +1,10 @@
+# [0.1.0-alpha.10](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.9...v0.1.0-alpha.10) (2026-04-16)
+
+
+### Features
+
+* add frontend login with session auth and division-scoped access ([#19](https://github.com/Novanglus96/LenoreSchedule/issues/19)) ([105edef](https://github.com/Novanglus96/LenoreSchedule/commit/105edef4fc60678dd137bc30f25498e59da66272))
+
 # [0.1.0-alpha.9](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.8...v0.1.0-alpha.9) (2026-04-16)
 
 
