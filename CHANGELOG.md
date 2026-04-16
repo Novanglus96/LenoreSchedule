@@ -1,3 +1,10 @@
+# [0.1.0-alpha.7](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.6...v0.1.0-alpha.7) (2026-04-16)
+
+
+### Bug Fixes
+
+* clear start_time, end_time, and location when updating to full-day entry ([#16](https://github.com/Novanglus96/LenoreSchedule/issues/16)) ([35c7317](https://github.com/Novanglus96/LenoreSchedule/commit/35c731714fdbca88da1da8285f7c6e36445c558e))
+
 # [0.1.0-alpha.6](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.5...v0.1.0-alpha.6) (2026-04-16)
 
 
