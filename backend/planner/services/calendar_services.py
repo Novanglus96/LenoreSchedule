@@ -121,17 +121,13 @@ def update_calendar_entry(
     if dto.employee_id is not None:
         calendar_entry.employee_id = dto.employee_id
 
-    if dto.start_time is not None:
-        calendar_entry.start_time = dto.start_time
-
-    if dto.end_time is not None:
-        calendar_entry.end_time = dto.end_time
+    calendar_entry.start_time = dto.start_time
+    calendar_entry.end_time = dto.end_time
 
     if dto.confirmed is not None:
         calendar_entry.confirmed = dto.confirmed
 
-    if dto.location_id is not None:
-        calendar_entry.location_id = dto.location_id
+    calendar_entry.location_id = dto.location_id
 
     if dto.entry_type is not None:
         calendar_entry.entry_type = dto.entry_type
