@@ -1,3 +1,10 @@
+# [0.1.0-alpha.15](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.14...v0.1.0-alpha.15) (2026-04-16)
+
+
+### Bug Fixes
+
+* add .dockerignore and mount logs as a named volume ([#24](https://github.com/Novanglus96/LenoreSchedule/issues/24)) ([decc51f](https://github.com/Novanglus96/LenoreSchedule/commit/decc51f861683594fc8d7dccc90c1ddd748d8749))
+
 # [0.1.0-alpha.14](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.13...v0.1.0-alpha.14) (2026-04-16)
 
 
