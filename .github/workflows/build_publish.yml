@@ -55,7 +55,7 @@ jobs:
         shell: bash
         run: |
           SLUG="$(basename "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')"
-          echo "APP_NAME=${SLUG}_app" >> $GITHUB_ENV
+          echo "APP_NAME=${SLUG}" >> $GITHUB_ENV
 
       - name: Check if Docker tag exists
         env:
