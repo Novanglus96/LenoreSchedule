@@ -1,3 +1,10 @@
+# [0.1.0-alpha.6](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.5...v0.1.0-alpha.6) (2026-04-16)
+
+
+### Features
+
+* add ScheduleTemplate model and update CalendarEntry for overrides ([#15](https://github.com/Novanglus96/LenoreSchedule/issues/15)) ([6195422](https://github.com/Novanglus96/LenoreSchedule/commit/6195422e6f7a57cadd299f742724d4a70450d81e))
+
 # [0.1.0-alpha.5](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.4...v0.1.0-alpha.5) (2026-04-16)
 
 
