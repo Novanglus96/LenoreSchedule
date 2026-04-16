@@ -16,4 +16,8 @@
 
 ### ::: planner.models.Holiday
 
+### ::: planner.models.CalendarEntry
+
+### ::: planner.models.ScheduleTemplate
+
 ### ::: options.models.PayrollInfo

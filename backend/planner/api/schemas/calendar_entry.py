@@ -1,52 +1,60 @@
 from ninja import Schema
 from datetime import date, time
+from typing import Optional
 from staff.api.schemas.employee import EmployeeOut
 from staff.api.schemas.location import LocationOut
 from decimal import Decimal
 
 
-# The class CalendaryEntryIn is a schema for validating calendar_entries.
 class CalendarEntryIn(Schema):
     """
-    Schema to validate a CalendaryEntry object.
+    Schema to validate a CalendarEntry object.
 
     Attributes:
-        employee_id (int): id of an employee object
-        calendar_date (date): date of the entry
-        start_time (time): start time
-        end_time (time): end time
-        confirmed (bool): wether confirmed or not
-        location_id (int): id of a location
+        employee_id (int): ID of the employee.
+        calendar_date (date): Date of the entry.
+        confirmed (bool): Whether the entry is confirmed.
+        entry_type (str): Type of entry (scheduled, vacation, sick, etc.).
+        start_time (time): Start of the time block. Null for full-day entries.
+        end_time (time): End of the time block. Null for full-day entries.
+        location_id (int): ID of the location. Optional.
+        notes (str): Free-text notes. Optional.
     """
 
     employee_id: int
     calendar_date: date
-    start_time: time
-    end_time: time
     confirmed: bool = False
-    location_id: int
+    entry_type: str = "scheduled"
+    start_time: Optional[time] = None
+    end_time: Optional[time] = None
+    location_id: Optional[int] = None
+    notes: Optional[str] = None
 
 
-# The class CalendaryEntryOut is a schema for representing calendar_entries.
 class CalendarEntryOut(Schema):
     """
-    Schema to represent a CalendaryEntry object.
+    Schema to represent a CalendarEntry object.
 
     Attributes:
-        id (int): id of the calendar entry
+        id (int): ID of the calendar entry.
         employee (EmployeeOut): Employee object.
-        calendar_date (date): date of the entry
-        start_time (time): start time
-        end_time (time): end time
-        confirmed (bool): wether confirmed or not
-        location (LocationOut): location object
+        calendar_date (date): Date of the entry.
+        confirmed (bool): Whether the entry is confirmed.
+        entry_type (str): Type of entry.
+        start_time (time): Start of the time block. Null for full-day entries.
+        end_time (time): End of the time block. Null for full-day entries.
+        location (LocationOut): Location object. Optional.
+        hours (Decimal): Calculated hours for the block. Optional.
+        notes (str): Free-text notes. Optional.
     """
 
     id: int
     employee: EmployeeOut
     calendar_date: date
-    start_time: time
-    end_time: time
     confirmed: bool = False
-    location: LocationOut
-    hours: Decimal
+    entry_type: str = "scheduled"
+    start_time: Optional[time] = None
+    end_time: Optional[time] = None
+    location: Optional[LocationOut] = None
+    hours: Optional[Decimal] = None
+    notes: Optional[str] = None

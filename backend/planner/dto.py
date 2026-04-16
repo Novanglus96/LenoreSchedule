@@ -33,18 +33,41 @@ class DomainCalendarEntry:
     id: int
     employee: DomainEmployee
     calendar_date: date
-    start_time: time
-    end_time: time
     confirmed: bool
-    location: DomainLocation
-    hours: Decimal
+    entry_type: str
+    start_time: Optional[time] = None
+    end_time: Optional[time] = None
+    location: Optional[DomainLocation] = None
+    hours: Optional[Decimal] = None
+    notes: Optional[str] = None
 
 
 @dataclass(frozen=True)
 class DomainCalendarEntryIn:
     employee_id: int
     calendar_date: date
+    confirmed: bool
+    entry_type: str = "scheduled"
+    start_time: Optional[time] = None
+    end_time: Optional[time] = None
+    location_id: Optional[int] = None
+    notes: Optional[str] = None
+
+
+@dataclass
+class DomainScheduleTemplate:
+    id: int
+    employee: DomainEmployee
+    day_of_week: int
     start_time: time
     end_time: time
-    confirmed: bool
-    location_id: int
+    location: Optional[DomainLocation] = None
+
+
+@dataclass(frozen=True)
+class DomainScheduleTemplateIn:
+    employee_id: int
+    day_of_week: int
+    start_time: time
+    end_time: time
+    location_id: Optional[int] = None
