@@ -12,6 +12,10 @@ fi
 
 cd /home/app/web
 
+# Ensure the app user owns the logs directory, even if the volume was
+# created by an older container run as root.
+chown -R app:app /home/app/web/logs
+
 python manage.py migrate --no-input
 python manage.py collectstatic --no-input
 
