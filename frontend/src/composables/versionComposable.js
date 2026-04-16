@@ -1,19 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/vue-query";
-import axios from "axios";
+import api from "@/api";
 import { useMainStore } from "@/stores/main";
-import { useApiKey } from "./useApiKey";
-
-const apiKey = useApiKey();
-
-const apiClient = axios.create({
-  baseURL: "/api/v1",
-  withCredentials: false,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${apiKey}`,
-  },
-});
 
 async function handleApiError(error, message) {
   const mainstore = useMainStore();
@@ -21,7 +8,7 @@ async function handleApiError(error, message) {
 
   if (!backendHealthy) {
     console.warn("Backend is not healthy. Suppressing error.");
-    return null; // or return undefined
+    return null;
   }
   if (error.response) {
     console.error("Response error:", error.response.data);
@@ -38,7 +25,7 @@ async function handleApiError(error, message) {
 
 async function getVersionFunction() {
   try {
-    const response = await apiClient.get("/options/version/list");
+    const response = await api.get("/options/version/list");
     return response.data;
   } catch (error) {
     return await handleApiError(error, "Version not fetched: ");
@@ -70,10 +57,10 @@ export function useVersion() {
 
 async function isBackendHealthy() {
   try {
-    const response = await apiClient.get("/options/health/");
+    const response = await api.get("/options/health/");
     return response?.data?.status === "ok";
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return true;
   }
 }

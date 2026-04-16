@@ -14,7 +14,7 @@ task_logger = logging.getLogger("task")
 version_router = Router(tags=["Version"])
 
 
-@version_router.get("/list", response=VersionOut)
+@version_router.get("/list", response=VersionOut, auth=None)
 def list_version(request):
     """
     The function `list_version` retrieves the version.
