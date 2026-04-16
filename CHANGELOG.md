@@ -1,3 +1,10 @@
+# [0.1.0-alpha.13](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.12...v0.1.0-alpha.13) (2026-04-16)
+
+
+### Bug Fixes
+
+* rename Docker image from lenoreschedule_app to lenoreschedule ([#22](https://github.com/Novanglus96/LenoreSchedule/issues/22)) ([0ffc70d](https://github.com/Novanglus96/LenoreSchedule/commit/0ffc70d517904796d07024db85e7a6a7d123ae66))
+
 # [0.1.0-alpha.12](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.11...v0.1.0-alpha.12) (2026-04-16)
 
 
