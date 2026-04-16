@@ -4,6 +4,7 @@ import api from "@/api";
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     user: null, // { username, is_staff, divisions: [id, ...] }
+    initialized: false, // true once fetchMe() has completed at least once
   }),
 
   getters: {
@@ -20,6 +21,8 @@ export const useAuthStore = defineStore("auth", {
         this.user = data;
       } catch {
         this.user = null;
+      } finally {
+        this.initialized = true;
       }
     },
 
