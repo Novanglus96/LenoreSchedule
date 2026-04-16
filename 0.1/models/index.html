@@ -619,6 +619,62 @@ version.
 </li>
       
         <li class="md-nav__item">
+  <a href="#planner.models.CalendarEntry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CalendarEntry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CalendarEntry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planner.models.CalendarEntry.__str__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __str__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planner.models.ScheduleTemplate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ScheduleTemplate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ScheduleTemplate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planner.models.ScheduleTemplate.__str__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __str__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#options.models.PayrollInfo" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -963,6 +1019,62 @@ version.
         
           <li class="md-nav__item">
   <a href="#planner.models.Holiday.__str__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __str__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planner.models.CalendarEntry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CalendarEntry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CalendarEntry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planner.models.CalendarEntry.__str__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __str__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planner.models.ScheduleTemplate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ScheduleTemplate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ScheduleTemplate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planner.models.ScheduleTemplate.__str__" class="md-nav__link">
     <span class="md-ellipsis">
       
         __str__
@@ -2526,6 +2638,548 @@ Optional. Default None.</p>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
 <span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">holiday_name</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="planner.models.CalendarEntry" class="doc doc-heading">
+            <code>CalendarEntry</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Model representing a calendar entry (override or manual shift).</p>
+<p>CalendarEntries layer on top of ScheduleTemplates. A full-day absence
+(vacation, sick, etc.) leaves start_time, end_time, and location null.
+A partial override covers a specific time block within a day.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.CalendarEntry.employee">employee</span></code></td>
+            <td>
+                  <code><span title="ForeignKey">ForeignKey</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The employee this entry belongs to.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.CalendarEntry.calendar_date">calendar_date</span></code></td>
+            <td>
+                  <code><span title="DateField">DateField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The date of the entry.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.CalendarEntry.start_time">start_time</span></code></td>
+            <td>
+                  <code><span title="TimeField">TimeField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Start of the time block. Null for full-day entries.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.CalendarEntry.end_time">end_time</span></code></td>
+            <td>
+                  <code><span title="TimeField">TimeField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>End of the time block. Null for full-day entries.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.CalendarEntry.confirmed">confirmed</span></code></td>
+            <td>
+                  <code><span title="BooleanField">BooleanField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether this entry has been confirmed.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.CalendarEntry.location">location</span></code></td>
+            <td>
+                  <code><span title="ForeignKey">ForeignKey</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Where the employee is working. Optional.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.CalendarEntry.entry_type">entry_type</span></code></td>
+            <td>
+                  <code><span title="CharField">CharField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The type of entry (scheduled, vacation, sick, etc.).</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.CalendarEntry.notes">notes</span></code></td>
+            <td>
+                  <code><span title="TextField">TextField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional free-text notes for the entry.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>backend/planner/models.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CalendarEntry</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Model representing a calendar entry (override or manual shift).</span>
+
+<span class="sd">    CalendarEntries layer on top of ScheduleTemplates. A full-day absence</span>
+<span class="sd">    (vacation, sick, etc.) leaves start_time, end_time, and location null.</span>
+<span class="sd">    A partial override covers a specific time block within a day.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        employee (ForeignKey): The employee this entry belongs to.</span>
+<span class="sd">        calendar_date (DateField): The date of the entry.</span>
+<span class="sd">        start_time (TimeField): Start of the time block. Null for full-day entries.</span>
+<span class="sd">        end_time (TimeField): End of the time block. Null for full-day entries.</span>
+<span class="sd">        confirmed (BooleanField): Whether this entry has been confirmed.</span>
+<span class="sd">        location (ForeignKey): Where the employee is working. Optional.</span>
+<span class="sd">        entry_type (CharField): The type of entry (scheduled, vacation, sick, etc.).</span>
+<span class="sd">        notes (TextField): Optional free-text notes for the entry.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ENTRY_TYPE_CHOICES</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;scheduled&quot;</span><span class="p">,</span> <span class="s2">&quot;Scheduled&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;vacation&quot;</span><span class="p">,</span> <span class="s2">&quot;Vacation&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;sick&quot;</span><span class="p">,</span> <span class="s2">&quot;Sick&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;holiday&quot;</span><span class="p">,</span> <span class="s2">&quot;Holiday&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;floating_holiday&quot;</span><span class="p">,</span> <span class="s2">&quot;Floating Holiday&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;personal&quot;</span><span class="p">,</span> <span class="s2">&quot;Personal&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;overtime&quot;</span><span class="p">,</span> <span class="s2">&quot;Overtime&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;swap&quot;</span><span class="p">,</span> <span class="s2">&quot;Shift Swap&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">employee</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Employee</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+    <span class="n">calendar_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">confirmed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">Location</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">entry_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">ENTRY_TYPE_CHOICES</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;scheduled&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="s2">&quot;Calendar Entry&quot;</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s2">&quot;Calendar Entries&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">calendar_date</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">employee</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">employee</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="planner.models.CalendarEntry.__str__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__str__</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>backend/planner/models.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
+<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">calendar_date</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">employee</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">employee</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="planner.models.ScheduleTemplate" class="doc doc-heading">
+            <code>ScheduleTemplate</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Model representing one time block in an employee's typical weekly schedule.</p>
+<p>Multiple blocks per day are supported (e.g. 10am-2pm and 4pm-6pm on Monday).
+Days with no ScheduleTemplate rows are treated as days off.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.ScheduleTemplate.employee">employee</span></code></td>
+            <td>
+                  <code><span title="ForeignKey">ForeignKey</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The employee this template belongs to.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.ScheduleTemplate.day_of_week">day_of_week</span></code></td>
+            <td>
+                  <code><span title="PositiveSmallIntegerField">PositiveSmallIntegerField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Day of the week (0=Monday … 6=Sunday).</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.ScheduleTemplate.start_time">start_time</span></code></td>
+            <td>
+                  <code><span title="TimeField">TimeField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Start of the block.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.ScheduleTemplate.end_time">end_time</span></code></td>
+            <td>
+                  <code><span title="TimeField">TimeField</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>End of the block.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="planner.models.ScheduleTemplate.location">location</span></code></td>
+            <td>
+                  <code><span title="ForeignKey">ForeignKey</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Where the employee works during this block. Optional.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>backend/planner/models.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ScheduleTemplate</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Model representing one time block in an employee&#39;s typical weekly schedule.</span>
+
+<span class="sd">    Multiple blocks per day are supported (e.g. 10am-2pm and 4pm-6pm on Monday).</span>
+<span class="sd">    Days with no ScheduleTemplate rows are treated as days off.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        employee (ForeignKey): The employee this template belongs to.</span>
+<span class="sd">        day_of_week (PositiveSmallIntegerField): Day of the week (0=Monday … 6=Sunday).</span>
+<span class="sd">        start_time (TimeField): Start of the block.</span>
+<span class="sd">        end_time (TimeField): End of the block.</span>
+<span class="sd">        location (ForeignKey): Where the employee works during this block. Optional.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">DAY_OF_WEEK_CHOICES</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Monday&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Tuesday&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Wednesday&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Thursday&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;Friday&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;Saturday&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;Sunday&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">employee</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">Employee</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;schedule_templates&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">day_of_week</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="n">DAY_OF_WEEK_CHOICES</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TimeField</span><span class="p">()</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TimeField</span><span class="p">()</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">Location</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="s2">&quot;Schedule Template&quot;</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s2">&quot;Schedule Templates&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">days</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Monday&quot;</span><span class="p">,</span> <span class="s2">&quot;Tuesday&quot;</span><span class="p">,</span> <span class="s2">&quot;Wednesday&quot;</span><span class="p">,</span> <span class="s2">&quot;Thursday&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Friday&quot;</span><span class="p">,</span> <span class="s2">&quot;Saturday&quot;</span><span class="p">,</span> <span class="s2">&quot;Sunday&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">employee</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">days</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">day_of_week</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="planner.models.ScheduleTemplate.__str__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__str__</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>backend/planner/models.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">days</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;Monday&quot;</span><span class="p">,</span> <span class="s2">&quot;Tuesday&quot;</span><span class="p">,</span> <span class="s2">&quot;Wednesday&quot;</span><span class="p">,</span> <span class="s2">&quot;Thursday&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Friday&quot;</span><span class="p">,</span> <span class="s2">&quot;Saturday&quot;</span><span class="p">,</span> <span class="s2">&quot;Sunday&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">employee</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">days</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">day_of_week</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
