@@ -1,3 +1,10 @@
+# [0.1.0-alpha.8](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.7...v0.1.0-alpha.8) (2026-04-16)
+
+
+### Features
+
+* add SQLite compose profile for postgres-free dev ([#17](https://github.com/Novanglus96/LenoreSchedule/issues/17)) ([d71abbf](https://github.com/Novanglus96/LenoreSchedule/commit/d71abbf09355d8277633f269cc5f5213fe23532a))
+
 # [0.1.0-alpha.7](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.6...v0.1.0-alpha.7) (2026-04-16)
 
 
