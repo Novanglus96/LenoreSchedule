@@ -6277,7 +6277,8 @@ entry_type only.</p>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
-<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_calendar_entry</span><span class="p">(</span>
+<span class="normal">143</span>
+<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_calendar_entry</span><span class="p">(</span>
     <span class="n">calendar_entry_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dto</span><span class="p">:</span> <span class="n">DomainCalendarEntryIn</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainCalendarEntry</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -6310,17 +6311,18 @@ entry_type only.</p>
     <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">employee_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">calendar_entry</span><span class="o">.</span><span class="n">employee_id</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">employee_id</span>
 
-    <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">start_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">calendar_entry</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">start_time</span>
-
-    <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">end_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">calendar_entry</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">end_time</span>
+    <span class="n">calendar_entry</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">start_time</span>
+    <span class="n">calendar_entry</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">end_time</span>
 
     <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">confirmed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">calendar_entry</span><span class="o">.</span><span class="n">confirmed</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">confirmed</span>
 
-    <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">location_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">calendar_entry</span><span class="o">.</span><span class="n">location_id</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">location_id</span>
+    <span class="n">calendar_entry</span><span class="o">.</span><span class="n">location_id</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">location_id</span>
+
+    <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">entry_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">calendar_entry</span><span class="o">.</span><span class="n">entry_type</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">entry_type</span>
+
+    <span class="n">calendar_entry</span><span class="o">.</span><span class="n">notes</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">notes</span>
 
     <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">entry_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">calendar_entry</span><span class="o">.</span><span class="n">entry_type</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">entry_type</span>
@@ -6375,8 +6377,7 @@ entry_type only.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/planner/services/calendar_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
-<span class="normal">147</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
@@ -6399,7 +6400,8 @@ entry_type only.</p>
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_calendar</span><span class="p">(</span>
+<span class="normal">170</span>
+<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_calendar</span><span class="p">(</span>
     <span class="n">timeframe</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">employee_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DomainCalendarEntry</span><span class="p">]:</span>
@@ -6500,8 +6502,7 @@ entry_type only.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/planner/services/calendar_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">173</span>
-<span class="normal">174</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
 <span class="normal">177</span>
@@ -6514,7 +6515,8 @@ entry_type only.</p>
 <span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
-<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">delete_calendar_entry</span><span class="p">(</span><span class="n">calendar_entry_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">187</span>
+<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">delete_calendar_entry</span><span class="p">(</span><span class="n">calendar_entry_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `delete_calendar_entry` deletes a calendar_entry and returns the deleted calendar_entry name.</span>
 
