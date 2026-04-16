@@ -17,6 +17,11 @@ cd /home/app/web
 chown -R app:app /home/app/web/logs
 
 python manage.py migrate --no-input
+
+# If using SQLite, the db file is created by migrate (running as root).
+# Chown it so the app user can write to it.
+chown app:app /home/app/web/db.sqlite3 2>/dev/null || true
+
 python manage.py collectstatic --no-input
 
 if [ "$DJANGO_SUPERUSER_USERNAME" ]; then
