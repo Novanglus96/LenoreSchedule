@@ -1,0 +1,37 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    networks:
+      - default
+    restart: unless-stopped
+    ports:
+      - 8081:5173
+    image: lenoreschedule_frontend:development
+    container_name: lenoreschedule_frontend_dev
+    volumes:
+      - ./frontend:/app
+    environment:
+      - NODE_ENV=development
+      - TZ=America/New_York
+    command: /bin/sh -c "npm run serve"
+    env_file:
+      - ./.env.sqlite
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    command: /usr/src/app/start.dev.sh
+    env_file:
+      - ./.env.sqlite
+    volumes:
+      - ./backend:/usr/src/app
+      - ./backups:/backups
+    environment:
+      - DEBUG=1
+    ports:
+      - 8001:8001
+      - 8002:8002
+    image: lenoreschedule_backend:development
+    container_name: lenoreschedule_backend_dev
