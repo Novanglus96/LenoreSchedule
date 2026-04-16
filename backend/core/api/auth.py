@@ -98,9 +98,15 @@ def me(request):
         request (HttpRequest): The HTTP request object.
 
     Returns:
-        (dict): {'username': username, 'is_staff': boolean} if successful
+        (dict): {'username': username, 'is_staff': boolean, 'divisions': [id, ...]}
     """
+    divisions = []
+    if hasattr(request.user, "profile"):
+        divisions = list(
+            request.user.profile.divisions.values_list("id", flat=True)
+        )
     return {
         "username": request.user.username,
         "is_staff": request.user.is_staff,
+        "divisions": divisions,
     }
