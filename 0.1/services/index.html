@@ -4678,7 +4678,7 @@ not exist.</p>
 
 
 <h3 id="staff.services.employee_services.get_employee" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">get_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">,</span> <span class="n">divisions</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
@@ -4713,6 +4713,22 @@ not exist.</p>
             </td>
             <td>
                 <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>divisions</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional Division queryset. When provided, raises
+EmployeeDoesNotExist if the employee's division is not in the set.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
             </td>
           </tr>
       </tbody>
@@ -4756,17 +4772,27 @@ not exist.</p>
 <span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
-<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainEmployee</span><span class="p">:</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">divisions</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainEmployee</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `get_employee` returns a domain employee object.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        employee_id (int): ID of the employee to get.</span>
+<span class="sd">        divisions: Optional Division queryset. When provided, raises</span>
+<span class="sd">            EmployeeDoesNotExist if the employee&#39;s division is not in the set.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        DomainEmployee: The domain employee object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">employee</span> <span class="o">=</span> <span class="n">get_employee_model_or_raise</span><span class="p">(</span><span class="n">employee_id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">divisions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">divisions</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">employee</span><span class="o">.</span><span class="n">division_id</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="n">EmployeeDoesNotExist</span><span class="p">(</span><span class="n">employee_id</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">model_to_domain_employee</span><span class="p">(</span><span class="n">employee</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -4779,7 +4805,7 @@ not exist.</p>
 
 
 <h3 id="staff.services.employee_services.get_ordered_list_of_employees" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_ordered_list_of_employees</span><span class="p">()</span></code>
+            <code class="highlight language-python"><span class="n">get_ordered_list_of_employees</span><span class="p">(</span><span class="n">divisions</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
@@ -4788,6 +4814,37 @@ not exist.</p>
 
         <p><code>get_ordered_list_of_employees</code> gets a list of domain employee objects, ordered
 by last_name ascending, first_name ascending, id ascending.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>divisions</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional Division queryset. When provided, only employees
+belonging to those divisions are returned.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -4815,27 +4872,39 @@ by last_name ascending, first_name ascending, id ascending.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/staff/services/employee_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_ordered_list_of_employees</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DomainEmployee</span><span class="p">]:</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_ordered_list_of_employees</span><span class="p">(</span><span class="n">divisions</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DomainEmployee</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `get_ordered_list_of_employees` gets a list of domain employee objects, ordered</span>
 <span class="sd">    by last_name ascending, first_name ascending, id ascending.</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        divisions: Optional Division queryset. When provided, only employees</span>
+<span class="sd">            belonging to those divisions are returned.</span>
+
 <span class="sd">    Returns:</span>
 <span class="sd">        List[DomainEmployee]: A list of domain employee objects.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">employees</span> <span class="o">=</span> <span class="n">Employee</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;last_name&quot;</span><span class="p">,</span> <span class="s2">&quot;first_name&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">)</span>
+    <span class="n">qs</span> <span class="o">=</span> <span class="n">Employee</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">divisions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">qs</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">division__in</span><span class="o">=</span><span class="n">divisions</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="p">[</span><span class="n">model_to_domain_employee</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">model_to_domain_employee</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">qs</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;last_name&quot;</span><span class="p">,</span> <span class="s2">&quot;first_name&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">)]</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -4912,21 +4981,21 @@ by last_name ascending, first_name ascending, id ascending.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/staff/services/employee_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
-<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">delete_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">delete_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `delete_employee` deletes a employee and returns the deleted employee name.</span>
 
@@ -6342,14 +6411,77 @@ entry_type only.</p>
 
 
 <h3 id="planner.services.calendar_services.get_calendar" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_calendar</span><span class="p">(</span><span class="n">timeframe</span><span class="p">,</span> <span class="n">employee_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">get_calendar</span><span class="p">(</span><span class="n">timeframe</span><span class="p">,</span> <span class="n">employee_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">divisions</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
 
     <div class="doc doc-contents first">
 
-        <p><code>get_calendar</code> returns the entire calendar and optionally filters by employee</p>
+        <p><code>get_calendar</code> returns the calendar, optionally filtered by employee and/or divisions.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>timeframe</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>"last", "current", or "next" year.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>employee_id</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Restrict to a single employee.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>divisions</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional Division queryset. When provided, only entries for
+employees belonging to those divisions are returned.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -6401,12 +6533,29 @@ entry_type only.</p>
 <span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
-<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_calendar</span><span class="p">(</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_calendar</span><span class="p">(</span>
     <span class="n">timeframe</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">employee_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">divisions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DomainCalendarEntry</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    `get_calendar` returns the entire calendar and optionally filters by employee</span>
+<span class="sd">    `get_calendar` returns the calendar, optionally filtered by employee and/or divisions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        timeframe (str): &quot;last&quot;, &quot;current&quot;, or &quot;next&quot; year.</span>
+<span class="sd">        employee_id (Optional[int]): Restrict to a single employee.</span>
+<span class="sd">        divisions: Optional Division queryset. When provided, only entries for</span>
+<span class="sd">            employees belonging to those divisions are returned.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List[DomainCalendarEntry]: A list of domain calendar_entry objects.</span>
@@ -6420,12 +6569,15 @@ entry_type only.</p>
         <span class="n">year</span> <span class="o">=</span> <span class="n">last_year</span>
     <span class="k">if</span> <span class="n">timeframe</span> <span class="o">==</span> <span class="s2">&quot;next&quot;</span><span class="p">:</span>
         <span class="n">year</span> <span class="o">=</span> <span class="n">next_year</span>
-    <span class="n">calendar_entries</span> <span class="o">=</span> <span class="n">CalendarEntry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-        <span class="n">calendar_date__year</span><span class="o">=</span><span class="n">year</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;calendar_date&quot;</span><span class="p">)</span>
+    <span class="n">calendar_entries</span> <span class="o">=</span> <span class="n">CalendarEntry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">calendar_date__year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">divisions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">calendar_entries</span> <span class="o">=</span> <span class="n">calendar_entries</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">employee__division__in</span><span class="o">=</span><span class="n">divisions</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">employee_id</span><span class="p">:</span>
         <span class="n">calendar_entries</span> <span class="o">=</span> <span class="n">calendar_entries</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">employee_id</span><span class="o">=</span><span class="n">employee_id</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">model_to_domain_calendar_entry</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">calendar_entries</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">model_to_domain_calendar_entry</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">calendar_entries</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s2">&quot;calendar_date&quot;</span><span class="p">)</span>
+    <span class="p">]</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -6502,21 +6654,21 @@ entry_type only.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/planner/services/calendar_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
-<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">delete_calendar_entry</span><span class="p">(</span><span class="n">calendar_entry_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">delete_calendar_entry</span><span class="p">(</span><span class="n">calendar_entry_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `delete_calendar_entry` deletes a calendar_entry and returns the deleted calendar_entry name.</span>
 
