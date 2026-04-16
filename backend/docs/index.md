@@ -115,7 +115,7 @@ Create a `docker-compose.yml` file in the root directory of the project. Below i
 ```yaml
 services:
   app:
-    image: novanglus96/lenoreschedule_app:latest
+    image: novanglus96/lenoreschedule:latest
     container_name: lenoreschedule_app
     volumes:
       - static_volume:/home/app/web/staticfiles

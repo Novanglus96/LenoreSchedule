@@ -17,7 +17,7 @@ services:
       - ./.env
     environment:
       - TZ=${TIMEZONE}
-    image: lenoreschedule_app:production
+    image: lenoreschedule:production
     container_name: lenoreschedule_app
     restart: unless-stopped
 
