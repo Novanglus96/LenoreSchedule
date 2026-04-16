@@ -1,3 +1,10 @@
+# [0.1.0-alpha.14](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.13...v0.1.0-alpha.14) (2026-04-16)
+
+
+### Bug Fixes
+
+* create logs directory in Dockerfile so gunicorn app user can write to it ([#23](https://github.com/Novanglus96/LenoreSchedule/issues/23)) ([7bd5cc6](https://github.com/Novanglus96/LenoreSchedule/commit/7bd5cc6fbb38915bfe1c685f31b71da97833b30b))
+
 # [0.1.0-alpha.13](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.12...v0.1.0-alpha.13) (2026-04-16)
 
 
