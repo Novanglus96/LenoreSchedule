@@ -1,3 +1,10 @@
+# [0.1.0-alpha.5](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.4...v0.1.0-alpha.5) (2026-04-16)
+
+
+### Features
+
+* created payroll info model and services/apis ([#14](https://github.com/Novanglus96/LenoreSchedule/issues/14)) ([8ce5f35](https://github.com/Novanglus96/LenoreSchedule/commit/8ce5f35ea5df529f64af0a874f676dae566a79bb))
+
 # [0.1.0-alpha.4](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.3...v0.1.0-alpha.4) (2026-02-04)
 
 
