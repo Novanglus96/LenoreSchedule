@@ -1,3 +1,10 @@
+# [0.1.0-alpha.11](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.10...v0.1.0-alpha.11) (2026-04-16)
+
+
+### Bug Fixes
+
+* resolve auth before routing to prevent login redirect on page reload ([#20](https://github.com/Novanglus96/LenoreSchedule/issues/20)) ([b03d249](https://github.com/Novanglus96/LenoreSchedule/commit/b03d249e636c787dd0771fe04abf1b7bce2abab6))
+
 # [0.1.0-alpha.10](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.9...v0.1.0-alpha.10) (2026-04-16)
 
 
