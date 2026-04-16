@@ -1,3 +1,10 @@
+# [0.1.0-alpha.17](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.16...v0.1.0-alpha.17) (2026-04-16)
+
+
+### Bug Fixes
+
+* chown sqlite db file after migrate so app user can write to it ([#26](https://github.com/Novanglus96/LenoreSchedule/issues/26)) ([84a3255](https://github.com/Novanglus96/LenoreSchedule/commit/84a32555fa3bf6571164c90acbf28bbb76726d35))
+
 # [0.1.0-alpha.16](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.15...v0.1.0-alpha.16) (2026-04-16)
 
 
