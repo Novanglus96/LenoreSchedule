@@ -30,6 +30,9 @@ const router = createRouter({
 router.beforeEach((to) => {
   const authStore = useAuthStore();
 
+  // Auth hasn't been resolved yet — App.vue will redirect after fetchMe() completes
+  if (!authStore.initialized) return;
+
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return { name: "login", query: { redirect: to.fullPath } };
   }

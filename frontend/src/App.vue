@@ -65,16 +65,28 @@ import { onMounted, computed, ref, watch, onUnmounted } from "vue";
 import { useVersion } from "@/composables/versionComposable";
 import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
 import { useBackendReady } from "@/composables/useBackendReady";
+import { useRouter, useRoute } from "vue-router";
 import LogoLoader from "./components/LogoLoader.vue";
 
 const { backendReady } = useBackendReady();
 const authStore = useAuthStore();
+const router = useRouter();
+const route = useRoute();
 const appReady = ref(false);
 
-// After the backend is confirmed up, resolve auth state before showing the app
+// After the backend is confirmed up, resolve auth state then redirect if needed
+// before revealing the app — prevents the login flash on page reload
 watch(backendReady, async (ready) => {
   if (ready) {
     await authStore.fetchMe();
+
+    if (route.meta?.requiresAuth && !authStore.isAuthenticated) {
+      await router.replace({ name: "login", query: { redirect: route.fullPath } });
+    } else if (route.name === "login" && authStore.isAuthenticated) {
+      const dest = route.query.redirect || "/";
+      await router.replace(dest);
+    }
+
     appReady.value = true;
   }
 });
