@@ -20,7 +20,7 @@
 
     <!-- Authenticated layout -->
     <template v-else>
-      <VueQueryDevtools button-position="bottom-left" />
+      <VueQueryDevtools v-if="isDev" button-position="bottom-left" />
       <AppNavigationVue />
       <v-main>
         <v-container class="bg-background h-100" fluid>
@@ -73,6 +73,7 @@ const authStore = useAuthStore();
 const router = useRouter();
 const route = useRoute();
 const appReady = ref(false);
+const isDev = import.meta.env.DEV;
 
 // After the backend is confirmed up, resolve auth state then redirect if needed
 // before revealing the app — prevents the login flash on page reload
