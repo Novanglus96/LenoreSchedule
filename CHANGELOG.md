@@ -1,3 +1,10 @@
+# [0.1.0-alpha.23](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.22...v0.1.0-alpha.23) (2026-04-17)
+
+
+### Bug Fixes
+
+* replace deprecated django-allauth account settings ([#34](https://github.com/Novanglus96/LenoreSchedule/issues/34)) ([edbb26d](https://github.com/Novanglus96/LenoreSchedule/commit/edbb26d11c58fdbe8b032cb2617af0031d75bcd3))
+
 # [0.1.0-alpha.22](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.21...v0.1.0-alpha.22) (2026-04-17)
 
 
