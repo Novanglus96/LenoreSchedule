@@ -1,3 +1,10 @@
+# [0.1.0-alpha.20](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.19...v0.1.0-alpha.20) (2026-04-17)
+
+
+### Bug Fixes
+
+* remove proxy_intercept_errors from nginx to allow admin redirects through ([#30](https://github.com/Novanglus96/LenoreSchedule/issues/30)) ([b926211](https://github.com/Novanglus96/LenoreSchedule/commit/b9262114fe18c014cd8ba670261843df105c418d))
+
 # [0.1.0-alpha.19](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.18...v0.1.0-alpha.19) (2026-04-17)
 
 
