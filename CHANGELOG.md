@@ -1,3 +1,10 @@
+# [0.1.0-alpha.22](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.21...v0.1.0-alpha.22) (2026-04-17)
+
+
+### Bug Fixes
+
+* chown logs after management commands to prevent gunicorn permission error ([#33](https://github.com/Novanglus96/LenoreSchedule/issues/33)) ([3040f84](https://github.com/Novanglus96/LenoreSchedule/commit/3040f843796c010089b66a5a224771b8e955018c))
+
 # [0.1.0-alpha.21](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.20...v0.1.0-alpha.21) (2026-04-17)
 
 
