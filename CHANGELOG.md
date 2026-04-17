@@ -1,3 +1,10 @@
+# [0.1.0-alpha.19](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.18...v0.1.0-alpha.19) (2026-04-17)
+
+
+### Bug Fixes
+
+* match /admin without trailing slash in nginx to prevent SPA fallback ([#29](https://github.com/Novanglus96/LenoreSchedule/issues/29)) ([af627ad](https://github.com/Novanglus96/LenoreSchedule/commit/af627ad65f8545b4b68ce4fcf8500cf78efd72b8))
+
 # [0.1.0-alpha.18](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.17...v0.1.0-alpha.18) (2026-04-17)
 
 
