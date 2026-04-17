@@ -1,3 +1,10 @@
+# [0.1.0-alpha.21](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.20...v0.1.0-alpha.21) (2026-04-17)
+
+
+### Bug Fixes
+
+* align single-container nginx and supervisord config with LenoreChore ([#32](https://github.com/Novanglus96/LenoreSchedule/issues/32)) ([34a892d](https://github.com/Novanglus96/LenoreSchedule/commit/34a892dc561e442de5659dc0e0d7ffb461ed3926))
+
 # [0.1.0-alpha.20](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.19...v0.1.0-alpha.20) (2026-04-17)
 
 
