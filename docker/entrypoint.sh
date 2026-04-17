@@ -12,10 +12,6 @@ fi
 
 cd /home/app/web
 
-# Ensure the app user owns the logs directory, even if the volume was
-# created by an older container run as root.
-chown -R app:app /home/app/web/logs
-
 python manage.py migrate --no-input
 
 # If using SQLite, the db file is created by migrate (running as root).
@@ -32,5 +28,9 @@ if [ "$DJANGO_SUPERUSER_USERNAME" ]; then
 fi
 
 python manage.py load_version_fixture
+
+# Re-chown logs after management commands (they run as root and create log
+# files that gunicorn's app user would otherwise be unable to write to).
+chown -R app:app /home/app/web/logs
 
 exec supervisord -c /etc/supervisord.conf
