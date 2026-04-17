@@ -1,3 +1,10 @@
+# [0.1.0-alpha.18](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.17...v0.1.0-alpha.18) (2026-04-17)
+
+
+### Bug Fixes
+
+* hide VueQueryDevtools in production builds ([#28](https://github.com/Novanglus96/LenoreSchedule/issues/28)) ([3857701](https://github.com/Novanglus96/LenoreSchedule/commit/38577011f12d9a7b9173e1bdbbf61776ed865be0))
+
 # [0.1.0-alpha.17](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.16...v0.1.0-alpha.17) (2026-04-16)
 
 
