@@ -10113,7 +10113,8 @@ ordered by payroll_year descending.</p>
 <span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
-<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PayrollInfoIn</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+<span class="normal">23</span>
+<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PayrollInfoIn</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Schema to validate a PayrollInfo object.</span>
 
@@ -10130,6 +10131,7 @@ ordered by payroll_year descending.</p>
     <span class="n">payroll_frequency</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">first_day</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">second_day</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">week_start_day</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;sun&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -10248,6 +10250,17 @@ ordered by payroll_year descending.</p>
               </div>
             </td>
           </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="options.api.schemas.payroll_info.PayrollInfoOut.week_start_day">week_start_day</span></code></td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The day weeks start on (sun/mon). Default sun.</p>
+              </div>
+            </td>
+          </tr>
       </tbody>
     </table>
 
@@ -10260,8 +10273,7 @@ ordered by payroll_year descending.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>backend/options/api/schemas/payroll_info.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
-<span class="normal">28</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
@@ -10278,7 +10290,10 @@ ordered by payroll_year descending.</p>
 <span class="normal">42</span>
 <span class="normal">43</span>
 <span class="normal">44</span>
-<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PayrollInfoOut</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PayrollInfoOut</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Schema to represent a PayrollInfo object.</span>
 
@@ -10289,6 +10304,7 @@ ordered by payroll_year descending.</p>
 <span class="sd">        payroll_frequency (str): The frequencey of paychecks for a payroll.</span>
 <span class="sd">        first_day (int): The first day of a fixed date / multi-pay month. Optional.</span>
 <span class="sd">        seond_day (int): The scond day of a multi-pay month. Optional.</span>
+<span class="sd">        week_start_day (str): The day weeks start on (sun/mon). Default sun.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
@@ -10297,6 +10313,7 @@ ordered by payroll_year descending.</p>
     <span class="n">payroll_frequency</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">first_day</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">second_day</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">week_start_day</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;sun&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
 

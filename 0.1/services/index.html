@@ -5111,8 +5111,7 @@ if not found.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/options/services/payroll_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
-<span class="normal">22</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
@@ -5128,7 +5127,8 @@ if not found.</p>
 <span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
-<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_payroll_info_model_or_raise</span><span class="p">(</span><span class="n">payroll_info_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PayrollInfo</span><span class="p">:</span>
+<span class="normal">38</span>
+<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_payroll_info_model_or_raise</span><span class="p">(</span><span class="n">payroll_info_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PayrollInfo</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `get_payroll_info_model_or_raise` gets a payroll_info or raises an error</span>
 <span class="sd">    if not found.</span>
@@ -5256,8 +5256,7 @@ not exist.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/options/services/payroll_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">41</span>
-<span class="normal">42</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
 <span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
@@ -5313,7 +5312,8 @@ not exist.</p>
 <span class="normal">95</span>
 <span class="normal">96</span>
 <span class="normal">97</span>
-<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_payroll_info</span><span class="p">(</span><span class="n">dto</span><span class="p">:</span> <span class="n">DomainPayrollInfoIn</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainPayrollInfo</span><span class="p">:</span>
+<span class="normal">98</span>
+<span class="normal">99</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_payroll_info</span><span class="p">(</span><span class="n">dto</span><span class="p">:</span> <span class="n">DomainPayrollInfoIn</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainPayrollInfo</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `create_payroll_info` creates a payroll_info if a duplicate payroll_info does</span>
 <span class="sd">    not exist.</span>
@@ -5486,8 +5486,7 @@ not exist.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/options/services/payroll_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
-<span class="normal">102</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
@@ -5536,7 +5535,11 @@ not exist.</p>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
-<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_payroll_info</span><span class="p">(</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_payroll_info</span><span class="p">(</span>
     <span class="n">payroll_info_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dto</span><span class="p">:</span> <span class="n">DomainPayrollInfoIn</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainPayrollInfo</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -5565,6 +5568,9 @@ not exist.</p>
 
     <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">payroll_frequency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">payroll_info</span><span class="o">.</span><span class="n">payroll_frequency</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">payroll_frequency</span>
+
+    <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">week_start_day</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">payroll_info</span><span class="o">.</span><span class="n">week_start_day</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">week_start_day</span>
 
     <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">payroll_frequency</span> <span class="o">==</span> <span class="s2">&quot;monthly&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">first_day</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -5663,11 +5669,7 @@ not exist.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/options/services/payroll_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
@@ -5675,7 +5677,11 @@ not exist.</p>
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
-<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_payroll_info</span><span class="p">(</span><span class="n">payroll_info_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainPayrollInfo</span><span class="p">:</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_payroll_info</span><span class="p">(</span><span class="n">payroll_info_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainPayrollInfo</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `get_payroll_info` returns a domain payroll_info object.</span>
 
@@ -5734,17 +5740,17 @@ by payroll_year descending.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/options/services/payroll_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">173</span>
 <span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
 <span class="normal">177</span>
 <span class="normal">178</span>
-<span class="normal">179</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_ordered_list_of_payroll_infos</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DomainPayrollInfo</span><span class="p">]:</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_ordered_list_of_payroll_infos</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DomainPayrollInfo</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `get_ordered_list_of_payroll_infos` gets a list of domain payroll_info objects, ordered</span>
 <span class="sd">    by payroll_year descending.</span>
@@ -5831,11 +5837,7 @@ by payroll_year descending.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/options/services/payroll_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
 <span class="normal">189</span>
@@ -5845,7 +5847,11 @@ by payroll_year descending.</p>
 <span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
-<span class="normal">196</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">delete_payroll_info</span><span class="p">(</span><span class="n">payroll_info_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">delete_payroll_info</span><span class="p">(</span><span class="n">payroll_info_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `delete_payroll_info` deletes a payroll_info and returns the deleted payroll_info name.</span>
 
