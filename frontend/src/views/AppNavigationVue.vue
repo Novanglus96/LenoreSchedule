@@ -19,6 +19,25 @@
           :to="{ name: 'schedule' }"
         ></v-list-item>
 
+        <v-divider class="my-2" />
+
+        <v-list-subheader class="text-caption">Admin</v-list-subheader>
+        <v-list-item
+          v-if="authStore.isStaff"
+          prepend-icon="mdi-cog-outline"
+          color="selected"
+          title="Management"
+          :to="{ name: 'management' }"
+        ></v-list-item>
+        <v-list-item
+          v-if="authStore.isStaff"
+          prepend-icon="mdi-shield-crown-outline"
+          color="selected"
+          title="Django Admin"
+          href="/admin/"
+          target="_blank"
+        ></v-list-item>
+
         <v-spacer />
 
         <!-- User info + logout at the bottom -->
@@ -56,6 +75,22 @@
               color="selected"
               title="Schedule"
               :to="{ name: 'schedule' }"
+            ></v-list-item>
+            <v-divider />
+            <v-list-item
+              v-if="authStore.isStaff"
+              prepend-icon="mdi-cog-outline"
+              color="selected"
+              title="Management"
+              :to="{ name: 'management' }"
+            ></v-list-item>
+            <v-list-item
+              v-if="authStore.isStaff"
+              prepend-icon="mdi-shield-crown-outline"
+              color="selected"
+              title="Django Admin"
+              href="/admin/"
+              target="_blank"
             ></v-list-item>
             <v-divider />
             <v-list-item
