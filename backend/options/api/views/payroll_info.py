@@ -1,5 +1,5 @@
 from ninja import Router
-from options.api.schemas.payroll_info import PayrollInfoIn, PayrollInfoOut
+from options.api.schemas.payroll_info import PayrollInfoIn, PayrollInfoOut, PayrollWeekOut
 from ninja.errors import HttpError
 from typing import List
 import logging
@@ -22,6 +22,7 @@ from options.services.payroll_services import (
     get_payroll_info,
     get_ordered_list_of_payroll_infos,
     delete_payroll_info,
+    get_payroll_weeks,
 )
 
 api_logger = logging.getLogger("api")
@@ -304,3 +305,28 @@ def delete_payroll_info_endpoint(request, payroll_info_id: int):
         api_logger.error("PayrollInfo not deleted")
         error_logger.error(f"{str(e)}")
         raise HttpError(500, "PayrollInfo deletion error")
+
+
+@payroll_info_router.get("/{payroll_year}/weeks", response=List[PayrollWeekOut])
+def list_payroll_weeks(request, payroll_year: int):
+    """
+    Returns all 7-day weeks for a payroll year with labels and page indices.
+
+    Endpoint:
+        - **Path**: `/api/v1/options/payroll_infos/{payroll_year}/weeks`
+        - **Method**: `GET`
+
+    Args:
+        payroll_year (int): The payroll year to list weeks for.
+
+    Returns:
+        List[PayrollWeekOut]: Ordered list of weeks with page, week_start, week_end, label.
+    """
+    try:
+        return get_payroll_weeks(payroll_year)
+    except PayrollInfoDoesNotExist:
+        raise HttpError(404, f"No payroll info found for year {payroll_year}")
+    except Exception as e:
+        api_logger.error("Payroll weeks not retrieved")
+        error_logger.error(f"{str(e)}")
+        raise HttpError(500, "Payroll weeks not retrieved")
