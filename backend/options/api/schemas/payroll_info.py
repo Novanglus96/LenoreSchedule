@@ -21,6 +21,7 @@ class PayrollInfoIn(Schema):
     payroll_frequency: str
     first_day: Optional[int] = None
     second_day: Optional[int] = None
+    week_start_day: str = "sun"
 
 
 # The class VersionOut is a schema for representing version information.
@@ -35,6 +36,7 @@ class PayrollInfoOut(Schema):
         payroll_frequency (str): The frequencey of paychecks for a payroll.
         first_day (int): The first day of a fixed date / multi-pay month. Optional.
         seond_day (int): The scond day of a multi-pay month. Optional.
+        week_start_day (str): The day weeks start on (sun/mon). Default sun.
     """
 
     id: int
@@ -43,3 +45,4 @@ class PayrollInfoOut(Schema):
     payroll_frequency: str
     first_day: Optional[int] = None
     second_day: Optional[int] = None
+    week_start_day: str = "sun"

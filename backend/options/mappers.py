@@ -11,6 +11,7 @@ def domain_payroll_info_to_schema(payroll: DomainPayrollInfo) -> PayrollInfoOut:
         payroll_frequency=payroll.payroll_frequency,
         first_day=payroll.first_day,
         second_day=payroll.second_day,
+        week_start_day=payroll.week_start_day,
     )
 
 
@@ -21,6 +22,7 @@ def schema_to_domain_payroll_info(schema: PayrollInfoIn) -> DomainPayrollInfoIn:
         payroll_frequency=schema.payroll_frequency,
         first_day=schema.first_day,
         second_day=schema.second_day,
+        week_start_day=schema.week_start_day,
     )
 
 
@@ -31,6 +33,7 @@ def domain_payroll_info_to_model(dto: DomainPayrollInfoIn) -> PayrollInfo:
         payroll_frequency=dto.payroll_frequency,
         first_day=dto.first_day,
         second_day=dto.second_day,
+        week_start_day=dto.week_start_day,
     )
 
 
@@ -42,4 +45,5 @@ def model_to_domain_payroll_info(model: PayrollInfo) -> DomainPayrollInfo:
         payroll_frequency=model.payroll_frequency,
         first_day=model.first_day,
         second_day=model.second_day,
+        week_start_day=model.week_start_day,
     )

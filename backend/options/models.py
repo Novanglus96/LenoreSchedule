@@ -89,6 +89,14 @@ class PayrollInfo(models.Model):
     second_day = models.PositiveSmallIntegerField(
         null=True, blank=True, default=None
     )
+    week_start_day = models.CharField(
+        max_length=3,
+        choices=[
+            ("sun", "Sunday"),
+            ("mon", "Monday"),
+        ],
+        default="sun",
+    )
 
     class Meta:
         verbose_name = "Payroll Info"

@@ -14,7 +14,8 @@ from options.mappers import (
     domain_payroll_info_to_model,
     model_to_domain_payroll_info,
 )
-from typing import List
+from typing import List, Dict, Any
+from datetime import date, timedelta
 from django.core.exceptions import ValidationError
 
 
@@ -128,6 +129,9 @@ def update_payroll_info(
     if dto.payroll_frequency is not None:
         payroll_info.payroll_frequency = dto.payroll_frequency
 
+    if dto.week_start_day is not None:
+        payroll_info.week_start_day = dto.week_start_day
+
     if dto.payroll_frequency == "monthly":
         if dto.first_day is not None:
             payroll_info.first_day = dto.first_day
@@ -194,3 +198,65 @@ def delete_payroll_info(payroll_info_id: int) -> str:
 
     payroll_info.delete()
     return payroll_year
+
+
+def _week_label(freq: str, page: int, week_start: date, year: int) -> str:
+    yy = str(year)[-2:]
+    if freq == "biweekly":
+        payroll_num = (page // 2) + 1
+        week_num = (page % 2) + 1
+        return f"{payroll_num}.{week_num}.{yy}"
+    elif freq == "weekly":
+        return f"{page + 1}.{yy}"
+    elif freq == "quadriweekly":
+        payroll_num = (page // 4) + 1
+        week_num = (page % 4) + 1
+        return f"{payroll_num}.{week_num}.{yy}"
+    else:
+        week_end = week_start + timedelta(days=6)
+        return f"{week_start.strftime('%b %-d')} – {week_end.strftime('%b %-d')}"
+
+
+def get_payroll_weeks(payroll_year: int) -> List[Dict[str, Any]]:
+    """
+    `get_payroll_weeks` generates all 7-day weeks for a payroll year.
+
+    Weeks start on `payroll_start` and advance by 7 days until the week
+    start date exceeds Dec 31 of `payroll_year`.  Each entry carries a
+    human-readable label based on `payroll_frequency`:
+      - biweekly    → "2.1.26"  (payroll.week.yy)
+      - weekly      → "1.26"    (week.yy)
+      - quadriweekly→ "1.3.26"  (payroll.week.yy)
+      - others      → "Jan 5 – Jan 11"
+
+    Args:
+        payroll_year (int): The payroll year to generate weeks for.
+
+    Raises:
+        PayrollInfoDoesNotExist: No PayrollInfo found for that year.
+
+    Returns:
+        List[Dict]: Each dict has keys: page, week_start, week_end, label.
+    """
+    try:
+        payroll_info = PayrollInfo.objects.get(payroll_year=payroll_year)
+    except PayrollInfo.DoesNotExist:
+        raise PayrollInfoDoesNotExist(payroll_year)
+
+    weeks = []
+    page = 0
+    current = payroll_info.payroll_start
+    year_end = date(payroll_year, 12, 31)
+
+    while current <= year_end:
+        week_end = current + timedelta(days=6)
+        weeks.append({
+            "page": page,
+            "week_start": current,
+            "week_end": week_end,
+            "label": _week_label(payroll_info.payroll_frequency, page, current, payroll_year),
+        })
+        current += timedelta(days=7)
+        page += 1
+
+    return weeks
