@@ -10,6 +10,13 @@
           prepend-icon="mdi-view-dashboard-variant"
           color="selected"
           title="Dashboard"
+          :to="{ name: 'home' }"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-calendar-week"
+          color="selected"
+          title="Schedule"
+          :to="{ name: 'schedule' }"
         ></v-list-item>
 
         <v-spacer />
@@ -42,6 +49,13 @@
               prepend-icon="mdi-view-dashboard-variant"
               color="selected"
               title="Dashboard"
+              :to="{ name: 'home' }"
+            ></v-list-item>
+            <v-list-item
+              prepend-icon="mdi-calendar-week"
+              color="selected"
+              title="Schedule"
+              :to="{ name: 'schedule' }"
             ></v-list-item>
             <v-divider />
             <v-list-item

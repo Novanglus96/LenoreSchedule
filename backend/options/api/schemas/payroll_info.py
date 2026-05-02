@@ -3,6 +3,13 @@ from typing import Optional
 from datetime import date
 
 
+class PayrollWeekOut(Schema):
+    page: int
+    week_start: date
+    week_end: date
+    label: str
+
+
 # The class PayrollInfoIn is a schema for validating holidays.
 class PayrollInfoIn(Schema):
     """

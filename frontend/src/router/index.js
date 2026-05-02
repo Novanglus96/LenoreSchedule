@@ -20,6 +20,12 @@ const routes = [
     component: () => import("../views/AboutView.vue"),
     meta: { requiresAuth: true },
   },
+  {
+    path: "/schedule",
+    name: "schedule",
+    component: () => import("../views/WeeklyScheduleView.vue"),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({
