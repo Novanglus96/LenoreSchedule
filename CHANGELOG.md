@@ -1,3 +1,10 @@
+# [0.1.0-alpha.24](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.23...v0.1.0-alpha.24) (2026-05-02)
+
+
+### Features
+
+* add weekly division schedule endpoint with payroll week pagination ([#36](https://github.com/Novanglus96/LenoreSchedule/issues/36)) ([4c743cf](https://github.com/Novanglus96/LenoreSchedule/commit/4c743cfec8263e6238304fbec4a4c383e3cba40a))
+
 # [0.1.0-alpha.23](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.22...v0.1.0-alpha.23) (2026-04-17)
 
 
