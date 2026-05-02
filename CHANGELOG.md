@@ -1,3 +1,10 @@
+# [0.1.0-alpha.25](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.24...v0.1.0-alpha.25) (2026-05-02)
+
+
+### Features
+
+* add weekly schedule frontend with payroll weeks endpoint ([#37](https://github.com/Novanglus96/LenoreSchedule/issues/37)) ([c527967](https://github.com/Novanglus96/LenoreSchedule/commit/c5279672f0e3d4084266a5daf056fbee3a3c27c8))
+
 # [0.1.0-alpha.24](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.23...v0.1.0-alpha.24) (2026-05-02)
 
 
