@@ -1,3 +1,10 @@
+# [0.1.0-alpha.26](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.25...v0.1.0-alpha.26) (2026-05-02)
+
+
+### Features
+
+* add admin forms for entity management ([#38](https://github.com/Novanglus96/LenoreSchedule/issues/38)) ([458e4ad](https://github.com/Novanglus96/LenoreSchedule/commit/458e4ad8aca95793ebc60bbabeac5527eda204d7))
+
 # [0.1.0-alpha.25](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.24...v0.1.0-alpha.25) (2026-05-02)
 
 
