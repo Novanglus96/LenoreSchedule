@@ -9002,8 +9002,7 @@ orderd by employee name ascending.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/options/api/views/payroll_info.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
-<span class="normal"> 36</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 36</span>
 <span class="normal"> 37</span>
 <span class="normal"> 38</span>
 <span class="normal"> 39</span>
@@ -9089,7 +9088,8 @@ orderd by employee name ascending.</p>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@payroll_info_router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/create&quot;</span><span class="p">)</span>
+<span class="normal">122</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@payroll_info_router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/create&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_payroll_info_endpoint</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">PayrollInfoIn</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function `create_payroll_info_endpoint` creates a payroll_info object.</span>
@@ -9316,8 +9316,7 @@ orderd by employee name ascending.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/options/api/views/payroll_info.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
-<span class="normal">126</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
@@ -9387,7 +9386,8 @@ orderd by employee name ascending.</p>
 <span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
-<span class="normal">196</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@payroll_info_router</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;/update/</span><span class="si">{payroll_info_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="normal">196</span>
+<span class="normal">197</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@payroll_info_router</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;/update/</span><span class="si">{payroll_info_id}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">update_payroll_info_endpoint</span><span class="p">(</span>
     <span class="n">request</span><span class="p">,</span> <span class="n">payroll_info_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">PayrollInfoIn</span>
 <span class="p">):</span>
@@ -9582,8 +9582,7 @@ orderd by employee name ascending.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/options/api/views/payroll_info.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">199</span>
-<span class="normal">200</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">200</span>
 <span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
@@ -9621,7 +9620,8 @@ orderd by employee name ascending.</p>
 <span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
-<span class="normal">238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@payroll_info_router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get/</span><span class="si">{payroll_info_id}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">PayrollInfoOut</span><span class="p">)</span>
+<span class="normal">238</span>
+<span class="normal">239</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@payroll_info_router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get/</span><span class="si">{payroll_info_id}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">PayrollInfoOut</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_payroll_info_endpoint</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">payroll_info_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function `get_payroll_info_endpoint` retrieves the payroll_info by id.</span>
@@ -9746,8 +9746,7 @@ ordered by payroll_year descending.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/options/api/views/payroll_info.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">241</span>
-<span class="normal">242</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">242</span>
 <span class="normal">243</span>
 <span class="normal">244</span>
 <span class="normal">245</span>
@@ -9770,7 +9769,8 @@ ordered by payroll_year descending.</p>
 <span class="normal">262</span>
 <span class="normal">263</span>
 <span class="normal">264</span>
-<span class="normal">265</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@payroll_info_router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/list&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">PayrollInfoOut</span><span class="p">])</span>
+<span class="normal">265</span>
+<span class="normal">266</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@payroll_info_router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/list&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">PayrollInfoOut</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">list_payroll_infos</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function `list_payroll_infos` retrieves a list of payroll_infos,</span>
@@ -9918,8 +9918,7 @@ ordered by payroll_year descending.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/options/api/views/payroll_info.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">268</span>
-<span class="normal">269</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">269</span>
 <span class="normal">270</span>
 <span class="normal">271</span>
 <span class="normal">272</span>
@@ -9956,7 +9955,8 @@ ordered by payroll_year descending.</p>
 <span class="normal">303</span>
 <span class="normal">304</span>
 <span class="normal">305</span>
-<span class="normal">306</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@payroll_info_router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;/delete/</span><span class="si">{payroll_info_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="normal">306</span>
+<span class="normal">307</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@payroll_info_router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;/delete/</span><span class="si">{payroll_info_id}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">delete_payroll_info_endpoint</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">payroll_info_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function `delete_payroll_info_endpoint` deletes the payroll_info specified by id.</span>
@@ -10097,14 +10097,7 @@ ordered by payroll_year descending.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>backend/options/api/schemas/payroll_info.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
 <span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
@@ -10114,7 +10107,14 @@ ordered by payroll_year descending.</p>
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
-<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PayrollInfoIn</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PayrollInfoIn</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Schema to validate a PayrollInfo object.</span>
 
@@ -10273,14 +10273,7 @@ ordered by payroll_year descending.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>backend/options/api/schemas/payroll_info.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
 <span class="normal">38</span>
@@ -10293,7 +10286,14 @@ ordered by payroll_year descending.</p>
 <span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
-<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PayrollInfoOut</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PayrollInfoOut</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Schema to represent a PayrollInfo object.</span>
 
