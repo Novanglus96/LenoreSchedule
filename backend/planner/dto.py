@@ -1,5 +1,5 @@
-from dataclasses import dataclass
-from typing import Optional
+from dataclasses import dataclass, field
+from typing import Optional, List
 from staff.dto import DomainEmployee, DomainLocation
 from datetime import date, time
 from decimal import Decimal
@@ -71,3 +71,49 @@ class DomainScheduleTemplateIn:
     start_time: time
     end_time: time
     location_id: Optional[int] = None
+
+
+@dataclass
+class DomainDayEntry:
+    source: str  # "template" | "calendar" | "holiday"
+    entry_type: str
+    start_time: Optional[time] = None
+    end_time: Optional[time] = None
+    location: Optional[DomainLocation] = None
+    confirmed: Optional[bool] = None
+    notes: Optional[str] = None
+    holiday_name: Optional[str] = None
+    calendar_entry_id: Optional[int] = None
+
+
+@dataclass
+class DomainEmployeeDay:
+    date: date
+    entries: List[DomainDayEntry] = field(default_factory=list)
+
+
+@dataclass
+class DomainEmployeeWeekSchedule:
+    employee_id: int
+    first_name: str
+    last_name: str
+    group_name: str
+    days: List[DomainEmployeeDay] = field(default_factory=list)
+
+
+@dataclass
+class DomainDivisionWeekSchedule:
+    division_id: int
+    division_name: str
+    employees: List[DomainEmployeeWeekSchedule] = field(default_factory=list)
+
+
+@dataclass
+class DomainWeeklySchedule:
+    week_label: str
+    week_start: date
+    week_end: date
+    page: int
+    total_pages: int
+    current_page: int
+    divisions: List[DomainDivisionWeekSchedule] = field(default_factory=list)

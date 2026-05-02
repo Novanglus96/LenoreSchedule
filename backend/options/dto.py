@@ -11,6 +11,7 @@ class DomainPayrollInfo:
     payroll_frequency: str
     first_day: Optional[int] = None
     second_day: Optional[int] = None
+    week_start_day: str = "sun"
 
 
 @dataclass(frozen=True)
@@ -20,3 +21,4 @@ class DomainPayrollInfoIn:
     payroll_frequency: str
     first_day: Optional[int] = None
     second_day: Optional[int] = None
+    week_start_day: str = "sun"
