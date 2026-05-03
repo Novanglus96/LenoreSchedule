@@ -6,27 +6,30 @@
     @click="isStaff && emit('click-day')"
   >
     <div v-if="entries.length === 0" class="text-caption text-disabled">—</div>
-    <v-chip
-      v-for="(entry, i) in entries"
-      :key="i"
-      :color="chipColor(entry)"
-      :variant="chipVariant(entry)"
-      size="x-small"
-      class="mb-1"
-      :title="chipTitle(entry)"
-      :class="{ 'cursor-pointer': isStaff }"
-      @click="handleChipClick(entry, $event)"
-    >
-      <span class="text-truncate" style="max-width: 130px">
-        {{ chipLabel(entry) }}
-      </span>
-      <v-icon
-        v-if="isStaff && entry.source === 'calendar'"
-        size="10"
-        class="ml-1"
-        icon="mdi-pencil"
-      />
-    </v-chip>
+    <div v-for="(entry, i) in entries" :key="i" class="entry-block mb-1">
+      <v-chip
+        :color="chipColor(entry)"
+        :variant="chipVariant(entry)"
+        size="x-small"
+        class="d-flex"
+        :title="chipTitle(entry)"
+        :class="{ 'cursor-pointer': isStaff }"
+        @click="handleChipClick(entry, $event)"
+      >
+        <span class="text-truncate" style="max-width: 110px">
+          {{ chipLabel(entry) }}
+        </span>
+        <v-icon
+          v-if="isStaff && entry.source === 'calendar'"
+          size="10"
+          class="ml-1"
+          icon="mdi-pencil"
+        />
+      </v-chip>
+      <div v-if="locationLabel(entry)" class="location-label">
+        {{ locationLabel(entry) }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -66,16 +69,15 @@ function chipLabel(entry) {
   if (entry.start_time && entry.end_time) {
     const hours = calcHours(entry.start_time, entry.end_time);
     const timeStr = `${fmtTime(entry.start_time)} – ${fmtTime(entry.end_time)}`;
-    const base = hours ? `${timeStr} (${hours})` : timeStr;
-    const loc = locationLabel(entry);
-    return loc ? `${base} @ ${loc}` : base;
+    return hours ? `${timeStr} (${hours})` : timeStr;
   }
-  const loc = locationLabel(entry);
-  return loc ? `${entry.entry_type} @ ${loc}` : entry.entry_type;
+  return entry.entry_type;
 }
 
 function locationLabel(entry) {
   if (!entry.location) return null;
+  // Only show when the employee has a known default location AND this entry's location differs
+  if (props.defaultLocationId === null) return null;
   if (entry.location.id === props.defaultLocationId) return null;
   return entry.location.location_name;
 }
@@ -120,5 +122,15 @@ function fmtTime(t) {
 .day-cell--clickable:hover {
   background: rgba(var(--v-theme-primary), 0.04);
   border-radius: 4px;
+}
+.entry-block {
+  width: 100%;
+  text-align: center;
+}
+.location-label {
+  font-size: 10px;
+  line-height: 1.3;
+  color: rgba(var(--v-theme-on-surface), 0.6);
+  margin-top: 1px;
 }
 </style>
