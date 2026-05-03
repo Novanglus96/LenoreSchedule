@@ -18,6 +18,7 @@ from planner.services.schedule_template_services import (
     update_schedule_template,
     get_schedule_template,
     get_schedule_templates_for_employee,
+    get_all_schedule_templates,
     delete_schedule_template,
 )
 from staff.services.employee_services import get_employee
@@ -182,6 +183,24 @@ def get_schedule_template_endpoint(request, schedule_template_id: int):
         api_logger.error("ScheduleTemplate not retrieved")
         error_logger.error(str(e))
         raise HttpError(500, "ScheduleTemplate not retrieved")
+
+
+@schedule_template_router.get("/list", response=List[ScheduleTemplateOut])
+def list_all_schedule_templates(request):
+    """
+    Returns all schedule templates ordered by employee name, day, and time.
+
+    Endpoint:
+        - **Path**: `/api/v1/schedule_templates/list`
+        - **Method**: `GET`
+    """
+    try:
+        templates = get_all_schedule_templates()
+        return [domain_schedule_template_to_schema(t) for t in templates]
+    except Exception as e:
+        api_logger.error("ScheduleTemplates not retrieved")
+        error_logger.error(str(e))
+        raise HttpError(500, "ScheduleTemplates not retrieved")
 
 
 @schedule_template_router.get(

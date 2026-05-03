@@ -292,14 +292,13 @@ const {
   deleteMutation: deleteHoliday,
 } = useHolidays();
 
-const templatesEmployeeId = ref(null);
 const {
   data: templates,
   isLoading: templatesLoading,
   createMutation: createTemplate,
   updateMutation: updateTemplate,
   deleteMutation: deleteTemplate,
-} = useScheduleTemplates(templatesEmployeeId);
+} = useScheduleTemplates();
 
 // ── Dialog state ─────────────────────────────────────────
 const dialog = ref({ open: false, entity: null, item: null, title: "" });
