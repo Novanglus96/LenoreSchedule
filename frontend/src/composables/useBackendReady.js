@@ -1,27 +1,14 @@
 // useBackendReady.js
 import { ref, onMounted } from "vue";
-import axios from "axios";
-import { useApiKey } from "./useApiKey";
-
-const apiKey = useApiKey();
+import api from "@/api";
 
 const backendReady = ref(false);
-
-const apiClient = axios.create({
-  baseURL: "/api/v1",
-  withCredentials: false,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${apiKey}`,
-  },
-});
 
 export function useBackendReady() {
   onMounted(async () => {
     while (!backendReady.value) {
       try {
-        const res = await apiClient.get("/options/health/");
+        const res = await api.get("/options/health/");
 
         if (res.status === 200) {
           backendReady.value = true;

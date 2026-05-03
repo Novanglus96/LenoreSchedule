@@ -198,3 +198,10 @@ pnpm-debug.log*
 # my files
 publish.sh
 ver_change.sh
+
+# mempalace
+mempalace.yaml
+entities.json
+
+# Claude Code local settings
+.claude/settings.local.json

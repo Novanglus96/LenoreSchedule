@@ -1,68 +1,96 @@
 <template>
-  <LogoLoader
-    logo="/logov2.png"
-    :size="150"
-    :duration="5"
-    :opacity="0.8"
-    direction="alternate"
-    :messages="[
-      'Balancing the budget... with duct tape...',
-      'Cooking the books (legally, we promise)...',
-      'Checking under the mattress for loose change...',
-      'Calculating compound interest... and snacks...',
-      'Auditing your vibes...',
-      'Putting cash in envelopes...',
-      'Aligning the stars...',
-    ]"
-    v-if="!backendReady"
-  />
+  <v-app>
+    <!-- Loading: backend not yet up or auth not yet resolved -->
+    <LogoLoader
+      v-if="!appReady"
+      logo="/logov2.png"
+      :size="150"
+      :duration="5"
+      :opacity="0.8"
+      direction="alternate"
+      :messages="['Funny loading message...']"
+    />
 
-  <v-app v-else>
-    <VueQueryDevtools button-position="bottom-left" />
-    <AppNavigationVue />
-    <v-main>
-      <v-container class="bg-background h-100" fluid>
+    <!-- Unauthenticated layout (login page) -->
+    <template v-else-if="!authStore.isAuthenticated">
+      <v-main class="bg-background">
         <router-view />
-      </v-container>
-      <v-snackbar
-        v-model="mainstore.snackbar"
-        :color="mainstore.snackbarColor"
-        :timeout="mainstore.snackbarTimeout"
-        content-class="centered-text"
-      >
-        {{ mainstore.snackbarText }}
-      </v-snackbar>
-      <v-snackbar
-        v-model="showBanner"
-        color="primary"
-        location="top"
-        timeout="-1"
-        :multi-line="true"
-      >
-        There's been an update to the application. Click refresh to get the new
-        changes!
-        <template v-slot:actions>
-          <v-btn color="secondary" variant="text" @click="showBanner = false">
-            Close
-          </v-btn>
-          <v-btn color="secondary" variant="text" @click="reloadPage">
-            Refresh
-          </v-btn>
-        </template>
-      </v-snackbar>
-    </v-main>
+      </v-main>
+    </template>
+
+    <!-- Authenticated layout -->
+    <template v-else>
+      <VueQueryDevtools v-if="isDev" button-position="bottom-left" />
+      <AppNavigationVue />
+      <v-main>
+        <v-container class="bg-background h-100" fluid>
+          <router-view />
+        </v-container>
+        <v-snackbar
+          v-model="mainstore.snackbar"
+          :color="mainstore.snackbarColor"
+          :timeout="mainstore.snackbarTimeout"
+          content-class="centered-text"
+        >
+          {{ mainstore.snackbarText }}
+        </v-snackbar>
+        <v-snackbar
+          v-model="showBanner"
+          color="primary"
+          location="top"
+          timeout="-1"
+          :multi-line="true"
+        >
+          There's been an update to the application. Click refresh to get the
+          new changes!
+          <template v-slot:actions>
+            <v-btn color="secondary" variant="text" @click="showBanner = false">
+              Close
+            </v-btn>
+            <v-btn color="secondary" variant="text" @click="reloadPage">
+              Refresh
+            </v-btn>
+          </template>
+        </v-snackbar>
+      </v-main>
+    </template>
   </v-app>
 </template>
+
 <script setup>
 import AppNavigationVue from "@/views/AppNavigationVue.vue";
 import { useMainStore } from "@/stores/main";
+import { useAuthStore } from "@/stores/authStore";
 import { onMounted, computed, ref, watch, onUnmounted } from "vue";
 import { useVersion } from "@/composables/versionComposable";
 import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
 import { useBackendReady } from "@/composables/useBackendReady";
+import { useRouter, useRoute } from "vue-router";
 import LogoLoader from "./components/LogoLoader.vue";
 
 const { backendReady } = useBackendReady();
+const authStore = useAuthStore();
+const router = useRouter();
+const route = useRoute();
+const appReady = ref(false);
+const isDev = import.meta.env.DEV;
+
+// After the backend is confirmed up, resolve auth state then redirect if needed
+// before revealing the app — prevents the login flash on page reload
+watch(backendReady, async (ready) => {
+  if (ready) {
+    await authStore.fetchMe();
+
+    if (route.meta?.requiresAuth && !authStore.isAuthenticated) {
+      await router.replace({ name: "login", query: { redirect: route.fullPath } });
+    } else if (route.name === "login" && authStore.isAuthenticated) {
+      const dest = route.query.redirect || "/";
+      await router.replace(dest);
+    }
+
+    appReady.value = true;
+  }
+});
 
 const reloadPage = () => {
   window.location.reload();
@@ -84,8 +112,6 @@ const updateBanner = () => {
 
 onMounted(() => {
   prefetchVersion();
-
-  // Check version initially
   updateBanner();
 
   const handleVisibilityChange = () => {
@@ -98,17 +124,16 @@ onMounted(() => {
 
   document.addEventListener("visibilitychange", handleVisibilityChange);
 
-  // Clean up the event listener when the component is unmounted
   onUnmounted(() => {
     document.removeEventListener("visibilitychange", handleVisibilityChange);
   });
 });
 
-// Watch for changes in the computed property
-watch(checkVersion, newValue => {
+watch(checkVersion, (newValue) => {
   showBanner.value = newValue;
 });
 </script>
+
 <style>
 .loading-screen {
   display: flex;

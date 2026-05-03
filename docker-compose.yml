@@ -40,25 +40,6 @@ services:
       - backend
     image: lenoreschedule_backend:development
     container_name: lenoreschedule_backend_dev
-  worker:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.dev
-    command: /usr/src/app/start_worker.sh
-    env_file:
-      - ./.env.dev
-    volumes:
-      - ./backend:/usr/src/app
-      - ./backups:/backups
-    environment:
-      - DEBUG=1
-    depends_on:
-      - db
-      - backend
-    networks:
-      - backend
-    image: lenoreschedule_worker:development
-    container_name: lenoreschedule_worker_dev
   db:
     image: postgres:18-trixie
     volumes:

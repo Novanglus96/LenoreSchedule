@@ -37,7 +37,7 @@
 <h3 align="center">LenoreSchedule</h3>
 
   <p align="center">
-  A template for Django/Vue/Docker projects
+  A schdule creator for departments
     <br />
     <a href="https://github.com/Novanglus96/LenoreSchedule"><strong>Explore the docs »</strong></a>
     <br />
@@ -100,10 +100,9 @@ SQL_PASSWORD=somepassword
 SQL_HOST=db
 SQL_PORT=5432
 DATABASE=postgres
-DJANGO_SUPERUSER_PASSWORD=suepervisorpassword
+DJANGO_SUPERUSER_PASSWORD=supervisorpassword
 DJANGO_SUPERUSER_EMAIL=someone@somewhere.com
 DJANGO_SUPERUSER_USERNAME=supervisor
-VITE_API_KEY=someapikey
 TIMEZONE=America/New_York
 ```
 
@@ -115,52 +114,23 @@ Create a `docker-compose.yml` file in the root directory of the project. Below i
 
 ```yaml
 services:
-  frontend:
-    image: lenoreschedule_frontend:production
-    container_name: lenoreschedule_frontend
-    networks:
-      - default
-    restart: unless-stopped
-    expose:
-      - 80
+  app:
+    image: novanglus96/lenoreschedule:latest
+    container_name: lenoreschedule_app
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/mediafiles
+      - postgres_bkp:/backups/
+    ports:
+      - 7000:80
+    depends_on:
+      - db
     env_file:
       - ./.env
     environment:
-      - TIMEZONE=America/New_York
       - TZ=${TIMEZONE}
-  backend:
-    image: lenoreschedule_backend:production
-    container_name: lenoreschedule_backend
-    command: /home/app/web/start.sh
-    volumes:
-      - static_volume:/home/app/web/staticfiles
-      - media_volume:/home/app/web/mediafiles
-      - postgres_bkp:/backups/
-    expose:
-      - 8000
-    depends_on:
-      - db
-    networks:
-      - default
-      - backend
-    env_file:
-      - ./.env
-  worker:
-    image: lenoreschedule_worker:production
-    container_name: lenoreschedule_worker
-    command: /home/app/web/start_worker.sh
-    volumes:
-      - static_volume:/home/app/web/staticfiles
-      - media_volume:/home/app/web/mediafiles
-      - postgres_bkp:/backups/
-    depends_on:
-      - db
-      - backend
-    networks:
-      - default
-      - backend
-    env_file:
-      - ./.env
+    restart: unless-stopped
+
   db:
     image: postgres:18-trixie
     container_name: lenoreschedule_db
@@ -168,39 +138,18 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env
-    networks:
-      - default
-      - backend
     environment:
       - TZ=UTC
       - POSTGRES_USER=${SQL_USER}
       - POSTGRES_PASSWORD=${SQL_PASSWORD}
       - POSTGRES_DB=${SQL_DATABASE}
-  nginx:
-    image: novanglus96/lenoreapps_proxy:latest
-    container_name: lenoreschedule_proxy
-    volumes:
-      - static_volume:/home/app/web/staticfiles
-      - media_volume:/home/app/web/mediafiles
-    depends_on:
-      - backend
-      - frontend
-    networks:
-      - default
-    ports:
-      - 7000:80
-    environment:
-      - TZ=${TIMEZONE}
+    restart: unless-stopped
 
 volumes:
   postgres_data:
   static_volume:
   media_volume:
   postgres_bkp:
-   
-networks:
-  backend:
-    internal: true
 ```
 
 ### Step 3: Run the Application
@@ -211,7 +160,7 @@ networks:
    docker compose up -d
    ```
 
-2. Access the application in your browser at `http://localhost:8080`.
+2. Access the application in your browser at `http://localhost:7000`.
 
 ### Notes
 

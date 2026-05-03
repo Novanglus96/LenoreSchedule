@@ -48,12 +48,13 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "options",
+    "staff",
+    "planner",
     "core.apps.CoreConfig",
     "corsheaders",
     "django_filters",
     "dbbackup",
     "ninja",
-    "django_q",
 ]
 
 MIDDLEWARE = [
@@ -257,19 +258,6 @@ LOGGING = {
     },
 }
 
-Q_CLUSTER = {
-    "name": "DjangORM",
-    "workers": 4,
-    "timeout": 599,
-    "retry": 600,
-    "queue_limit": 50,
-    "bulk": 10,
-    "orm": "default",
-    "max_attempts": 1,
-    "label": "Tasks",
-    "catch_up": False,
-}
-
 JAZZMIN_SETTINGS = {
     "show_ui_builder": bool(int(os.environ.get("DEBUG"))),
     # title of the window (Will default to current_admin_site.site_title if absent or None)
@@ -330,23 +318,23 @@ JAZZMIN_UI_TWEAKS = {
     "footer_small_text": False,
     "body_small_text": True,
     "brand_small_text": True,
-    "brand_colour": "navbar-danger",
-    "accent": "accent-danger",
-    "navbar": "navbar-danger navbar-dark",
+    "brand_colour": "navbar-teal",
+    "accent": "accent-pink",
+    "navbar": "navbar-light",
     "no_navbar_border": False,
     "navbar_fixed": True,
     "layout_boxed": False,
     "footer_fixed": True,
     "sidebar_fixed": True,
-    "sidebar": "sidebar-dark-danger",
+    "sidebar": "sidebar-light-pink",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": False,
     "sidebar_nav_compact_style": True,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "sandstone",
-    "dark_mode_theme": "slate",
+    "theme": "cerulean",
+    "dark_mode_theme": "superhero",
     "button_classes": {
         "primary": "btn-primary",
         "secondary": "btn-secondary",
@@ -367,9 +355,8 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-ACCOUNT_AUTHENTICATION_METHOD = "username"
-ACCOUNT_EMAIL_REQUIRED = False
-ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = {"username"}
+ACCOUNT_SIGNUP_FIELDS = ["username*", "password1*", "password2*"]
 
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGOUT_ON_GET = False
