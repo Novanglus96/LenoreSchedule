@@ -1,3 +1,10 @@
+# [0.1.0-alpha.35](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.34...v0.1.0-alpha.35) (2026-05-03)
+
+
+### Bug Fixes
+
+* location shows only on calendar overrides at non-default location; fix chip centering ([#47](https://github.com/Novanglus96/LenoreSchedule/issues/47)) ([a69ed8a](https://github.com/Novanglus96/LenoreSchedule/commit/a69ed8af83af9fadcadcaa93fb0532fa2f1c2ec2))
+
 # [0.1.0-alpha.34](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.33...v0.1.0-alpha.34) (2026-05-03)
 
 
