@@ -1,3 +1,10 @@
+# [0.1.0-alpha.28](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.27...v0.1.0-alpha.28) (2026-05-03)
+
+
+### Bug Fixes
+
+* invalidate weeklySchedule cache on employee/template mutations and add multi-day template creation ([#40](https://github.com/Novanglus96/LenoreSchedule/issues/40)) ([a1e5df5](https://github.com/Novanglus96/LenoreSchedule/commit/a1e5df5a9cce9eea67eeb951fb5efa394670b21f))
+
 # [0.1.0-alpha.27](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.26...v0.1.0-alpha.27) (2026-05-03)
 
 
