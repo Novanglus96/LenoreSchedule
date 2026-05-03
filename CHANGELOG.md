@@ -1,3 +1,10 @@
+# [0.1.0-alpha.33](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.32...v0.1.0-alpha.33) (2026-05-03)
+
+
+### Features
+
+* improve day cell display with centered chips, hours, location, and confirmed state ([#45](https://github.com/Novanglus96/LenoreSchedule/issues/45)) ([dd9ada1](https://github.com/Novanglus96/LenoreSchedule/commit/dd9ada1fa159b09a3b1ab31dff81ff7952f63ccc))
+
 # [0.1.0-alpha.32](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.31...v0.1.0-alpha.32) (2026-05-03)
 
 
