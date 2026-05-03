@@ -1,7 +1,12 @@
 <template>
   <v-container fluid class="pa-4">
     <div class="d-flex align-center mb-4 flex-wrap gap-2">
-      <h1 class="text-h5 font-weight-bold mr-4">Weekly Schedule</h1>
+      <div class="mr-4">
+        <h1 class="text-h5 font-weight-bold">Weekly Schedule</h1>
+        <div v-if="schedule" class="text-subtitle-2 text-medium-emphasis">
+          Pay Period: {{ selectedYear }} #{{ activePage + 1 }}
+        </div>
+      </div>
       <v-select
         v-model="selectedYear"
         :items="availableYears"
@@ -11,16 +16,35 @@
         style="max-width: 120px"
       />
       <v-spacer />
-      <v-btn
-        v-if="schedule"
-        prepend-icon="mdi-file-pdf-box"
-        color="error"
-        variant="tonal"
-        density="comfortable"
-        @click="downloadPdf(schedule)"
-      >
-        Download PDF
-      </v-btn>
+      <v-menu v-if="schedule" location="bottom end">
+        <template #activator="{ props: menuProps }">
+          <v-btn
+            prepend-icon="mdi-file-pdf-box"
+            append-icon="mdi-chevron-down"
+            color="error"
+            variant="tonal"
+            density="comfortable"
+            v-bind="menuProps"
+          >
+            Download PDF
+          </v-btn>
+        </template>
+        <v-list density="compact" min-width="200">
+          <v-list-item
+            prepend-icon="mdi-view-list"
+            title="All Divisions"
+            @click="downloadPdf(schedule, selectedYear, activePage)"
+          />
+          <v-divider v-if="schedule.divisions.length" />
+          <v-list-item
+            v-for="div in schedule.divisions"
+            :key="div.division_id"
+            prepend-icon="mdi-account-group"
+            :title="div.division_name"
+            @click="downloadPdf(schedule, selectedYear, activePage, div.division_id)"
+          />
+        </v-list>
+      </v-menu>
     </div>
 
     <template v-if="weeksLoading">
