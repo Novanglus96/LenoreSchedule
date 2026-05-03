@@ -8,6 +8,7 @@
       <DayCell
         :entries="day.entries"
         :is-staff="isStaff"
+        :default-location-id="employee.default_location_id ?? null"
         @click-day="emit('click-day', { employeeId: employee.employee_id, date: day.date })"
         @click-entry="(calendarEntryId) => emit('click-entry', { calendarEntryId, employeeId: employee.employee_id, date: day.date })"
       />

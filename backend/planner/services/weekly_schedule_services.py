@@ -174,6 +174,7 @@ def get_weekly_division_schedule(
                     first_name=employee.first_name,
                     last_name=employee.last_name,
                     group_name=employee.group.group_name,
+                    default_location_id=employee.location_id,
                     days=days,
                 )
             )

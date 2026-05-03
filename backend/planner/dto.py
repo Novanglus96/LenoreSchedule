@@ -98,6 +98,7 @@ class DomainEmployeeWeekSchedule:
     first_name: str
     last_name: str
     group_name: str
+    default_location_id: Optional[int] = None
     days: List[DomainEmployeeDay] = field(default_factory=list)
 
 
