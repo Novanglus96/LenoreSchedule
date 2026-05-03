@@ -46,17 +46,63 @@ function dayHeader(isoDate) {
   return `${WEEKDAYS[dt.getDay()]}\n${dt.getMonth() + 1}/${dt.getDate()}`;
 }
 
+function fmtDateRange(weekStart, weekEnd) {
+  const fmt = (iso) => {
+    const dt = new Date(iso + "T00:00:00");
+    return dt.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+  };
+  return `${fmt(weekStart)} – ${fmt(weekEnd)}`;
+}
+
+// Draws the page header box. Returns the Y coordinate where the table should start.
+function drawHeader(doc, schedule, year, page) {
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const margin = 36;
+  const headerHeight = 54;
+  const top = 20;
+
+  // Outer border
+  doc.setDrawColor(180, 180, 180);
+  doc.setLineWidth(0.5);
+  doc.rect(margin, top, pageWidth - margin * 2, headerHeight);
+
+  // Left block — title + pay period
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(13);
+  doc.setTextColor(40, 40, 40);
+  doc.text("Weekly Schedule", margin + 8, top + 16);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.setTextColor(80, 80, 80);
+  doc.text(`Pay Period: ${year} #${page + 1}`, margin + 8, top + 30);
+  doc.text(fmtDateRange(schedule.week_start, schedule.week_end), margin + 8, top + 42);
+
+  // Vertical divider after left block
+  const divX = margin + 160;
+  doc.setDrawColor(200, 200, 200);
+  doc.line(divX, top, divX, top + headerHeight);
+
+  // Right area — reserved for future additions (notes, signatures, etc.)
+  doc.setFont("helvetica", "italic");
+  doc.setFontSize(7);
+  doc.setTextColor(160, 160, 160);
+  doc.text("Notes / Approvals", divX + 8, top + 12);
+
+  // Reset text color
+  doc.setTextColor(0, 0, 0);
+
+  return top + headerHeight + 8;
+}
+
 export function useSchedulePdf() {
-  function downloadPdf(schedule) {
+  function downloadPdf(schedule, year, page) {
     if (!schedule) return;
 
     const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "letter" });
     const pageWidth = doc.internal.pageSize.getWidth();
 
-    // Title
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text(schedule.week_label, pageWidth / 2, 30, { align: "center" });
+    const tableStartY = drawHeader(doc, schedule, year, page);
 
     // Build day column headers from first available employee
     let dayDates = [];
@@ -71,7 +117,6 @@ export function useSchedulePdf() {
 
     const body = [];
     for (const div of schedule.divisions) {
-      // Division header row spanning all columns
       body.push([
         {
           content: div.division_name,
@@ -87,11 +132,7 @@ export function useSchedulePdf() {
       for (const emp of div.employees) {
         const row = [`${emp.last_name}, ${emp.first_name}`];
         for (const day of emp.days) {
-          if (day.entries.length === 0) {
-            row.push("—");
-          } else {
-            row.push(day.entries.map(entryText).join("\n"));
-          }
+          row.push(day.entries.length === 0 ? "—" : day.entries.map(entryText).join("\n"));
         }
         body.push(row);
       }
@@ -100,7 +141,7 @@ export function useSchedulePdf() {
     autoTable(doc, {
       head,
       body,
-      startY: 45,
+      startY: tableStartY,
       styles: {
         fontSize: 7,
         cellPadding: 3,
@@ -120,7 +161,7 @@ export function useSchedulePdf() {
       alternateRowStyles: { fillColor: [248, 248, 248] },
     });
 
-    // Footer with generation timestamp
+    // Footer with generation timestamp on every page
     const pageCount = doc.internal.getNumberOfPages();
     doc.setFontSize(7);
     doc.setFont("helvetica", "normal");
@@ -134,7 +175,7 @@ export function useSchedulePdf() {
       );
     }
 
-    const safeName = schedule.week_label.replace(/[^a-z0-9]+/gi, "-").toLowerCase();
+    const safeName = `${year}-pay-period-${page + 1}`;
     doc.save(`schedule-${safeName}.pdf`);
   }
 

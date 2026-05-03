@@ -1,7 +1,12 @@
 <template>
   <v-container fluid class="pa-4">
     <div class="d-flex align-center mb-4 flex-wrap gap-2">
-      <h1 class="text-h5 font-weight-bold mr-4">Weekly Schedule</h1>
+      <div class="mr-4">
+        <h1 class="text-h5 font-weight-bold">Weekly Schedule</h1>
+        <div v-if="schedule" class="text-subtitle-2 text-medium-emphasis">
+          Pay Period: {{ selectedYear }} #{{ activePage + 1 }}
+        </div>
+      </div>
       <v-select
         v-model="selectedYear"
         :items="availableYears"
@@ -17,7 +22,7 @@
         color="error"
         variant="tonal"
         density="comfortable"
-        @click="downloadPdf(schedule)"
+        @click="downloadPdf(schedule, selectedYear, activePage)"
       >
         Download PDF
       </v-btn>
