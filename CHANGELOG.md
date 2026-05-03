@@ -1,3 +1,10 @@
+# [0.1.0-alpha.38](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.37...v0.1.0-alpha.38) (2026-05-03)
+
+
+### Features
+
+* replace boilerplate dashboard with card-ready layout ([#51](https://github.com/Novanglus96/LenoreSchedule/issues/51)) ([f7c8c24](https://github.com/Novanglus96/LenoreSchedule/commit/f7c8c24bf9f3d137b109f780d71bbc160870c3b0))
+
 # [0.1.0-alpha.37](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.36...v0.1.0-alpha.37) (2026-05-03)
 
 
