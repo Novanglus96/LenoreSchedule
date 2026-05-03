@@ -70,6 +70,9 @@
           v-for="div in schedule.divisions"
           :key="div.division_id"
           :division="div"
+          :is-staff="isStaff"
+          @click-day="openCreateOverride"
+          @click-entry="openEditOverride"
         />
         <v-alert
           v-if="!schedule.divisions.length"
@@ -83,14 +86,51 @@
       <v-alert type="info" text="No payroll weeks found for this year." />
     </template>
   </v-container>
+
+  <!-- ── Override dialog ──────────────────────────────────── -->
+  <v-dialog v-model="overrideDialog.open" max-width="520" persistent>
+    <v-card>
+      <v-card-title class="pt-4 px-4">{{ overrideDialog.title }}</v-card-title>
+      <v-card-text class="px-4 pb-0">
+        <CalendarEntryForm
+          ref="overrideFormRef"
+          :model-value="overrideDialog.item"
+          @submit="onOverrideSubmit"
+        />
+      </v-card-text>
+      <v-card-actions class="px-4 pb-4">
+        <v-btn
+          v-if="overrideDialog.item"
+          color="error"
+          variant="text"
+          :loading="deleteMutation.isPending.value"
+          @click="deleteOverride"
+        >
+          Delete
+        </v-btn>
+        <v-spacer />
+        <v-btn variant="text" @click="closeOverrideDialog">Cancel</v-btn>
+        <v-btn
+          color="primary"
+          variant="flat"
+          :loading="createMutation.isPending.value || updateMutation.isPending.value"
+          @click="overrideFormRef?.submit()"
+        >
+          Save
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
 import { ref, computed, watch } from "vue";
 import { usePayrollWeeks } from "@/composables/usePayrollWeeks.js";
 import { useWeeklySchedule } from "@/composables/useWeeklySchedule.js";
+import { useCalendarEntries } from "@/composables/useCalendarEntries.js";
 import { useAuthStore } from "@/stores/authStore.js";
 import DivisionScheduleCard from "@/components/schedule/DivisionScheduleCard.vue";
+import CalendarEntryForm from "@/components/schedule/CalendarEntryForm.vue";
 
 const authStore = useAuthStore();
 const isStaff = computed(() => authStore.isStaff);
@@ -109,7 +149,6 @@ const {
 
 const weeksErrorStatus = computed(() => weeksErrorObj.value?.response?.status);
 
-// Jump to the current week when weeks load
 watch(weeks, (val) => {
   if (!val?.length) return;
   const today = new Date().toISOString().slice(0, 10);
@@ -117,7 +156,6 @@ watch(weeks, (val) => {
   if (match) activePage.value = match.page;
 });
 
-// Reset to page 0 when year changes
 watch(selectedYear, () => {
   activePage.value = 0;
 });
@@ -130,4 +168,87 @@ const {
   computed(() => activePage.value),
   computed(() => selectedYear.value),
 );
+
+// ── Override dialog ───────────────────────────────────────
+const { createMutation, updateMutation, deleteMutation } = useCalendarEntries();
+
+const overrideFormRef = ref(null);
+const overrideDialog = ref({
+  open: false,
+  title: "",
+  employeeId: null,
+  employeeName: "",
+  date: null,
+  item: null,
+});
+
+function employeeName(employeeId) {
+  for (const div of schedule.value?.divisions ?? []) {
+    const emp = div.employees.find((e) => e.employee_id === employeeId);
+    if (emp) return `${emp.first_name} ${emp.last_name}`;
+  }
+  return "";
+}
+
+function fmtDate(isoDate) {
+  const dt = new Date(isoDate + "T00:00:00");
+  return dt.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+}
+
+function openCreateOverride({ employeeId, date }) {
+  overrideDialog.value = {
+    open: true,
+    title: `Add Override — ${employeeName(employeeId)}, ${fmtDate(date)}`,
+    employeeId,
+    date,
+    item: null,
+  };
+}
+
+function openEditOverride({ calendarEntryId, employeeId, date }) {
+  // Find the existing entry data from the schedule to pre-fill the form
+  let item = null;
+  for (const div of schedule.value?.divisions ?? []) {
+    const emp = div.employees.find((e) => e.employee_id === employeeId);
+    if (emp) {
+      const day = emp.days.find((d) => d.date === date);
+      if (day) {
+        const entry = day.entries.find((e) => e.calendar_entry_id === calendarEntryId);
+        if (entry) item = { ...entry, id: calendarEntryId };
+      }
+    }
+  }
+  overrideDialog.value = {
+    open: true,
+    title: `Edit Override — ${employeeName(employeeId)}, ${fmtDate(date)}`,
+    employeeId,
+    date,
+    item,
+  };
+}
+
+function closeOverrideDialog() {
+  overrideDialog.value = { open: false, title: "", employeeId: null, date: null, item: null };
+}
+
+function onOverrideSubmit(values) {
+  const { employeeId, date, item } = overrideDialog.value;
+  if (item) {
+    updateMutation.mutate(
+      { id: item.id, employee_id: employeeId, calendar_date: date, ...values },
+      { onSuccess: closeOverrideDialog },
+    );
+  } else {
+    createMutation.mutate(
+      { employee_id: employeeId, calendar_date: date, ...values },
+      { onSuccess: closeOverrideDialog },
+    );
+  }
+}
+
+function deleteOverride() {
+  const { item } = overrideDialog.value;
+  if (!item) return;
+  deleteMutation.mutate(item.id, { onSuccess: closeOverrideDialog });
+}
 </script>
