@@ -1,3 +1,10 @@
+# [0.1.0-alpha.39](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.38...v0.1.0-alpha.39) (2026-05-03)
+
+
+### Features
+
+* add Today button to jump back to the current week on the schedule view ([#52](https://github.com/Novanglus96/LenoreSchedule/issues/52)) ([cc00090](https://github.com/Novanglus96/LenoreSchedule/commit/cc000907ea633ac0044ec33df565eee680e512dd))
+
 # [0.1.0-alpha.38](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.37...v0.1.0-alpha.38) (2026-05-03)
 
 
