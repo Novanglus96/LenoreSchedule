@@ -11,7 +11,27 @@
         :loading="employeesLoading"
       />
     </v-col>
-    <v-col cols="12" sm="4">
+
+    <!-- Create mode: multi-day checkboxes -->
+    <v-col v-if="!isEditing" cols="12">
+      <div class="text-body-2 mb-1">Days of Week</div>
+      <div class="d-flex flex-wrap gap-x-2">
+        <v-checkbox
+          v-for="day in DAY_OPTIONS"
+          :key="day.value"
+          v-model="selectedDays"
+          :label="day.title"
+          :value="day.value"
+          density="comfortable"
+          hide-details
+          class="mr-1"
+        />
+      </div>
+      <div v-if="daysError" class="text-error text-caption mt-1">{{ daysError }}</div>
+    </v-col>
+
+    <!-- Edit mode: single day select -->
+    <v-col v-else cols="12" sm="4">
       <v-select
         v-model="dayOfWeek"
         label="Day of Week"
@@ -21,6 +41,7 @@
         density="comfortable"
       />
     </v-col>
+
     <v-col cols="12" sm="4">
       <v-text-field
         v-model="startTime"
@@ -57,7 +78,7 @@
 </template>
 
 <script setup>
-import { computed, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useForm, useField } from "vee-validate";
 import { useEmployees } from "@/composables/useEmployees.js";
 import { useLocations } from "@/composables/useLocations.js";
@@ -67,6 +88,8 @@ const props = defineProps({
   preselectedEmployeeId: { type: Number, default: null },
 });
 const emit = defineEmits(["submit"]);
+
+const isEditing = computed(() => props.modelValue != null);
 
 const { data: employees, isLoading: employeesLoading } = useEmployees();
 const { data: locations, isLoading: locationsLoading } = useLocations();
@@ -88,19 +111,25 @@ const locationItems = computed(
 );
 
 const DAY_OPTIONS = [
-  { title: "Monday", value: 0 },
-  { title: "Tuesday", value: 1 },
-  { title: "Wednesday", value: 2 },
-  { title: "Thursday", value: 3 },
-  { title: "Friday", value: 4 },
-  { title: "Saturday", value: 5 },
-  { title: "Sunday", value: 6 },
+  { title: "Mon", value: 0 },
+  { title: "Tue", value: 1 },
+  { title: "Wed", value: 2 },
+  { title: "Thu", value: 3 },
+  { title: "Fri", value: 4 },
+  { title: "Sat", value: 5 },
+  { title: "Sun", value: 6 },
 ];
+
+const selectedDays = ref([0, 1, 2, 3, 4]);
+const daysError = ref("");
 
 const { handleSubmit, errors, resetForm, setValues } = useForm({
   validationSchema: {
     employee_id: (v) => (v != null ? true : "Employee is required"),
-    day_of_week: (v) => (v != null ? true : "Day of week is required"),
+    day_of_week: (v) => {
+      if (isEditing.value) return v != null ? true : "Day of week is required";
+      return true;
+    },
     start_time: (v) => (v ? true : "Start time is required"),
     end_time: (v) => (v ? true : "End time is required"),
   },
@@ -132,6 +161,8 @@ watch(
       });
     } else {
       resetForm();
+      selectedDays.value = [0, 1, 2, 3, 4];
+      daysError.value = "";
       if (props.preselectedEmployeeId) {
         setValues({ employee_id: props.preselectedEmployeeId });
       }
@@ -141,13 +172,28 @@ watch(
 );
 
 const submit = handleSubmit((values) => {
-  emit("submit", {
-    employee_id: values.employee_id,
-    day_of_week: values.day_of_week,
-    start_time: values.start_time,
-    end_time: values.end_time,
-    location_id: values.location_id ?? null,
-  });
+  if (!isEditing.value) {
+    if (selectedDays.value.length === 0) {
+      daysError.value = "Select at least one day";
+      return;
+    }
+    daysError.value = "";
+    emit("submit", {
+      employee_id: values.employee_id,
+      days_of_week: [...selectedDays.value].sort((a, b) => a - b),
+      start_time: values.start_time,
+      end_time: values.end_time,
+      location_id: values.location_id ?? null,
+    });
+  } else {
+    emit("submit", {
+      employee_id: values.employee_id,
+      day_of_week: values.day_of_week,
+      start_time: values.start_time,
+      end_time: values.end_time,
+      location_id: values.location_id ?? null,
+    });
+  }
 });
 
 defineExpose({ submit });

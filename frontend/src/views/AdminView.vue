@@ -377,6 +377,15 @@ function onFormSubmit(values) {
   const m = MUTATIONS.value[entity];
   if (item) {
     m.update.mutate({ id: item.id, ...values }, { onSuccess: closeDialog });
+  } else if (entity === "templates" && Array.isArray(values.days_of_week)) {
+    const { days_of_week, ...rest } = values;
+    days_of_week.forEach((day, i) => {
+      const isLast = i === days_of_week.length - 1;
+      m.create.mutate(
+        { ...rest, day_of_week: day },
+        { onSuccess: isLast ? closeDialog : undefined },
+      );
+    });
   } else {
     m.create.mutate(values, { onSuccess: closeDialog });
   }

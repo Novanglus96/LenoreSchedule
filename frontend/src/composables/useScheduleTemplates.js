@@ -30,6 +30,7 @@ export function useScheduleTemplates(employeeId) {
     mutationFn: (payload) => api.post("/schedule_templates/create", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["scheduleTemplates"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Template created", "success");
     },
     onError: (e) =>
@@ -44,6 +45,7 @@ export function useScheduleTemplates(employeeId) {
       api.put(`/schedule_templates/update/${id}`, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["scheduleTemplates"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Template updated", "success");
     },
     onError: (e) =>
@@ -57,6 +59,7 @@ export function useScheduleTemplates(employeeId) {
     mutationFn: (id) => api.delete(`/schedule_templates/delete/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["scheduleTemplates"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Template deleted", "success");
     },
     onError: (e) =>
