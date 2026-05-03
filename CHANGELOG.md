@@ -1,3 +1,10 @@
+# [0.1.0-alpha.27](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.26...v0.1.0-alpha.27) (2026-05-03)
+
+
+### Bug Fixes
+
+* handle missing payroll config gracefully on schedule view ([#39](https://github.com/Novanglus96/LenoreSchedule/issues/39)) ([9aeac68](https://github.com/Novanglus96/LenoreSchedule/commit/9aeac68358cb56ba6a952caa3fdc9d738d929ab5))
+
 # [0.1.0-alpha.26](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.25...v0.1.0-alpha.26) (2026-05-02)
 
 
