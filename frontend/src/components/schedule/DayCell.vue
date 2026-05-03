@@ -132,7 +132,7 @@ function fmtTime(t) {
 .location-label {
   font-size: 10px;
   line-height: 1.3;
-  color: rgba(var(--v-theme-on-surface), 0.6);
+  color: rgb(var(--v-theme-primary));
   margin-top: 1px;
 }
 </style>
