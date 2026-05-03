@@ -35,6 +35,9 @@
                 v-for="emp in division.employees"
                 :key="emp.employee_id"
                 :employee="emp"
+                :is-staff="isStaff"
+                @click-day="emit('click-day', $event)"
+                @click-entry="emit('click-entry', $event)"
               />
             </tbody>
           </table>
@@ -49,11 +52,11 @@ import { ref, computed } from "vue";
 import EmployeeWeekRow from "./EmployeeWeekRow.vue";
 
 const props = defineProps({
-  division: {
-    type: Object,
-    required: true,
-  },
+  division: { type: Object, required: true },
+  isStaff: { type: Boolean, default: false },
 });
+
+const emit = defineEmits(["click-day", "click-entry"]);
 
 const open = ref(true);
 

@@ -1,5 +1,10 @@
 <template>
-  <div class="day-cell pa-1">
+  <div
+    class="day-cell pa-1"
+    :class="{ 'day-cell--clickable': isStaff }"
+    :title="isStaff ? 'Click to add override' : undefined"
+    @click="isStaff && emit('click-day')"
+  >
     <div v-if="entries.length === 0" class="text-caption text-disabled">—</div>
     <v-chip
       v-for="(entry, i) in entries"
@@ -9,21 +14,29 @@
       variant="tonal"
       class="mb-1 d-flex"
       :title="chipTitle(entry)"
+      :class="{ 'cursor-pointer': isStaff && entry.source === 'calendar' }"
+      @click.stop="isStaff && entry.source === 'calendar' && emit('click-entry', entry.calendar_entry_id)"
     >
       <span class="text-truncate" style="max-width: 90px">
         {{ chipLabel(entry) }}
       </span>
+      <v-icon
+        v-if="isStaff && entry.source === 'calendar'"
+        size="10"
+        class="ml-1"
+        icon="mdi-pencil"
+      />
     </v-chip>
   </div>
 </template>
 
 <script setup>
 defineProps({
-  entries: {
-    type: Array,
-    default: () => [],
-  },
+  entries: { type: Array, default: () => [] },
+  isStaff: { type: Boolean, default: false },
 });
+
+const emit = defineEmits(["click-day", "click-entry"]);
 
 function chipColor(entry) {
   if (entry.source === "holiday") return "orange";
@@ -62,5 +75,12 @@ function fmtTime(t) {
 <style scoped>
 .day-cell {
   min-width: 90px;
+}
+.day-cell--clickable {
+  cursor: pointer;
+}
+.day-cell--clickable:hover {
+  background: rgba(var(--v-theme-primary), 0.04);
+  border-radius: 4px;
 }
 </style>
