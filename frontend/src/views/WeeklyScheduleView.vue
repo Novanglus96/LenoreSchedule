@@ -16,16 +16,35 @@
         style="max-width: 120px"
       />
       <v-spacer />
-      <v-btn
-        v-if="schedule"
-        prepend-icon="mdi-file-pdf-box"
-        color="error"
-        variant="tonal"
-        density="comfortable"
-        @click="downloadPdf(schedule, selectedYear, activePage)"
-      >
-        Download PDF
-      </v-btn>
+      <v-menu v-if="schedule" location="bottom end">
+        <template #activator="{ props: menuProps }">
+          <v-btn
+            prepend-icon="mdi-file-pdf-box"
+            append-icon="mdi-chevron-down"
+            color="error"
+            variant="tonal"
+            density="comfortable"
+            v-bind="menuProps"
+          >
+            Download PDF
+          </v-btn>
+        </template>
+        <v-list density="compact" min-width="200">
+          <v-list-item
+            prepend-icon="mdi-view-list"
+            title="All Divisions"
+            @click="downloadPdf(schedule, selectedYear, activePage)"
+          />
+          <v-divider v-if="schedule.divisions.length" />
+          <v-list-item
+            v-for="div in schedule.divisions"
+            :key="div.division_id"
+            prepend-icon="mdi-account-group"
+            :title="div.division_name"
+            @click="downloadPdf(schedule, selectedYear, activePage, div.division_id)"
+          />
+        </v-list>
+      </v-menu>
     </div>
 
     <template v-if="weeksLoading">

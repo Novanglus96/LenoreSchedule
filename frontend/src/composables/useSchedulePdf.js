@@ -96,17 +96,21 @@ function drawHeader(doc, schedule, year, page) {
 }
 
 export function useSchedulePdf() {
-  function downloadPdf(schedule, year, page) {
+  function downloadPdf(schedule, year, page, divisionId = null) {
     if (!schedule) return;
+
+    const divisions = divisionId
+      ? schedule.divisions.filter((d) => d.division_id === divisionId)
+      : schedule.divisions;
 
     const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "letter" });
     const pageWidth = doc.internal.pageSize.getWidth();
 
     const tableStartY = drawHeader(doc, schedule, year, page);
 
-    // Build day column headers from first available employee
+    // Build day column headers from the first available employee across filtered divisions
     let dayDates = [];
-    for (const div of schedule.divisions) {
+    for (const div of divisions) {
       if (div.employees.length && div.employees[0].days.length) {
         dayDates = div.employees[0].days.map((d) => d.date);
         break;
@@ -116,18 +120,21 @@ export function useSchedulePdf() {
     const head = [["Employee", ...dayDates.map(dayHeader)]];
 
     const body = [];
-    for (const div of schedule.divisions) {
-      body.push([
-        {
-          content: div.division_name,
-          colSpan: 1 + dayDates.length,
-          styles: {
-            fontStyle: "bold",
-            fillColor: [230, 230, 230],
-            textColor: [50, 50, 50],
+    for (const div of divisions) {
+      // Omit the division header row when exporting a single division
+      if (!divisionId) {
+        body.push([
+          {
+            content: div.division_name,
+            colSpan: 1 + dayDates.length,
+            styles: {
+              fontStyle: "bold",
+              fillColor: [230, 230, 230],
+              textColor: [50, 50, 50],
+            },
           },
-        },
-      ]);
+        ]);
+      }
 
       for (const emp of div.employees) {
         const row = [`${emp.last_name}, ${emp.first_name}`];
@@ -175,8 +182,10 @@ export function useSchedulePdf() {
       );
     }
 
-    const safeName = `${year}-pay-period-${page + 1}`;
-    doc.save(`schedule-${safeName}.pdf`);
+    const divisionSlug = divisionId
+      ? `-${divisions[0]?.division_name.replace(/[^a-z0-9]+/gi, "-").toLowerCase() ?? "division"}`
+      : "";
+    doc.save(`schedule-${year}-pay-period-${page + 1}${divisionSlug}.pdf`);
   }
 
   return { downloadPdf };
