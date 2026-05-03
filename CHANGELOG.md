@@ -1,3 +1,10 @@
+# [0.1.0-alpha.36](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.35...v0.1.0-alpha.36) (2026-05-03)
+
+
+### Features
+
+* add PDF download for the current week's schedule ([#49](https://github.com/Novanglus96/LenoreSchedule/issues/49)) ([2bbc58a](https://github.com/Novanglus96/LenoreSchedule/commit/2bbc58ab99e433493a54e12e1c0d06e5cfd4f3b4))
+
 # [0.1.0-alpha.35](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.34...v0.1.0-alpha.35) (2026-05-03)
 
 
