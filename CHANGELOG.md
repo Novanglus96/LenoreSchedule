@@ -1,3 +1,10 @@
+# [0.1.0-alpha.31](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.30...v0.1.0-alpha.31) (2026-05-03)
+
+
+### Features
+
+* add calendar entry overrides from the weekly schedule view ([#43](https://github.com/Novanglus96/LenoreSchedule/issues/43)) ([9a70b2f](https://github.com/Novanglus96/LenoreSchedule/commit/9a70b2f66e72ae4e92c0a3ea89f09f66bd274ee4))
+
 # [0.1.0-alpha.30](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.29...v0.1.0-alpha.30) (2026-05-03)
 
 
