@@ -12,5 +12,6 @@ export function useWeeklySchedule(page, payrollYear) {
       return data;
     },
     staleTime: 1000 * 60 * 5,
+    retry: (failureCount, error) => error?.response?.status !== 404,
   });
 }

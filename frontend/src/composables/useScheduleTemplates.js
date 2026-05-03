@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/vue-query";
+import { toValue } from "vue";
 import api from "@/api/index.js";
 import { useMainStore } from "@/stores/main";
 
@@ -6,16 +7,24 @@ export function useScheduleTemplates(employeeId) {
   const queryClient = useQueryClient();
   const mainStore = useMainStore();
 
-  const listQuery = useQuery({
-    queryKey: ["scheduleTemplates", employeeId],
-    queryFn: async () => {
-      const { data } = await api.get(
-        `/schedule_templates/employee/${employeeId.value}`,
-      );
-      return data;
-    },
-    enabled: () => !!employeeId.value,
-  });
+  const listQuery = employeeId
+    ? useQuery({
+        queryKey: ["scheduleTemplates", employeeId],
+        queryFn: async () => {
+          const { data } = await api.get(
+            `/schedule_templates/employee/${toValue(employeeId)}`,
+          );
+          return data;
+        },
+        enabled: () => !!toValue(employeeId),
+      })
+    : useQuery({
+        queryKey: ["scheduleTemplates"],
+        queryFn: async () => {
+          const { data } = await api.get("/schedule_templates/list");
+          return data;
+        },
+      });
 
   const createMutation = useMutation({
     mutationFn: (payload) => api.post("/schedule_templates/create", payload),

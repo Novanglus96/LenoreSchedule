@@ -147,6 +147,22 @@ def get_schedule_templates_for_employee(
     return [model_to_domain_schedule_template(t) for t in templates]
 
 
+def get_all_schedule_templates() -> List[DomainScheduleTemplate]:
+    """
+    `get_all_schedule_templates` returns all schedule_template blocks ordered
+    by employee last name, then day_of_week, then start_time.
+
+    Returns:
+        List[DomainScheduleTemplate]: A list of domain schedule_template objects.
+    """
+    templates = (
+        ScheduleTemplate.objects.all()
+        .select_related("employee", "location")
+        .order_by("employee__last_name", "employee__first_name", "day_of_week", "start_time")
+    )
+    return [model_to_domain_schedule_template(t) for t in templates]
+
+
 def delete_schedule_template(schedule_template_id: int) -> str:
     """
     `delete_schedule_template` deletes a schedule_template and returns a
