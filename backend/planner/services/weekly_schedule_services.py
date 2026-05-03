@@ -40,10 +40,10 @@ def get_weekly_division_schedule(
     `get_weekly_division_schedule` returns a merged weekly schedule for all
     employees in the user's accessible divisions.
 
-    Each employee's days contain entries from three sources merged together:
-      - "template" — their recurring ScheduleTemplate blocks for that weekday
-      - "calendar" — CalendarEntry overrides/additions for that date
-      - "holiday"  — any configured holidays that fall on that date
+    Each employee's days contain entries resolved with the following priority:
+      1. "calendar" — CalendarEntry overrides for that date (supersedes all)
+      2. "holiday"  — configured holidays that fall on that date (supersedes templates)
+      3. "template" — recurring ScheduleTemplate blocks for that weekday (default)
 
     Args:
         page (int): 0-based week index within the payroll year.
@@ -87,10 +87,8 @@ def get_weekly_division_schedule(
 
     for division in division_qs:
         employees = (
-            Employee.objects.filter(
-                division=division,
-                start_date__lte=week_end,
-            )
+            Employee.objects.filter(division=division)
+            .filter(Q(start_date__isnull=True) | Q(start_date__lte=week_end))
             .filter(Q(end_date__isnull=True) | Q(end_date__gte=week_start))
             .order_by("last_name", "first_name")
             .select_related("location", "division", "group")
@@ -127,39 +125,46 @@ def get_weekly_division_schedule(
                 dow = current_date.weekday()  # 0=Mon, matches ScheduleTemplate
                 day_entries = []
 
-                for t in template_by_dow.get(dow, []):
-                    day_entries.append(
-                        DomainDayEntry(
-                            source="template",
-                            entry_type="scheduled",
-                            start_time=t.start_time,
-                            end_time=t.end_time,
-                            location=model_to_domain_location(t.location) if t.location else None,
-                        )
-                    )
+                cal_entries = entries_by_date.get(current_date, [])
+                holiday_names = holiday_map.get(current_date, [])
 
-                for e in entries_by_date.get(current_date, []):
-                    day_entries.append(
-                        DomainDayEntry(
-                            source="calendar",
-                            entry_type=e.entry_type,
-                            start_time=e.start_time,
-                            end_time=e.end_time,
-                            location=model_to_domain_location(e.location) if e.location else None,
-                            confirmed=e.confirmed,
-                            notes=e.notes,
-                            calendar_entry_id=e.id,
+                if cal_entries:
+                    # Calendar overrides take highest priority — suppress templates and holidays
+                    for e in cal_entries:
+                        day_entries.append(
+                            DomainDayEntry(
+                                source="calendar",
+                                entry_type=e.entry_type,
+                                start_time=e.start_time,
+                                end_time=e.end_time,
+                                location=model_to_domain_location(e.location) if e.location else None,
+                                confirmed=e.confirmed,
+                                notes=e.notes,
+                                calendar_entry_id=e.id,
+                            )
                         )
-                    )
-
-                for holiday_name in holiday_map.get(current_date, []):
-                    day_entries.append(
-                        DomainDayEntry(
-                            source="holiday",
-                            entry_type="holiday",
-                            holiday_name=holiday_name,
+                elif holiday_names:
+                    # Holidays supersede templates
+                    for holiday_name in holiday_names:
+                        day_entries.append(
+                            DomainDayEntry(
+                                source="holiday",
+                                entry_type="holiday",
+                                holiday_name=holiday_name,
+                            )
                         )
-                    )
+                else:
+                    # Fall back to recurring template entries
+                    for t in template_by_dow.get(dow, []):
+                        day_entries.append(
+                            DomainDayEntry(
+                                source="template",
+                                entry_type="scheduled",
+                                start_time=t.start_time,
+                                end_time=t.end_time,
+                                location=model_to_domain_location(t.location) if t.location else None,
+                            )
+                        )
 
                 days.append(DomainEmployeeDay(date=current_date, entries=day_entries))
 
