@@ -1,3 +1,10 @@
+# [0.1.0-alpha.30](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.29...v0.1.0-alpha.30) (2026-05-03)
+
+
+### Bug Fixes
+
+* chown SQLite db directory from SQL_DATABASE env var to support named volumes ([#42](https://github.com/Novanglus96/LenoreSchedule/issues/42)) ([c8f6c3d](https://github.com/Novanglus96/LenoreSchedule/commit/c8f6c3dbdda0479c8f798f088564ff5cf0a64d60))
+
 # [0.1.0-alpha.29](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.28...v0.1.0-alpha.29) (2026-05-03)
 
 
