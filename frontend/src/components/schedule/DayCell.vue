@@ -11,7 +11,6 @@
         :color="chipColor(entry)"
         :variant="chipVariant(entry)"
         size="x-small"
-        class="d-flex"
         :title="chipTitle(entry)"
         :class="{ 'cursor-pointer': isStaff }"
         @click="handleChipClick(entry, $event)"
@@ -75,10 +74,11 @@ function chipLabel(entry) {
 }
 
 function locationLabel(entry) {
+  // Location is only relevant for calendar overrides, not templates or holidays
+  if (entry.source !== "calendar") return null;
   if (!entry.location) return null;
-  // Only show when the employee has a known default location AND this entry's location differs
-  if (props.defaultLocationId === null) return null;
-  if (entry.location.id === props.defaultLocationId) return null;
+  // Hide when entry location matches the employee's default location
+  if (props.defaultLocationId !== null && entry.location.id === props.defaultLocationId) return null;
   return entry.location.location_name;
 }
 
@@ -125,7 +125,9 @@ function fmtTime(t) {
 }
 .entry-block {
   width: 100%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .location-label {
   font-size: 10px;
