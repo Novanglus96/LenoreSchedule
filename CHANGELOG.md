@@ -1,3 +1,10 @@
+# [0.1.0-alpha.37](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.36...v0.1.0-alpha.37) (2026-05-03)
+
+
+### Features
+
+* add pay period title to schedule view and structured header to PDF ([#50](https://github.com/Novanglus96/LenoreSchedule/issues/50)) ([133e3e0](https://github.com/Novanglus96/LenoreSchedule/commit/133e3e09000e06ebfbc6689513489953668d5275)), closes [#1](https://github.com/Novanglus96/LenoreSchedule/issues/1)
+
 # [0.1.0-alpha.36](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.35...v0.1.0-alpha.36) (2026-05-03)
 
 
