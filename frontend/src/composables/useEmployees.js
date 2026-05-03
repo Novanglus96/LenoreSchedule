@@ -18,6 +18,7 @@ export function useEmployees() {
     mutationFn: (payload) => api.post("/employees/create", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["employees"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Employee created", "success");
     },
     onError: (e) =>
@@ -32,6 +33,7 @@ export function useEmployees() {
       api.put(`/employees/update/${id}`, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["employees"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Employee updated", "success");
     },
     onError: (e) =>
@@ -45,6 +47,7 @@ export function useEmployees() {
     mutationFn: (id) => api.delete(`/employees/delete/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["employees"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Employee deleted", "success");
     },
     onError: (e) =>
