@@ -10,6 +10,17 @@
         hide-details
         style="max-width: 120px"
       />
+      <v-spacer />
+      <v-btn
+        v-if="schedule"
+        prepend-icon="mdi-file-pdf-box"
+        color="error"
+        variant="tonal"
+        density="comfortable"
+        @click="downloadPdf(schedule)"
+      >
+        Download PDF
+      </v-btn>
     </div>
 
     <template v-if="weeksLoading">
@@ -128,6 +139,7 @@ import { ref, computed, watch } from "vue";
 import { usePayrollWeeks } from "@/composables/usePayrollWeeks.js";
 import { useWeeklySchedule } from "@/composables/useWeeklySchedule.js";
 import { useCalendarEntries } from "@/composables/useCalendarEntries.js";
+import { useSchedulePdf } from "@/composables/useSchedulePdf.js";
 import { useAuthStore } from "@/stores/authStore.js";
 import DivisionScheduleCard from "@/components/schedule/DivisionScheduleCard.vue";
 import CalendarEntryForm from "@/components/schedule/CalendarEntryForm.vue";
@@ -168,6 +180,8 @@ const {
   computed(() => activePage.value),
   computed(() => selectedYear.value),
 );
+
+const { downloadPdf } = useSchedulePdf();
 
 // ── Override dialog ───────────────────────────────────────
 const { createMutation, updateMutation, deleteMutation } = useCalendarEntries();
