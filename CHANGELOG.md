@@ -1,3 +1,10 @@
+# [0.1.0-alpha.29](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.28...v0.1.0-alpha.29) (2026-05-03)
+
+
+### Bug Fixes
+
+* include employees with no start_date and enforce calendar entry priority in schedule ([#41](https://github.com/Novanglus96/LenoreSchedule/issues/41)) ([5560bfd](https://github.com/Novanglus96/LenoreSchedule/commit/5560bfd1b1f9ce62cfb20a7b5493493269a42bf7))
+
 # [0.1.0-alpha.28](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.27...v0.1.0-alpha.28) (2026-05-03)
 
 
