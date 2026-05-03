@@ -14,8 +14,8 @@
       variant="tonal"
       class="mb-1 d-flex"
       :title="chipTitle(entry)"
-      :class="{ 'cursor-pointer': isStaff && entry.source === 'calendar' }"
-      @click.stop="isStaff && entry.source === 'calendar' && emit('click-entry', entry.calendar_entry_id)"
+      :class="{ 'cursor-pointer': isStaff }"
+      @click="handleChipClick(entry, $event)"
     >
       <span class="text-truncate" style="max-width: 90px">
         {{ chipLabel(entry) }}
@@ -31,12 +31,21 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   entries: { type: Array, default: () => [] },
   isStaff: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(["click-day", "click-entry"]);
+
+function handleChipClick(entry, event) {
+  if (!props.isStaff) return;
+  if (entry.source === "calendar") {
+    event.stopPropagation();
+    emit("click-entry", entry.calendar_entry_id);
+  }
+  // template/holiday chips: let click bubble to the cell → triggers click-day
+}
 
 function chipColor(entry) {
   if (entry.source === "holiday") return "orange";
