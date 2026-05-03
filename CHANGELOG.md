@@ -1,3 +1,10 @@
+# [0.1.0-alpha.34](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.33...v0.1.0-alpha.34) (2026-05-03)
+
+
+### Bug Fixes
+
+* only show entry location when it differs from employee default, move to second line ([#46](https://github.com/Novanglus96/LenoreSchedule/issues/46)) ([1a53d62](https://github.com/Novanglus96/LenoreSchedule/commit/1a53d628bc24db16fa054075c93f4b95db4c0851))
+
 # [0.1.0-alpha.33](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.32...v0.1.0-alpha.33) (2026-05-03)
 
 
