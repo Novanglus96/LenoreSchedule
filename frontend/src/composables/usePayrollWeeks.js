@@ -9,5 +9,6 @@ export function usePayrollWeeks(year) {
       return data;
     },
     staleTime: 1000 * 60 * 10,
+    retry: (failureCount, error) => error?.response?.status !== 404,
   });
 }

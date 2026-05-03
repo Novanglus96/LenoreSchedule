@@ -17,7 +17,23 @@
     </template>
 
     <template v-else-if="weeksError">
-      <v-alert type="error" text="Failed to load payroll weeks." />
+      <v-alert
+        v-if="weeksErrorStatus === 404"
+        type="info"
+        variant="tonal"
+        icon="mdi-calendar-alert"
+      >
+        No payroll configuration found for <strong>{{ selectedYear }}</strong>.
+        <template v-if="isStaff">
+          Go to
+          <router-link :to="{ name: 'management' }" class="text-primary">Management → Payroll</router-link>
+          to set up a payroll info record for this year.
+        </template>
+        <template v-else>
+          Contact your administrator to configure payroll for this year.
+        </template>
+      </v-alert>
+      <v-alert v-else type="error" text="Failed to load payroll weeks. Please try again." />
     </template>
 
     <template v-else-if="weeks && weeks.length">
@@ -58,7 +74,7 @@
         <v-alert
           v-if="!schedule.divisions.length"
           type="info"
-          text="No divisions found for your account."
+          text="No divisions are assigned to your account for this week."
         />
       </template>
     </template>
@@ -73,7 +89,11 @@
 import { ref, computed, watch } from "vue";
 import { usePayrollWeeks } from "@/composables/usePayrollWeeks.js";
 import { useWeeklySchedule } from "@/composables/useWeeklySchedule.js";
+import { useAuthStore } from "@/stores/authStore.js";
 import DivisionScheduleCard from "@/components/schedule/DivisionScheduleCard.vue";
+
+const authStore = useAuthStore();
+const isStaff = computed(() => authStore.isStaff);
 
 const currentYear = new Date().getFullYear();
 const availableYears = [currentYear - 1, currentYear, currentYear + 1];
@@ -84,7 +104,10 @@ const {
   data: weeks,
   isLoading: weeksLoading,
   isError: weeksError,
+  error: weeksErrorObj,
 } = usePayrollWeeks(computed(() => selectedYear.value));
+
+const weeksErrorStatus = computed(() => weeksErrorObj.value?.response?.status);
 
 // Jump to the current week when weeks load
 watch(weeks, (val) => {
