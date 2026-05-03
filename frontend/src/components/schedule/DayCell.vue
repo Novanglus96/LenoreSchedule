@@ -1,6 +1,6 @@
 <template>
   <div
-    class="day-cell pa-1"
+    class="day-cell pa-1 d-flex flex-column align-center"
     :class="{ 'day-cell--clickable': isStaff }"
     :title="isStaff ? 'Click to add override' : undefined"
     @click="isStaff && emit('click-day')"
@@ -10,14 +10,14 @@
       v-for="(entry, i) in entries"
       :key="i"
       :color="chipColor(entry)"
+      :variant="chipVariant(entry)"
       size="x-small"
-      variant="tonal"
-      class="mb-1 d-flex"
+      class="mb-1"
       :title="chipTitle(entry)"
       :class="{ 'cursor-pointer': isStaff }"
       @click="handleChipClick(entry, $event)"
     >
-      <span class="text-truncate" style="max-width: 90px">
+      <span class="text-truncate" style="max-width: 130px">
         {{ chipLabel(entry) }}
       </span>
       <v-icon
@@ -34,6 +34,7 @@
 const props = defineProps({
   entries: { type: Array, default: () => [] },
   isStaff: { type: Boolean, default: false },
+  defaultLocationId: { type: Number, default: null },
 });
 
 const emit = defineEmits(["click-day", "click-entry"]);
@@ -44,7 +45,6 @@ function handleChipClick(entry, event) {
     event.stopPropagation();
     emit("click-entry", entry.calendar_entry_id);
   }
-  // template/holiday chips: let click bubble to the cell → triggers click-day
 }
 
 function chipColor(entry) {
@@ -53,23 +53,52 @@ function chipColor(entry) {
   return "grey";
 }
 
+function chipVariant(entry) {
+  if (entry.source === "calendar") {
+    return entry.confirmed ? "flat" : "outlined";
+  }
+  return "tonal";
+}
+
 function chipLabel(entry) {
   if (entry.source === "holiday") return entry.holiday_name || "Holiday";
   if (entry.entry_type === "day_off") return "Day Off";
-  if (entry.start_time && entry.end_time)
-    return `${fmtTime(entry.start_time)} – ${fmtTime(entry.end_time)}`;
-  return entry.entry_type;
+  if (entry.start_time && entry.end_time) {
+    const hours = calcHours(entry.start_time, entry.end_time);
+    const timeStr = `${fmtTime(entry.start_time)} – ${fmtTime(entry.end_time)}`;
+    const base = hours ? `${timeStr} (${hours})` : timeStr;
+    const loc = locationLabel(entry);
+    return loc ? `${base} @ ${loc}` : base;
+  }
+  const loc = locationLabel(entry);
+  return loc ? `${entry.entry_type} @ ${loc}` : entry.entry_type;
+}
+
+function locationLabel(entry) {
+  if (!entry.location) return null;
+  if (entry.location.id === props.defaultLocationId) return null;
+  return entry.location.location_name;
 }
 
 function chipTitle(entry) {
   const parts = [];
-  if (entry.source === "calendar") parts.push("Override");
+  if (entry.source === "calendar") parts.push(entry.confirmed ? "Override (confirmed)" : "Override (unconfirmed)");
   if (entry.source === "template") parts.push("Template");
   if (entry.source === "holiday") parts.push("Holiday");
-  if (entry.location?.name) parts.push(entry.location.name);
+  if (entry.location?.location_name) parts.push(entry.location.location_name);
   if (entry.notes) parts.push(entry.notes);
-  if (!entry.confirmed) parts.push("Unconfirmed");
   return parts.join(" · ");
+}
+
+function calcHours(startTime, endTime) {
+  if (!startTime || !endTime) return null;
+  const [sh, sm] = startTime.split(":").map(Number);
+  const [eh, em] = endTime.split(":").map(Number);
+  const totalMinutes = eh * 60 + em - (sh * 60 + sm);
+  if (totalMinutes <= 0) return null;
+  const h = Math.floor(totalMinutes / 60);
+  const m = totalMinutes % 60;
+  return m === 0 ? `${h}h` : `${h}h${m}m`;
 }
 
 function fmtTime(t) {
