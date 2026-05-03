@@ -1,3 +1,10 @@
+# [0.1.0-alpha.32](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.31...v0.1.0-alpha.32) (2026-05-03)
+
+
+### Bug Fixes
+
+* allow click-day to fire when clicking template or holiday chips in DayCell ([#44](https://github.com/Novanglus96/LenoreSchedule/issues/44)) ([5167378](https://github.com/Novanglus96/LenoreSchedule/commit/5167378ddaa4125ba610bbd81a52d9dfbc49f1c3))
+
 # [0.1.0-alpha.31](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-alpha.30...v0.1.0-alpha.31) (2026-05-03)
 
 
