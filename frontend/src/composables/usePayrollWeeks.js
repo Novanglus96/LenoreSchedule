@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/vue-query";
+import { toValue } from "vue";
 import api from "@/api/index.js";
 
 export function usePayrollWeeks(year) {
   return useQuery({
     queryKey: ["payrollWeeks", year],
     queryFn: async () => {
-      const { data } = await api.get(`/options/payroll_infos/${year}/weeks`);
+      const { data } = await api.get(`/options/payroll_infos/${toValue(year)}/weeks`);
       return data;
     },
     staleTime: 1000 * 60 * 10,
