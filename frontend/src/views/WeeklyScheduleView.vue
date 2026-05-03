@@ -72,21 +72,33 @@
     </template>
 
     <template v-else-if="weeks && weeks.length">
-      <v-tabs
-        v-model="activePage"
-        density="compact"
-        show-arrows
-        color="primary"
-        class="mb-4"
-      >
-        <v-tab
-          v-for="week in weeks"
-          :key="week.page"
-          :value="week.page"
+      <div class="d-flex align-center gap-2 mb-4">
+        <v-tabs
+          v-model="activePage"
+          density="compact"
+          show-arrows
+          color="primary"
+          class="flex-grow-1"
         >
-          {{ week.label }}
-        </v-tab>
-      </v-tabs>
+          <v-tab
+            v-for="week in weeks"
+            :key="week.page"
+            :value="week.page"
+          >
+            {{ week.label }}
+          </v-tab>
+        </v-tabs>
+        <v-btn
+          v-if="!isOnCurrentWeek"
+          size="small"
+          variant="tonal"
+          color="primary"
+          prepend-icon="mdi-calendar-today"
+          @click="jumpToCurrentWeek"
+        >
+          Today
+        </v-btn>
+      </div>
 
       <template v-if="scheduleLoading">
         <v-row>
@@ -185,9 +197,28 @@ const {
 
 const weeksErrorStatus = computed(() => weeksErrorObj.value?.response?.status);
 
+const today = new Date().toISOString().slice(0, 10);
+
+const currentWeekPage = computed(() => {
+  const match = weeks.value?.find((w) => w.week_start <= today && today <= w.week_end);
+  return match?.page ?? null;
+});
+
+const isOnCurrentWeek = computed(
+  () => selectedYear.value === currentYear && activePage.value === currentWeekPage.value,
+);
+
+function jumpToCurrentWeek() {
+  if (selectedYear.value === currentYear) {
+    if (currentWeekPage.value !== null) activePage.value = currentWeekPage.value;
+  } else {
+    // Changing the year triggers watch(weeks) which will land on the current week
+    selectedYear.value = currentYear;
+  }
+}
+
 watch(weeks, (val) => {
   if (!val?.length) return;
-  const today = new Date().toISOString().slice(0, 10);
   const match = val.find((w) => w.week_start <= today && today <= w.week_end);
   if (match) activePage.value = match.page;
 });
