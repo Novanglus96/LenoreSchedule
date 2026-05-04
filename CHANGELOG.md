@@ -1,3 +1,10 @@
+# [0.1.0-beta.3](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.2...v0.1.0-beta.3) (2026-05-04)
+
+
+### Features
+
+* group employees by group within each division on schedule and PDF ([#55](https://github.com/Novanglus96/LenoreSchedule/issues/55)) ([2b88d49](https://github.com/Novanglus96/LenoreSchedule/commit/2b88d49d87b867439b0746f8369e889b70ad1986))
+
 # [0.1.0-beta.2](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.1...v0.1.0-beta.2) (2026-05-04)
 
 
