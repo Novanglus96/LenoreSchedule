@@ -1,3 +1,10 @@
+# [0.1.0-beta.6](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.5...v0.1.0-beta.6) (2026-05-04)
+
+
+### Bug Fixes
+
+* open Django Admin link in same window instead of new tab ([#58](https://github.com/Novanglus96/LenoreSchedule/issues/58)) ([dc83460](https://github.com/Novanglus96/LenoreSchedule/commit/dc834601356cc2d52469b39071170b3f0258275f))
+
 # [0.1.0-beta.5](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.4...v0.1.0-beta.5) (2026-05-04)
 
 
