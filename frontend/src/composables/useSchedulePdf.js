@@ -30,11 +30,9 @@ function entryText(entry, defaultLocationId = null) {
     const hours = calcHours(entry.start_time, entry.end_time, entry.break_minutes || 0);
     const timeStr = `${fmtTime(entry.start_time)}-${fmtTime(entry.end_time)}`;
     const inner = [hours, entry.entry_type].filter(Boolean).join(" ");
-    const statusStr = entry.source === "calendar" ? (entry.confirmed ? " c" : " u") : "";
-    text = `${timeStr}${inner ? ` (${inner})` : ""}${statusStr}`;
+    text = `${timeStr}${inner ? ` (${inner})` : ""}`;
   } else {
-    const statusStr = entry.source === "calendar" ? (entry.confirmed ? " c" : " u") : "";
-    text = `${entry.entry_type || ""}${statusStr}`.trimEnd();
+    text = entry.entry_type || "";
   }
 
   if (entry.source === "calendar") {
@@ -164,7 +162,13 @@ export function useSchedulePdf() {
         for (const emp of grp.employees) {
           const row = [`${emp.last_name}, ${emp.first_name}`];
           for (const day of emp.days) {
-            row.push(day.entries.length === 0 ? "—" : day.entries.map((e) => entryText(e, emp.default_location_id ?? null)).join("\n"));
+            if (day.entries.length === 0) {
+              row.push("—");
+            } else {
+              const text = day.entries.map((e) => entryText(e, emp.default_location_id ?? null)).join("\n");
+              const unconfirmed = day.entries.some((e) => e.source === "calendar" && !e.confirmed);
+              row.push(unconfirmed ? { content: text, styles: { fontStyle: "italic" } } : text);
+            }
           }
           body.push(row);
         }
