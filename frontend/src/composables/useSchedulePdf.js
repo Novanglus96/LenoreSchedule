@@ -22,7 +22,7 @@ function calcHours(startTime, endTime, breakMinutes = 0) {
   return m === 0 ? `${h}h` : `${h}h${m}m`;
 }
 
-function entryText(entry) {
+function entryText(entry, defaultLocationId = null) {
   if (entry.source === "holiday") return entry.holiday_name || "Holiday";
 
   let text;
@@ -37,8 +37,12 @@ function entryText(entry) {
     text = `${entry.entry_type || ""}${statusStr}`.trimEnd();
   }
 
-  if (entry.source === "calendar" && entry.notes) {
-    text += `\n${entry.notes}`;
+  if (entry.source === "calendar") {
+    const loc = entry.location;
+    if (loc && loc.id !== defaultLocationId) {
+      text += `\n${loc.location_name}`;
+    }
+    if (entry.notes) text += `\n${entry.notes}`;
   }
 
   return text;
@@ -160,7 +164,7 @@ export function useSchedulePdf() {
         for (const emp of grp.employees) {
           const row = [`${emp.last_name}, ${emp.first_name}`];
           for (const day of emp.days) {
-            row.push(day.entries.length === 0 ? "—" : day.entries.map(entryText).join("\n"));
+            row.push(day.entries.length === 0 ? "—" : day.entries.map((e) => entryText(e, emp.default_location_id ?? null)).join("\n"));
           }
           body.push(row);
         }
