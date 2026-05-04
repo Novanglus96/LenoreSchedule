@@ -29,15 +29,17 @@ function entryText(entry) {
   if (entry.start_time && entry.end_time) {
     const hours = calcHours(entry.start_time, entry.end_time, entry.break_minutes || 0);
     const timeStr = `${fmtTime(entry.start_time)}-${fmtTime(entry.end_time)}`;
-    const base = hours ? `${timeStr} (${hours})` : timeStr;
-    text = entry.entry_type ? `${base} · ${entry.entry_type}` : base;
+    const hoursStr = hours ? ` (${hours})` : "";
+    const codeStr = entry.entry_type ? entry.entry_type : "";
+    const statusStr = entry.source === "calendar" ? (entry.confirmed ? " ✓" : " ?") : "";
+    text = `${timeStr}${hoursStr}\n${codeStr}${statusStr}`.trimEnd();
   } else {
-    text = entry.entry_type || "";
+    const statusStr = entry.source === "calendar" ? (entry.confirmed ? " ✓" : " ?") : "";
+    text = `${entry.entry_type || ""}${statusStr}`.trimEnd();
   }
 
-  if (entry.source === "calendar") {
-    text += entry.confirmed ? " ✓" : " ?";
-    if (entry.notes) text += `\n${entry.notes}`;
+  if (entry.source === "calendar" && entry.notes) {
+    text += `\n${entry.notes}`;
   }
 
   return text;
@@ -170,12 +172,14 @@ export function useSchedulePdf() {
       head,
       body,
       startY: tableStartY,
+      tableWidth: "auto",
       styles: {
         fontSize: 7,
         cellPadding: 3,
         valign: "middle",
         halign: "center",
         overflow: "linebreak",
+        minCellWidth: 60,
       },
       headStyles: {
         fillColor: [66, 66, 66],
@@ -184,7 +188,7 @@ export function useSchedulePdf() {
         halign: "center",
       },
       columnStyles: {
-        0: { halign: "left", fontStyle: "bold", cellWidth: 80 },
+        0: { halign: "left", fontStyle: "bold", cellWidth: 75 },
       },
       alternateRowStyles: { fillColor: [248, 248, 248] },
     });
