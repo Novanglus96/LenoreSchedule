@@ -75,7 +75,9 @@ function drawHeader(doc, schedule, year, page) {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
   doc.setTextColor(80, 80, 80);
-  doc.text(`Pay Period: ${year} #${page + 1}`, margin + 8, top + 30);
+  const labelFirst = schedule.week_label?.split(".")?.[0] ?? String(page + 1);
+  const payNum = isNaN(Number(labelFirst)) ? page + 1 : Number(labelFirst);
+  doc.text(`Pay Period: ${year} #${payNum}`, margin + 8, top + 30);
   doc.text(fmtDateRange(schedule.week_start, schedule.week_end), margin + 8, top + 42);
 
   // Vertical divider after left block

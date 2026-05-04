@@ -4,7 +4,7 @@
       <div class="mr-4">
         <h1 class="text-h5 font-weight-bold">Weekly Schedule</h1>
         <div v-if="schedule" class="text-subtitle-2 text-medium-emphasis">
-          Pay Period: {{ selectedYear }} #{{ activePage + 1 }}
+          Pay Period: {{ selectedYear }} #{{ payPeriodNumber }}
         </div>
       </div>
       <v-select
@@ -198,6 +198,12 @@ const {
 const weeksErrorStatus = computed(() => weeksErrorObj.value?.response?.status);
 
 const today = new Date().toISOString().slice(0, 10);
+
+const payPeriodNumber = computed(() => {
+  const label = weeks.value?.find((w) => w.page === activePage.value)?.label ?? "";
+  const first = label.split(".")[0];
+  return isNaN(Number(first)) ? activePage.value + 1 : Number(first);
+});
 
 const currentWeekPage = computed(() => {
   const match = weeks.value?.find((w) => w.week_start <= today && today <= w.week_end);
