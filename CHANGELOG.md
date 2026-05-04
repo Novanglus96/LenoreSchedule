@@ -1,3 +1,10 @@
+# [0.1.0-beta.12](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.11...v0.1.0-beta.12) (2026-05-04)
+
+
+### Features
+
+* remove duplicate entry code label and add confirm-all-overrides button per employee ([#64](https://github.com/Novanglus96/LenoreSchedule/issues/64)) ([e91d8b8](https://github.com/Novanglus96/LenoreSchedule/commit/e91d8b8b44dc3e39493551d666eba8623a1eaf4c))
+
 # [0.1.0-beta.11](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.10...v0.1.0-beta.11) (2026-05-04)
 
 
