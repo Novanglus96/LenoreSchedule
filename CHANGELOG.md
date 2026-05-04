@@ -1,3 +1,10 @@
+# [0.1.0-beta.4](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.3...v0.1.0-beta.4) (2026-05-04)
+
+
+### Bug Fixes
+
+* remove redundant group label and correct pay period number ([#56](https://github.com/Novanglus96/LenoreSchedule/issues/56)) ([9d466f0](https://github.com/Novanglus96/LenoreSchedule/commit/9d466f08ec1033ae639bdeb7f69f5a896d9443c8))
+
 # [0.1.0-beta.3](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.2...v0.1.0-beta.3) (2026-05-04)
 
 
