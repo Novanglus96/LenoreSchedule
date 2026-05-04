@@ -1,3 +1,10 @@
+# [0.1.0-beta.14](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.13...v0.1.0-beta.14) (2026-05-04)
+
+
+### Bug Fixes
+
+* show non-default location in PDF cells for calendar overrides ([#67](https://github.com/Novanglus96/LenoreSchedule/issues/67)) ([a29285b](https://github.com/Novanglus96/LenoreSchedule/commit/a29285b9604bdd4575f7140ef85c4232af71ca95))
+
 # [0.1.0-beta.13](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.12...v0.1.0-beta.13) (2026-05-04)
 
 
