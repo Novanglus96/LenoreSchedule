@@ -1,3 +1,10 @@
+# [0.1.0-beta.9](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.8...v0.1.0-beta.9) (2026-05-04)
+
+
+### Features
+
+* editable entry types with codes, notes on schedule and PDF ([#61](https://github.com/Novanglus96/LenoreSchedule/issues/61)) ([b541c20](https://github.com/Novanglus96/LenoreSchedule/commit/b541c208794582ca9c42dcabe3bbf0eb1462824f))
+
 # [0.1.0-beta.8](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.7...v0.1.0-beta.8) (2026-05-04)
 
 
