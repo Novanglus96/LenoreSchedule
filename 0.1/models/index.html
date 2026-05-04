@@ -2756,7 +2756,7 @@ A partial override covers a specific time block within a day.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The type of entry (scheduled, vacation, sick, etc.).</p>
+                <p>3-character code referencing EntryType.code.</p>
               </div>
             </td>
           </tr>
@@ -2783,26 +2783,7 @@ A partial override covers a specific time block within a day.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>backend/planner/models.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
 <span class="normal"> 79</span>
 <span class="normal"> 80</span>
 <span class="normal"> 81</span>
@@ -2834,7 +2815,11 @@ A partial override covers a specific time block within a day.</p>
 <span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
-<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CalendarEntry</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CalendarEntry</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Model representing a calendar entry (override or manual shift).</span>
 
@@ -2849,20 +2834,9 @@ A partial override covers a specific time block within a day.</p>
 <span class="sd">        end_time (TimeField): End of the time block. Null for full-day entries.</span>
 <span class="sd">        confirmed (BooleanField): Whether this entry has been confirmed.</span>
 <span class="sd">        location (ForeignKey): Where the employee is working. Optional.</span>
-<span class="sd">        entry_type (CharField): The type of entry (scheduled, vacation, sick, etc.).</span>
+<span class="sd">        entry_type (CharField): 3-character code referencing EntryType.code.</span>
 <span class="sd">        notes (TextField): Optional free-text notes for the entry.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">ENTRY_TYPE_CHOICES</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s2">&quot;scheduled&quot;</span><span class="p">,</span> <span class="s2">&quot;Scheduled&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;vacation&quot;</span><span class="p">,</span> <span class="s2">&quot;Vacation&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;sick&quot;</span><span class="p">,</span> <span class="s2">&quot;Sick&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;holiday&quot;</span><span class="p">,</span> <span class="s2">&quot;Holiday&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;floating_holiday&quot;</span><span class="p">,</span> <span class="s2">&quot;Floating Holiday&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;personal&quot;</span><span class="p">,</span> <span class="s2">&quot;Personal&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;overtime&quot;</span><span class="p">,</span> <span class="s2">&quot;Overtime&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;swap&quot;</span><span class="p">,</span> <span class="s2">&quot;Shift Swap&quot;</span><span class="p">),</span>
-    <span class="p">]</span>
 
     <span class="n">employee</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Employee</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
     <span class="n">calendar_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
@@ -2872,11 +2846,7 @@ A partial override covers a specific time block within a day.</p>
     <span class="n">location</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
         <span class="n">Location</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
-    <span class="n">entry_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
-        <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
-        <span class="n">choices</span><span class="o">=</span><span class="n">ENTRY_TYPE_CHOICES</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;scheduled&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">entry_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;SCH&quot;</span><span class="p">)</span>
     <span class="n">break_minutes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
@@ -2916,8 +2886,8 @@ A partial override covers a specific time block within a day.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/planner/models.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
-<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">113</span>
+<span class="normal">114</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">calendar_date</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">employee</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">employee</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -3030,11 +3000,7 @@ Days with no ScheduleTemplate rows are treated as days off.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>backend/planner/models.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
@@ -3083,7 +3049,11 @@ Days with no ScheduleTemplate rows are treated as days off.</p>
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
-<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ScheduleTemplate</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ScheduleTemplate</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Model representing one time block in an employee&#39;s typical weekly schedule.</span>
 
@@ -3167,15 +3137,15 @@ Days with no ScheduleTemplate rows are treated as days off.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>backend/planner/models.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">162</span>
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
-<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="n">days</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s2">&quot;Monday&quot;</span><span class="p">,</span> <span class="s2">&quot;Tuesday&quot;</span><span class="p">,</span> <span class="s2">&quot;Wednesday&quot;</span><span class="p">,</span> <span class="s2">&quot;Thursday&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Friday&quot;</span><span class="p">,</span> <span class="s2">&quot;Saturday&quot;</span><span class="p">,</span> <span class="s2">&quot;Sunday&quot;</span><span class="p">,</span>
