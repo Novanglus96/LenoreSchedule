@@ -1,3 +1,10 @@
+# [0.1.0-beta.2](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.1...v0.1.0-beta.2) (2026-05-04)
+
+
+### Features
+
+* append (observed) to observed holidays and add employee filter for schedule templates ([#54](https://github.com/Novanglus96/LenoreSchedule/issues/54)) ([7e3a755](https://github.com/Novanglus96/LenoreSchedule/commit/7e3a7551612622ab8bfa9b4cf633de8348eea0b2))
+
 # [0.1.0-beta.1](https://github.com/Novanglus96/LenoreSchedule/compare/v0.0.0...v0.1.0-beta.1) (2026-05-03)
 
 
