@@ -165,7 +165,7 @@ def get_weekly_division_schedule(
                         day_entries.append(
                             DomainDayEntry(
                                 source="template",
-                                entry_type="scheduled",
+                                entry_type="SCH",
                                 start_time=t.start_time,
                                 end_time=t.end_time,
                                 location=model_to_domain_location(t.location) if t.location else None,

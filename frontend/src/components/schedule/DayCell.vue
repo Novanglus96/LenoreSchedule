@@ -12,9 +12,10 @@
         size="x-small"
         :title="chipTitle(entry)"
         :class="{ 'cursor-pointer': isStaff }"
+        style="height: auto; white-space: normal;"
         @click="handleChipClick(entry, $event)"
       >
-        <span class="text-truncate" style="max-width: 110px">
+        <span class="chip-text">
           {{ chipLabel(entry) }}
         </span>
         <v-icon
@@ -24,6 +25,9 @@
           icon="mdi-pencil"
         />
       </v-chip>
+      <div v-if="entryCode(entry)" class="code-label">
+        {{ entryCode(entry) }}
+      </div>
       <div v-if="locationLabel(entry)" class="location-label">
         {{ locationLabel(entry) }}
       </div>
@@ -81,10 +85,17 @@ function chipLabel(entry) {
   if (entry.start_time && entry.end_time) {
     const hours = calcHours(entry.start_time, entry.end_time, entry.break_minutes || 0);
     const timeStr = `${fmtTime(entry.start_time)} – ${fmtTime(entry.end_time)}`;
-    const base = hours ? `${timeStr} (${hours})` : timeStr;
-    return entry.entry_type ? `${base} · ${entry.entry_type}` : base;
+    return hours ? `${timeStr} (${hours})` : timeStr;
   }
   return entry.entry_type || "—";
+}
+
+function entryCode(entry) {
+  if (entry.source === "holiday") return null;
+  if (!entry.entry_type) return null;
+  // Only show code as a sub-label when there are times (otherwise chipLabel already shows it)
+  if (entry.start_time && entry.end_time) return entry.entry_type;
+  return null;
 }
 
 function locationLabel(entry) {
@@ -153,6 +164,19 @@ function fmtTime(t) {
   flex-direction: column;
   align-items: center;
 }
+.chip-text {
+  white-space: normal;
+  word-break: break-word;
+  text-align: center;
+  line-height: 1.3;
+}
+.code-label {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: rgba(var(--v-theme-on-surface), 0.7);
+  margin-top: 1px;
+}
 .location-label {
   font-size: 10px;
   line-height: 1.3;
@@ -165,9 +189,7 @@ function fmtTime(t) {
   color: rgba(var(--v-theme-on-surface), 0.55);
   margin-top: 1px;
   font-style: italic;
-  max-width: 110px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  word-break: break-word;
+  white-space: normal;
 }
 </style>
