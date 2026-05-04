@@ -30,10 +30,10 @@ function entryText(entry) {
     const hours = calcHours(entry.start_time, entry.end_time, entry.break_minutes || 0);
     const timeStr = `${fmtTime(entry.start_time)}-${fmtTime(entry.end_time)}`;
     const inner = [hours, entry.entry_type].filter(Boolean).join(" ");
-    const statusStr = entry.source === "calendar" ? (entry.confirmed ? " ✓" : " ?") : "";
+    const statusStr = entry.source === "calendar" ? (entry.confirmed ? " c" : " u") : "";
     text = `${timeStr}${inner ? ` (${inner})` : ""}${statusStr}`;
   } else {
-    const statusStr = entry.source === "calendar" ? (entry.confirmed ? " ✓" : " ?") : "";
+    const statusStr = entry.source === "calendar" ? (entry.confirmed ? " c" : " u") : "";
     text = `${entry.entry_type || ""}${statusStr}`.trimEnd();
   }
 
