@@ -1,3 +1,10 @@
+# [0.1.0-beta.5](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.4...v0.1.0-beta.5) (2026-05-04)
+
+
+### Bug Fixes
+
+* correct pay period number and add week suffix in PDF filename ([#57](https://github.com/Novanglus96/LenoreSchedule/issues/57)) ([37d51b7](https://github.com/Novanglus96/LenoreSchedule/commit/37d51b770539687f06851224d390b245832f18c3))
+
 # [0.1.0-beta.4](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.3...v0.1.0-beta.4) (2026-05-04)
 
 
