@@ -27,7 +27,10 @@ def _holidays_for_range(week_start: date, week_end: date) -> dict:
             info = get_holiday_date_for_year(holiday.id, year)
             h_date = info["holiday_date"]
             if h_date and week_start <= h_date <= week_end:
-                result.setdefault(h_date, []).append(info["holiday_name"])
+                name = info["holiday_name"]
+                if info.get("observed"):
+                    name += " (observed)"
+                result.setdefault(h_date, []).append(name)
     return result
 
 
