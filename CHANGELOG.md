@@ -1,3 +1,10 @@
+# [0.1.0-beta.13](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.12...v0.1.0-beta.13) (2026-05-04)
+
+
+### Bug Fixes
+
+* use 'c'/'u' confirmation indicators in PDF instead of symbols ([#66](https://github.com/Novanglus96/LenoreSchedule/issues/66)) ([9532cca](https://github.com/Novanglus96/LenoreSchedule/commit/9532ccaea0a716d0f593e146195f887581700bd3))
+
 # [0.1.0-beta.12](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.11...v0.1.0-beta.12) (2026-05-04)
 
 
