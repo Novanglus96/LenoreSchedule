@@ -101,6 +101,7 @@ def update_schedule_template(
     schedule_template.day_of_week = dto.day_of_week
     schedule_template.start_time = dto.start_time
     schedule_template.end_time = dto.end_time
+    schedule_template.break_minutes = dto.break_minutes
     schedule_template.location_id = dto.location_id
 
     schedule_template.save()

@@ -11,6 +11,7 @@ class DayEntryOut(Schema):
     end_time: Optional[time] = None
     location: Optional[LocationOut] = None
     confirmed: Optional[bool] = None
+    break_minutes: int = 0
     notes: Optional[str] = None
     holiday_name: Optional[str] = None
     calendar_entry_id: Optional[int] = None

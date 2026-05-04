@@ -99,6 +99,7 @@ class CalendarEntry(models.Model):
         choices=ENTRY_TYPE_CHOICES,
         default="scheduled",
     )
+    break_minutes = models.PositiveSmallIntegerField(default=0)
     notes = models.TextField(null=True, blank=True, default=None)
 
     class Meta:
@@ -142,6 +143,7 @@ class ScheduleTemplate(models.Model):
     day_of_week = models.PositiveSmallIntegerField(choices=DAY_OF_WEEK_CHOICES)
     start_time = models.TimeField()
     end_time = models.TimeField()
+    break_minutes = models.PositiveSmallIntegerField(default=0)
     location = models.ForeignKey(
         Location,
         on_delete=models.SET_NULL,

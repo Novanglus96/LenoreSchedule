@@ -28,6 +28,7 @@ class CalendarEntryIn(Schema):
     start_time: Optional[time] = None
     end_time: Optional[time] = None
     location_id: Optional[int] = None
+    break_minutes: int = 0
     notes: Optional[str] = None
 
 
@@ -57,4 +58,5 @@ class CalendarEntryOut(Schema):
     end_time: Optional[time] = None
     location: Optional[LocationOut] = None
     hours: Optional[Decimal] = None
+    break_minutes: int = 0
     notes: Optional[str] = None

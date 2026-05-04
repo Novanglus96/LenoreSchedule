@@ -82,6 +82,7 @@ def get_weekly_schedule(request, page: int = 0, payroll_year: int = None):
                                                 "end_time": e.end_time,
                                                 "location": e.location,
                                                 "confirmed": e.confirmed,
+                                                "break_minutes": e.break_minutes,
                                                 "notes": e.notes,
                                                 "holiday_name": e.holiday_name,
                                                 "calendar_entry_id": e.calendar_entry_id,

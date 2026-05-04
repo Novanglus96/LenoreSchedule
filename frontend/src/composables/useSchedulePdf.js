@@ -11,11 +11,11 @@ function fmtTime(t) {
   return `${hour % 12 || 12}:${m}${ampm}`;
 }
 
-function calcHours(startTime, endTime) {
+function calcHours(startTime, endTime, breakMinutes = 0) {
   if (!startTime || !endTime) return null;
   const [sh, sm] = startTime.split(":").map(Number);
   const [eh, em] = endTime.split(":").map(Number);
-  const totalMinutes = eh * 60 + em - (sh * 60 + sm);
+  const totalMinutes = eh * 60 + em - (sh * 60 + sm) - breakMinutes;
   if (totalMinutes <= 0) return null;
   const h = Math.floor(totalMinutes / 60);
   const m = totalMinutes % 60;
@@ -26,7 +26,7 @@ function entryText(entry) {
   if (entry.source === "holiday") return entry.holiday_name || "Holiday";
   if (entry.entry_type === "day_off") return "Day Off";
   if (entry.start_time && entry.end_time) {
-    const hours = calcHours(entry.start_time, entry.end_time);
+    const hours = calcHours(entry.start_time, entry.end_time, entry.break_minutes || 0);
     const timeStr = `${fmtTime(entry.start_time)}-${fmtTime(entry.end_time)}`;
     const base = hours ? `${timeStr} (${hours})` : timeStr;
     if (entry.source === "calendar") {

@@ -21,6 +21,7 @@ class ScheduleTemplateIn(Schema):
     day_of_week: int
     start_time: time
     end_time: time
+    break_minutes: int = 0
     location_id: Optional[int] = None
 
 
@@ -42,4 +43,5 @@ class ScheduleTemplateOut(Schema):
     day_of_week: int
     start_time: time
     end_time: time
+    break_minutes: int = 0
     location: Optional[LocationOut] = None
