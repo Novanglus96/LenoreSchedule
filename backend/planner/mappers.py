@@ -1,4 +1,6 @@
 from planner.dto import (
+    DomainEntryType,
+    DomainEntryTypeIn,
     DomainHoliday,
     DomainHolidayIn,
     DomainCalendarEntry,
@@ -6,6 +8,7 @@ from planner.dto import (
     DomainScheduleTemplate,
     DomainScheduleTemplateIn,
 )
+from planner.api.schemas.entry_type import EntryTypeIn, EntryTypeOut
 from planner.api.schemas.holiday import HolidayIn, HolidayOut
 from planner.api.schemas.calendar_entry import (
     CalendarEntryIn,
@@ -15,13 +18,25 @@ from planner.api.schemas.schedule_template import (
     ScheduleTemplateIn,
     ScheduleTemplateOut,
 )
-from planner.models import Holiday, CalendarEntry, ScheduleTemplate
+from planner.models import EntryType, Holiday, CalendarEntry, ScheduleTemplate
 from staff.mappers import (
     domain_employee_to_schema,
     domain_location_to_schema,
     model_to_domain_employee,
     model_to_domain_location,
 )
+
+
+def model_to_domain_entry_type(model: EntryType) -> DomainEntryType:
+    return DomainEntryType(id=model.id, name=model.name, code=model.code)
+
+
+def domain_entry_type_to_schema(entry_type: DomainEntryType) -> EntryTypeOut:
+    return EntryTypeOut(id=entry_type.id, name=entry_type.name, code=entry_type.code)
+
+
+def schema_to_domain_entry_type(schema: EntryTypeIn) -> DomainEntryTypeIn:
+    return DomainEntryTypeIn(name=schema.name, code=schema.code)
 
 
 def domain_holiday_to_schema(

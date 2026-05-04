@@ -24,21 +24,23 @@ function calcHours(startTime, endTime, breakMinutes = 0) {
 
 function entryText(entry) {
   if (entry.source === "holiday") return entry.holiday_name || "Holiday";
-  if (entry.entry_type === "day_off") return "Day Off";
+
+  let text;
   if (entry.start_time && entry.end_time) {
     const hours = calcHours(entry.start_time, entry.end_time, entry.break_minutes || 0);
     const timeStr = `${fmtTime(entry.start_time)}-${fmtTime(entry.end_time)}`;
     const base = hours ? `${timeStr} (${hours})` : timeStr;
-    if (entry.source === "calendar") {
-      return base + (entry.confirmed ? " ✓" : " ?");
-    }
-    return base;
+    text = entry.entry_type ? `${base} · ${entry.entry_type}` : base;
+  } else {
+    text = entry.entry_type || "";
   }
-  const label = entry.entry_type.replace(/_/g, " ");
+
   if (entry.source === "calendar") {
-    return label + (entry.confirmed ? " ✓" : " ?");
+    text += entry.confirmed ? " ✓" : " ?";
+    if (entry.notes) text += `\n${entry.notes}`;
   }
-  return label;
+
+  return text;
 }
 
 function dayHeader(isoDate) {

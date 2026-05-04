@@ -9,6 +9,7 @@
       <v-tab value="employees">Employees</v-tab>
       <v-tab value="payroll">Payroll</v-tab>
       <v-tab value="holidays">Holidays</v-tab>
+      <v-tab value="entry_types">Entry Types</v-tab>
       <v-tab value="templates">Schedule Templates</v-tab>
     </v-tabs>
     <v-divider class="mb-4" />
@@ -114,6 +115,23 @@
         />
       </v-tabs-window-item>
 
+      <!-- ── ENTRY TYPES ───────────────────────────────── -->
+      <v-tabs-window-item value="entry_types">
+        <EntityPanel
+          title="Entry Types"
+          :items="entryTypes || []"
+          :loading="entryTypesLoading"
+          :headers="[
+            { key: 'id', label: 'ID' },
+            { key: 'name', label: 'Name' },
+            { key: 'code', label: 'Code' },
+          ]"
+          @new="openCreate('entry_types')"
+          @edit="openEdit('entry_types', $event)"
+          @delete="confirmDelete('entry_types', $event)"
+        />
+      </v-tabs-window-item>
+
       <!-- ── SCHEDULE TEMPLATES ─────────────────────────── -->
       <v-tabs-window-item value="templates">
         <div class="d-flex align-center gap-3 mb-3">
@@ -155,7 +173,7 @@
       :open="dialog.open"
       :title="dialog.title"
       :saving="isSaving"
-      :max-width="dialog.entity === 'employees' || dialog.entity === 'templates' ? 680 : 560"
+      :max-width="dialog.entity === 'employees' || dialog.entity === 'templates' ? 680 : 520"
       @cancel="closeDialog"
       @save="triggerFormSubmit"
     >
@@ -197,6 +215,12 @@
       />
       <HolidayForm
         v-else-if="dialog.entity === 'holidays'"
+        ref="formRef"
+        :model-value="dialog.item"
+        @submit="onFormSubmit"
+      />
+      <EntryTypeForm
+        v-else-if="dialog.entity === 'entry_types'"
         ref="formRef"
         :model-value="dialog.item"
         @submit="onFormSubmit"
@@ -243,6 +267,7 @@ import SimpleNameForm from "@/components/admin/forms/SimpleNameForm.vue";
 import EmployeeForm from "@/components/admin/forms/EmployeeForm.vue";
 import PayrollInfoForm from "@/components/admin/forms/PayrollInfoForm.vue";
 import HolidayForm from "@/components/admin/forms/HolidayForm.vue";
+import EntryTypeForm from "@/components/admin/forms/EntryTypeForm.vue";
 import ScheduleTemplateForm from "@/components/admin/forms/ScheduleTemplateForm.vue";
 
 import { useGroups } from "@/composables/useGroups.js";
@@ -250,6 +275,7 @@ import { useDivisions } from "@/composables/useDivisions.js";
 import { useLocations } from "@/composables/useLocations.js";
 import { useEmployees } from "@/composables/useEmployees.js";
 import { usePayrollInfos } from "@/composables/usePayrollInfos.js";
+import { useEntryTypes } from "@/composables/useEntryTypes.js";
 import { useHolidays } from "@/composables/useHolidays.js";
 import { useScheduleTemplates } from "@/composables/useScheduleTemplates.js";
 
@@ -305,6 +331,14 @@ const {
   updateMutation: updateHoliday,
   deleteMutation: deleteHoliday,
 } = useHolidays();
+
+const {
+  data: entryTypes,
+  isLoading: entryTypesLoading,
+  createMutation: createEntryType,
+  updateMutation: updateEntryType,
+  deleteMutation: deleteEntryType,
+} = useEntryTypes();
 
 const {
   data: templates,
@@ -366,6 +400,11 @@ const MUTATIONS = computed(() => ({
     create: createHoliday,
     update: updateHoliday,
     delete: deleteHoliday,
+  },
+  entry_types: {
+    create: createEntryType,
+    update: updateEntryType,
+    delete: deleteEntryType,
   },
   templates: {
     create: createTemplate,
@@ -442,6 +481,7 @@ function createTitle(entity) {
     employees: "New Employee",
     payroll: "New Payroll Info",
     holidays: "New Holiday",
+    entry_types: "New Entry Type",
     templates: "New Schedule Template",
   };
   return map[entity] || "New";
@@ -455,6 +495,7 @@ function editTitle(entity, item) {
     employees: `Edit Employee: ${item.first_name} ${item.last_name}`,
     payroll: `Edit Payroll: ${item.payroll_year}`,
     holidays: `Edit Holiday: ${item.holiday_name}`,
+    entry_types: `Edit Entry Type: ${item.name}`,
     templates: `Edit Template`,
   };
   return map[entity] || "Edit";
@@ -468,6 +509,7 @@ function deleteLabel(entity, item) {
     employees: `${item.first_name} ${item.last_name}`,
     payroll: `payroll info for ${item.payroll_year}`,
     holidays: item.holiday_name,
+    entry_types: `${item.code} – ${item.name}`,
     templates: `template for ${item.employee?.first_name} ${item.employee?.last_name}`,
   };
   return map[entity] || "this item";

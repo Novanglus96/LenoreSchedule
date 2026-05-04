@@ -11,6 +11,7 @@ from staff.api.routers.group import group_router
 from staff.api.routers.division import division_router
 from staff.api.routers.employee import employee_router
 from staff.api.routers.location import location_router
+from planner.api.routers.entry_type import router as entry_type_router
 from planner.api.routers.holiday import holiday_router
 from planner.api.routers.calendar_entry import calendar_entry_router
 from planner.api.routers.schedule_template import router as schedule_template_router
@@ -30,6 +31,7 @@ api.add_router("/groups", group_router)
 api.add_router("/divisions", division_router)
 api.add_router("/employees", employee_router)
 api.add_router("/locations", location_router)
+api.add_router("/entry_types", entry_type_router)
 api.add_router("/calendar/holidays", holiday_router)
 api.add_router("/calendar/", calendar_entry_router)
 api.add_router("/calendar/", weekly_schedule_router)

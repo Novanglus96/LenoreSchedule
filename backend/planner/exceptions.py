@@ -54,6 +54,24 @@ class CalendarEntryInvalidEntryType(Exception):
     pass
 
 
+class EntryTypeAlreadyExists(Exception):
+    pass
+
+
+class EntryTypeCreationError(Exception):
+    pass
+
+
+class EntryTypeDoesNotExist(Exception):
+    def __init__(self, entry_type_id: int):
+        super().__init__(f"EntryType {entry_type_id} does not exist")
+        self.entry_type_id = entry_type_id
+
+
+class EntryTypeCodeTooLong(Exception):
+    pass
+
+
 class ScheduleTemplateDoesNotExist(Exception):
     def __init__(self, schedule_template_id: int):
         super().__init__(

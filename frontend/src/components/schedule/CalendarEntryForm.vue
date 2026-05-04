@@ -4,7 +4,8 @@
       <v-select
         v-model="entryType"
         label="Type"
-        :items="ENTRY_TYPE_OPTIONS"
+        :items="entryTypeItems"
+        :loading="entryTypesLoading"
         :error-messages="errors.entry_type"
         variant="outlined"
         density="comfortable"
@@ -79,6 +80,7 @@
 import { computed, watch } from "vue";
 import { useForm, useField } from "vee-validate";
 import { useLocations } from "@/composables/useLocations.js";
+import { useEntryTypes } from "@/composables/useEntryTypes.js";
 
 const props = defineProps({
   modelValue: { type: Object, default: null },
@@ -86,12 +88,21 @@ const props = defineProps({
 const emit = defineEmits(["submit"]);
 
 const { data: locations, isLoading: locationsLoading } = useLocations();
+const { data: entryTypeData, isLoading: entryTypesLoading } = useEntryTypes();
 
 const locationItems = computed(
   () =>
     locations.value?.map((l) => ({
       title: l.location_name,
       value: l.id,
+    })) ?? [],
+);
+
+const entryTypeItems = computed(
+  () =>
+    entryTypeData.value?.map((t) => ({
+      title: `${t.code} – ${t.name}`,
+      value: t.code,
     })) ?? [],
 );
 
@@ -105,17 +116,6 @@ const BREAK_OPTIONS = [
   { title: "1 hr 30 min", value: 90 },
   { title: "1 hr 45 min", value: 105 },
   { title: "2 hr", value: 120 },
-];
-
-const ENTRY_TYPE_OPTIONS = [
-  { title: "Scheduled", value: "scheduled" },
-  { title: "Overtime", value: "overtime" },
-  { title: "Shift Swap", value: "swap" },
-  { title: "Vacation", value: "vacation" },
-  { title: "Sick", value: "sick" },
-  { title: "Personal", value: "personal" },
-  { title: "Holiday", value: "holiday" },
-  { title: "Floating Holiday", value: "floating_holiday" },
 ];
 
 const { handleSubmit, errors, resetForm, setValues } = useForm({
@@ -134,7 +134,7 @@ const { handleSubmit, errors, resetForm, setValues } = useForm({
     },
   },
   initialValues: {
-    entry_type: "scheduled",
+    entry_type: "SCH",
     start_time: "",
     end_time: "",
     location_id: null,
