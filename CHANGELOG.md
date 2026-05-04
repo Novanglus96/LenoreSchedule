@@ -1,3 +1,10 @@
+# [0.1.0-beta.10](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.9...v0.1.0-beta.10) (2026-05-04)
+
+
+### Bug Fixes
+
+* correct site title, show entry type code, and prevent content truncation ([#62](https://github.com/Novanglus96/LenoreSchedule/issues/62)) ([f35a9d7](https://github.com/Novanglus96/LenoreSchedule/commit/f35a9d72468aebf60bf2eebb4cc20a733be3a6e8))
+
 # [0.1.0-beta.9](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.8...v0.1.0-beta.9) (2026-05-04)
 
 
