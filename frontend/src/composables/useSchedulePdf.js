@@ -201,10 +201,19 @@ export function useSchedulePdf() {
       );
     }
 
+    const labelSegments = (schedule.week_label ?? "").split(".");
+    const payNum =
+      labelSegments.length >= 2 && !isNaN(Number(labelSegments[0]))
+        ? Number(labelSegments[0])
+        : page + 1;
+    const weekSuffix =
+      labelSegments.length >= 3 && !isNaN(Number(labelSegments[1]))
+        ? `-wk${labelSegments[1]}`
+        : "";
     const divisionSlug = divisionId
       ? `-${divisions[0]?.division_name.replace(/[^a-z0-9]+/gi, "-").toLowerCase() ?? "division"}`
       : "";
-    doc.save(`schedule-${year}-pay-period-${page + 1}${divisionSlug}.pdf`);
+    doc.save(`schedule-${year}-pay-period-${payNum}${weekSuffix}${divisionSlug}.pdf`);
   }
 
   return { downloadPdf };
