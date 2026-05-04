@@ -85,7 +85,8 @@ function chipLabel(entry) {
   if (entry.start_time && entry.end_time) {
     const hours = calcHours(entry.start_time, entry.end_time, entry.break_minutes || 0);
     const timeStr = `${fmtTime(entry.start_time)} – ${fmtTime(entry.end_time)}`;
-    return hours ? `${timeStr} (${hours})` : timeStr;
+    const inner = [hours, entry.entry_type].filter(Boolean).join(" ");
+    return inner ? `${timeStr} (${inner})` : timeStr;
   }
   return entry.entry_type || "—";
 }
@@ -169,13 +170,6 @@ function fmtTime(t) {
   word-break: break-word;
   text-align: center;
   line-height: 1.3;
-}
-.code-label {
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 1.3;
-  color: rgba(var(--v-theme-on-surface), 0.7);
-  margin-top: 1px;
 }
 .location-label {
   font-size: 10px;
