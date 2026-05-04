@@ -1,3 +1,10 @@
+# [0.1.0-beta.7](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.6...v0.1.0-beta.7) (2026-05-04)
+
+
+### Features
+
+* allow multiple overrides per day via hover add button ([#59](https://github.com/Novanglus96/LenoreSchedule/issues/59)) ([b12a49a](https://github.com/Novanglus96/LenoreSchedule/commit/b12a49a70dfb33e50757a9f6fa2ed51f1fab5924))
+
 # [0.1.0-beta.6](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.5...v0.1.0-beta.6) (2026-05-04)
 
 
