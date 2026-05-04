@@ -27,6 +27,9 @@
       <div v-if="locationLabel(entry)" class="location-label">
         {{ locationLabel(entry) }}
       </div>
+      <div v-if="entry.notes && entry.source === 'calendar'" class="notes-label">
+        {{ entry.notes }}
+      </div>
     </div>
     <v-btn
       v-if="isStaff"
@@ -75,13 +78,13 @@ function chipVariant(entry) {
 
 function chipLabel(entry) {
   if (entry.source === "holiday") return entry.holiday_name || "Holiday";
-  if (entry.entry_type === "day_off") return "Day Off";
   if (entry.start_time && entry.end_time) {
     const hours = calcHours(entry.start_time, entry.end_time, entry.break_minutes || 0);
     const timeStr = `${fmtTime(entry.start_time)} – ${fmtTime(entry.end_time)}`;
-    return hours ? `${timeStr} (${hours})` : timeStr;
+    const base = hours ? `${timeStr} (${hours})` : timeStr;
+    return entry.entry_type ? `${base} · ${entry.entry_type}` : base;
   }
-  return entry.entry_type;
+  return entry.entry_type || "—";
 }
 
 function locationLabel(entry) {
@@ -155,5 +158,16 @@ function fmtTime(t) {
   line-height: 1.3;
   color: rgb(var(--v-theme-primary));
   margin-top: 1px;
+}
+.notes-label {
+  font-size: 10px;
+  line-height: 1.3;
+  color: rgba(var(--v-theme-on-surface), 0.55);
+  margin-top: 1px;
+  font-style: italic;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

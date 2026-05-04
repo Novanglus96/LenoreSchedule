@@ -6,6 +6,19 @@ from decimal import Decimal
 
 
 @dataclass
+class DomainEntryType:
+    id: int
+    name: str
+    code: str
+
+
+@dataclass(frozen=True)
+class DomainEntryTypeIn:
+    name: str
+    code: str
+
+
+@dataclass
 class DomainHoliday:
     id: int
     holiday_name: str

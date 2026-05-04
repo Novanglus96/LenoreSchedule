@@ -56,6 +56,25 @@ class Holiday(models.Model):
         return self.holiday_name
 
 
+class EntryType(models.Model):
+    """
+    Model representing a configurable calendar entry type.
+
+    Attributes:
+        name (CharField): Display name (e.g. "Vacation").
+        code (CharField): 3-character slug shown on schedule and PDF (e.g. "VAC").
+    """
+
+    name = models.CharField(max_length=100, unique=True)
+    code = models.CharField(max_length=3, unique=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return f"{self.code} – {self.name}"
+
+
 class CalendarEntry(models.Model):
     """
     Model representing a calendar entry (override or manual shift).
@@ -71,20 +90,9 @@ class CalendarEntry(models.Model):
         end_time (TimeField): End of the time block. Null for full-day entries.
         confirmed (BooleanField): Whether this entry has been confirmed.
         location (ForeignKey): Where the employee is working. Optional.
-        entry_type (CharField): The type of entry (scheduled, vacation, sick, etc.).
+        entry_type (CharField): 3-character code referencing EntryType.code.
         notes (TextField): Optional free-text notes for the entry.
     """
-
-    ENTRY_TYPE_CHOICES = [
-        ("scheduled", "Scheduled"),
-        ("vacation", "Vacation"),
-        ("sick", "Sick"),
-        ("holiday", "Holiday"),
-        ("floating_holiday", "Floating Holiday"),
-        ("personal", "Personal"),
-        ("overtime", "Overtime"),
-        ("swap", "Shift Swap"),
-    ]
 
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     calendar_date = models.DateField()
@@ -94,11 +102,7 @@ class CalendarEntry(models.Model):
     location = models.ForeignKey(
         Location, on_delete=models.SET_NULL, null=True, blank=True
     )
-    entry_type = models.CharField(
-        max_length=50,
-        choices=ENTRY_TYPE_CHOICES,
-        default="scheduled",
-    )
+    entry_type = models.CharField(max_length=10, default="SCH")
     break_minutes = models.PositiveSmallIntegerField(default=0)
     notes = models.TextField(null=True, blank=True, default=None)
 
