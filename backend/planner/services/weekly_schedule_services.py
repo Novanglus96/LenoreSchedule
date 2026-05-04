@@ -144,6 +144,7 @@ def get_weekly_division_schedule(
                                 end_time=e.end_time,
                                 location=model_to_domain_location(e.location) if e.location else None,
                                 confirmed=e.confirmed,
+                                break_minutes=e.break_minutes,
                                 notes=e.notes,
                                 calendar_entry_id=e.id,
                             )
@@ -168,6 +169,7 @@ def get_weekly_division_schedule(
                                 start_time=t.start_time,
                                 end_time=t.end_time,
                                 location=model_to_domain_location(t.location) if t.location else None,
+                                break_minutes=t.break_minutes,
                             )
                         )
 

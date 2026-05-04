@@ -88,6 +88,7 @@ def domain_calendar_entry_to_schema(
         confirmed=entry.confirmed,
         location=domain_location_to_schema(entry.location) if entry.location else None,
         hours=entry.hours,
+        break_minutes=entry.break_minutes,
         entry_type=entry.entry_type,
         notes=entry.notes,
     )
@@ -103,6 +104,7 @@ def schema_to_domain_calendar_entry(
         end_time=schema.end_time,
         confirmed=schema.confirmed,
         location_id=schema.location_id,
+        break_minutes=schema.break_minutes,
         entry_type=schema.entry_type,
         notes=schema.notes,
     )
@@ -116,6 +118,7 @@ def domain_calendar_entry_to_model(dto: DomainCalendarEntryIn) -> CalendarEntry:
         end_time=dto.end_time,
         confirmed=dto.confirmed,
         location_id=dto.location_id,
+        break_minutes=dto.break_minutes,
         entry_type=dto.entry_type,
         notes=dto.notes,
     )
@@ -131,6 +134,7 @@ def model_to_domain_calendar_entry(model: CalendarEntry) -> DomainCalendarEntry:
         confirmed=model.confirmed,
         location=model_to_domain_location(model.location) if model.location else None,
         hours=None,
+        break_minutes=model.break_minutes,
         entry_type=model.entry_type,
         notes=model.notes,
     )
@@ -145,6 +149,7 @@ def domain_schedule_template_to_schema(
         day_of_week=template.day_of_week,
         start_time=template.start_time,
         end_time=template.end_time,
+        break_minutes=template.break_minutes,
         location=domain_location_to_schema(template.location) if template.location else None,
     )
 
@@ -157,6 +162,7 @@ def schema_to_domain_schedule_template(
         day_of_week=schema.day_of_week,
         start_time=schema.start_time,
         end_time=schema.end_time,
+        break_minutes=schema.break_minutes,
         location_id=schema.location_id,
     )
 
@@ -167,6 +173,7 @@ def domain_schedule_template_to_model(dto: DomainScheduleTemplateIn) -> Schedule
         day_of_week=dto.day_of_week,
         start_time=dto.start_time,
         end_time=dto.end_time,
+        break_minutes=dto.break_minutes,
         location_id=dto.location_id,
     )
 
@@ -178,5 +185,6 @@ def model_to_domain_schedule_template(model: ScheduleTemplate) -> DomainSchedule
         day_of_week=model.day_of_week,
         start_time=model.start_time,
         end_time=model.end_time,
+        break_minutes=model.break_minutes,
         location=model_to_domain_location(model.location) if model.location else None,
     )

@@ -39,6 +39,7 @@ class DomainCalendarEntry:
     end_time: Optional[time] = None
     location: Optional[DomainLocation] = None
     hours: Optional[Decimal] = None
+    break_minutes: int = 0
     notes: Optional[str] = None
 
 
@@ -51,6 +52,7 @@ class DomainCalendarEntryIn:
     start_time: Optional[time] = None
     end_time: Optional[time] = None
     location_id: Optional[int] = None
+    break_minutes: int = 0
     notes: Optional[str] = None
 
 
@@ -61,6 +63,7 @@ class DomainScheduleTemplate:
     day_of_week: int
     start_time: time
     end_time: time
+    break_minutes: int = 0
     location: Optional[DomainLocation] = None
 
 
@@ -70,6 +73,7 @@ class DomainScheduleTemplateIn:
     day_of_week: int
     start_time: time
     end_time: time
+    break_minutes: int = 0
     location_id: Optional[int] = None
 
 
@@ -81,6 +85,7 @@ class DomainDayEntry:
     end_time: Optional[time] = None
     location: Optional[DomainLocation] = None
     confirmed: Optional[bool] = None
+    break_minutes: int = 0
     notes: Optional[str] = None
     holiday_name: Optional[str] = None
     calendar_entry_id: Optional[int] = None

@@ -128,11 +128,7 @@ def update_calendar_entry(
         calendar_entry.confirmed = dto.confirmed
 
     calendar_entry.location_id = dto.location_id
-
-    if dto.entry_type is not None:
-        calendar_entry.entry_type = dto.entry_type
-
-    calendar_entry.notes = dto.notes
+    calendar_entry.break_minutes = dto.break_minutes
 
     if dto.entry_type is not None:
         calendar_entry.entry_type = dto.entry_type

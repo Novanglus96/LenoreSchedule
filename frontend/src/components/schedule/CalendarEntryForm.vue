@@ -32,7 +32,7 @@
         clearable
       />
     </v-col>
-    <v-col cols="12">
+    <v-col cols="12" sm="6">
       <v-select
         v-model="locationId"
         label="Location (optional)"
@@ -42,6 +42,15 @@
         density="comfortable"
         :loading="locationsLoading"
         clearable
+      />
+    </v-col>
+    <v-col cols="12" sm="6">
+      <v-select
+        v-model="breakMinutes"
+        label="Break"
+        :items="BREAK_OPTIONS"
+        variant="outlined"
+        density="comfortable"
       />
     </v-col>
     <v-col cols="12">
@@ -86,6 +95,18 @@ const locationItems = computed(
     })) ?? [],
 );
 
+const BREAK_OPTIONS = [
+  { title: "No break", value: 0 },
+  { title: "15 min", value: 15 },
+  { title: "30 min", value: 30 },
+  { title: "45 min", value: 45 },
+  { title: "1 hr", value: 60 },
+  { title: "1 hr 15 min", value: 75 },
+  { title: "1 hr 30 min", value: 90 },
+  { title: "1 hr 45 min", value: 105 },
+  { title: "2 hr", value: 120 },
+];
+
 const ENTRY_TYPE_OPTIONS = [
   { title: "Scheduled", value: "scheduled" },
   { title: "Overtime", value: "overtime" },
@@ -117,6 +138,7 @@ const { handleSubmit, errors, resetForm, setValues } = useForm({
     start_time: "",
     end_time: "",
     location_id: null,
+    break_minutes: 0,
     notes: "",
     confirmed: false,
   },
@@ -126,6 +148,7 @@ const { value: entryType } = useField("entry_type");
 const { value: startTime } = useField("start_time");
 const { value: endTime } = useField("end_time");
 const { value: locationId } = useField("location_id");
+const { value: breakMinutes } = useField("break_minutes");
 const { value: notes } = useField("notes");
 const { value: confirmed } = useField("confirmed");
 
@@ -138,6 +161,7 @@ watch(
         start_time: val.start_time ?? "",
         end_time: val.end_time ?? "",
         location_id: val.location?.id ?? val.location_id ?? null,
+        break_minutes: val.break_minutes ?? 0,
         notes: val.notes ?? "",
         confirmed: val.confirmed ?? false,
       });
@@ -154,6 +178,7 @@ const submit = handleSubmit((values) => {
     start_time: values.start_time || null,
     end_time: values.end_time || null,
     location_id: values.location_id ?? null,
+    break_minutes: values.break_minutes ?? 0,
     notes: values.notes || null,
     confirmed: values.confirmed,
   });
