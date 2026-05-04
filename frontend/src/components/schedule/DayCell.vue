@@ -1,8 +1,7 @@
 <template>
   <div
     class="day-cell pa-1 d-flex flex-column align-center"
-    :class="{ 'day-cell--clickable': isStaff }"
-    :title="isStaff ? 'Click to add override' : undefined"
+    :class="{ 'day-cell--staff': isStaff }"
     @click="isStaff && emit('click-day')"
   >
     <div v-if="entries.length === 0" class="text-caption text-disabled">—</div>
@@ -29,6 +28,18 @@
         {{ locationLabel(entry) }}
       </div>
     </div>
+    <v-btn
+      v-if="isStaff"
+      class="add-btn"
+      icon
+      size="x-small"
+      variant="flat"
+      color="primary"
+      title="Add override"
+      @click.stop="emit('click-day')"
+    >
+      <v-icon size="12">mdi-plus</v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -114,14 +125,24 @@ function fmtTime(t) {
 
 <style scoped>
 .day-cell {
+  position: relative;
   min-width: 90px;
 }
-.day-cell--clickable {
+.day-cell--staff {
   cursor: pointer;
 }
-.day-cell--clickable:hover {
+.day-cell--staff:hover {
   background: rgba(var(--v-theme-primary), 0.04);
   border-radius: 4px;
+}
+.add-btn {
+  opacity: 0;
+  transition: opacity 0.15s;
+  width: 18px !important;
+  height: 18px !important;
+}
+.day-cell--staff:hover .add-btn {
+  opacity: 1;
 }
 .entry-block {
   width: 100%;
