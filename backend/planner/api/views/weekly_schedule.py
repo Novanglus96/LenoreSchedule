@@ -61,34 +61,41 @@ def get_weekly_schedule(request, page: int = 0, payroll_year: int = None):
             {
                 "division_id": div.division_id,
                 "division_name": div.division_name,
-                "employees": [
+                "groups": [
                     {
-                        "employee_id": emp.employee_id,
-                        "first_name": emp.first_name,
-                        "last_name": emp.last_name,
-                        "group_name": emp.group_name,
-                        "days": [
+                        "group_name": grp.group_name,
+                        "employees": [
                             {
-                                "date": day.date,
-                                "entries": [
+                                "employee_id": emp.employee_id,
+                                "first_name": emp.first_name,
+                                "last_name": emp.last_name,
+                                "group_name": emp.group_name,
+                                "default_location_id": emp.default_location_id,
+                                "days": [
                                     {
-                                        "source": e.source,
-                                        "entry_type": e.entry_type,
-                                        "start_time": e.start_time,
-                                        "end_time": e.end_time,
-                                        "location": e.location,
-                                        "confirmed": e.confirmed,
-                                        "notes": e.notes,
-                                        "holiday_name": e.holiday_name,
-                                        "calendar_entry_id": e.calendar_entry_id,
+                                        "date": day.date,
+                                        "entries": [
+                                            {
+                                                "source": e.source,
+                                                "entry_type": e.entry_type,
+                                                "start_time": e.start_time,
+                                                "end_time": e.end_time,
+                                                "location": e.location,
+                                                "confirmed": e.confirmed,
+                                                "notes": e.notes,
+                                                "holiday_name": e.holiday_name,
+                                                "calendar_entry_id": e.calendar_entry_id,
+                                            }
+                                            for e in day.entries
+                                        ],
                                     }
-                                    for e in day.entries
+                                    for day in emp.days
                                 ],
                             }
-                            for day in emp.days
+                            for emp in grp.employees
                         ],
                     }
-                    for emp in div.employees
+                    for grp in div.groups
                 ],
             }
             for div in domain.divisions

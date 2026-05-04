@@ -30,10 +30,15 @@ class EmployeeWeekScheduleOut(Schema):
     days: List[EmployeeDayOut]
 
 
+class GroupWeekScheduleOut(Schema):
+    group_name: str
+    employees: List[EmployeeWeekScheduleOut]
+
+
 class DivisionWeekScheduleOut(Schema):
     division_id: int
     division_name: str
-    employees: List[EmployeeWeekScheduleOut]
+    groups: List[GroupWeekScheduleOut]
 
 
 class WeeklyScheduleOut(Schema):

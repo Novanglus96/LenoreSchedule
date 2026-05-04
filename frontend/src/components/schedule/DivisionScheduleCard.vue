@@ -7,7 +7,7 @@
       <v-icon :icon="open ? 'mdi-chevron-down' : 'mdi-chevron-right'" class="mr-2" />
       {{ division.division_name }}
       <v-chip class="ml-2" size="x-small" variant="tonal">
-        {{ division.employees.length }}
+        {{ totalEmployees }}
       </v-chip>
     </v-card-title>
 
@@ -31,14 +31,21 @@
               </tr>
             </thead>
             <tbody>
-              <EmployeeWeekRow
-                v-for="emp in division.employees"
-                :key="emp.employee_id"
-                :employee="emp"
-                :is-staff="isStaff"
-                @click-day="emit('click-day', $event)"
-                @click-entry="emit('click-entry', $event)"
-              />
+              <template v-for="group in division.groups" :key="group.group_name">
+                <tr class="group-header-row">
+                  <td :colspan="dayHeaders.length + 1" class="group-header-cell px-3 py-1">
+                    {{ group.group_name }}
+                  </td>
+                </tr>
+                <EmployeeWeekRow
+                  v-for="emp in group.employees"
+                  :key="emp.employee_id"
+                  :employee="emp"
+                  :is-staff="isStaff"
+                  @click-day="emit('click-day', $event)"
+                  @click-entry="emit('click-entry', $event)"
+                />
+              </template>
             </tbody>
           </table>
         </div>
@@ -63,9 +70,14 @@ const open = ref(true);
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const today = new Date().toISOString().slice(0, 10);
 
+const totalEmployees = computed(() =>
+  props.division.groups.reduce((sum, g) => sum + g.employees.length, 0),
+);
+
 const dayHeaders = computed(() => {
-  if (!props.division.employees.length) return [];
-  return props.division.employees[0].days.map((d) => {
+  const firstEmp = props.division.groups[0]?.employees[0];
+  if (!firstEmp) return [];
+  return firstEmp.days.map((d) => {
     const dt = new Date(d.date + "T00:00:00");
     return {
       date: d.date,
@@ -94,5 +106,15 @@ const dayHeaders = computed(() => {
 }
 .today-col {
   background: rgba(var(--v-theme-primary), 0.06);
+}
+.group-header-row {
+  background: rgba(var(--v-theme-surface-variant), 0.5);
+}
+.group-header-cell {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(var(--v-theme-on-surface), 0.6);
 }
 </style>

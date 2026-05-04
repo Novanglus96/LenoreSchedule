@@ -103,10 +103,16 @@ class DomainEmployeeWeekSchedule:
 
 
 @dataclass
+class DomainGroupWeekSchedule:
+    group_name: str
+    employees: List[DomainEmployeeWeekSchedule] = field(default_factory=list)
+
+
+@dataclass
 class DomainDivisionWeekSchedule:
     division_id: int
     division_name: str
-    employees: List[DomainEmployeeWeekSchedule] = field(default_factory=list)
+    groups: List[DomainGroupWeekSchedule] = field(default_factory=list)
 
 
 @dataclass
