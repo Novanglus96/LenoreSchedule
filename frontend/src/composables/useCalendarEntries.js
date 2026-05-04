@@ -46,5 +46,18 @@ export function useCalendarEntries() {
       ),
   });
 
-  return { createMutation, updateMutation, deleteMutation };
+  const confirmWeekMutation = useMutation({
+    mutationFn: (payload) => api.post("/calendar/confirm_week", payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
+      mainStore.showSnackbar("All overrides confirmed", "success");
+    },
+    onError: (e) =>
+      mainStore.showSnackbar(
+        e.response?.data?.detail || "Failed to confirm overrides",
+        "error",
+      ),
+  });
+
+  return { createMutation, updateMutation, deleteMutation, confirmWeekMutation };
 }

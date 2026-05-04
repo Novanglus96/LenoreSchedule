@@ -120,6 +120,7 @@
           :is-staff="isStaff"
           @click-day="openCreateOverride"
           @click-entry="openEditOverride"
+          @confirm-all="confirmAllOverrides"
         />
         <v-alert
           v-if="!schedule.divisions.length"
@@ -245,7 +246,7 @@ const {
 const { downloadPdf } = useSchedulePdf();
 
 // ── Override dialog ───────────────────────────────────────
-const { createMutation, updateMutation, deleteMutation } = useCalendarEntries();
+const { createMutation, updateMutation, deleteMutation, confirmWeekMutation } = useCalendarEntries();
 
 const overrideFormRef = ref(null);
 const overrideDialog = ref({
@@ -330,5 +331,14 @@ function deleteOverride() {
   const { item } = overrideDialog.value;
   if (!item) return;
   deleteMutation.mutate(item.id, { onSuccess: closeOverrideDialog });
+}
+
+function confirmAllOverrides({ employeeId }) {
+  if (!schedule.value) return;
+  confirmWeekMutation.mutate({
+    employee_id: employeeId,
+    week_start: schedule.value.week_start,
+    week_end: schedule.value.week_end,
+  });
 }
 </script>

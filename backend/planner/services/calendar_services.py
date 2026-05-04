@@ -177,6 +177,26 @@ def get_calendar(
     ]
 
 
+def confirm_week_entries(employee_id: int, week_start: date, week_end: date) -> int:
+    """
+    `confirm_week_entries` bulk-confirms all unconfirmed calendar entries for
+    an employee within a date range.
+
+    Args:
+        employee_id (int): The employee whose entries to confirm.
+        week_start (date): First date of the range (inclusive).
+        week_end (date): Last date of the range (inclusive).
+
+    Returns:
+        (int): Number of entries updated.
+    """
+    return CalendarEntry.objects.filter(
+        employee_id=employee_id,
+        calendar_date__range=(week_start, week_end),
+        confirmed=False,
+    ).update(confirmed=True)
+
+
 def delete_calendar_entry(calendar_entry_id: int) -> str:
     """
     `delete_calendar_entry` deletes a calendar_entry and returns the deleted calendar_entry name.

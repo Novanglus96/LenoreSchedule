@@ -6,6 +6,12 @@ from staff.api.schemas.location import LocationOut
 from decimal import Decimal
 
 
+class ConfirmWeekIn(Schema):
+    employee_id: int
+    week_start: date
+    week_end: date
+
+
 class CalendarEntryIn(Schema):
     """
     Schema to validate a CalendarEntry object.

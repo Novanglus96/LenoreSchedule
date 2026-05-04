@@ -2,6 +2,7 @@ from ninja import Router
 from planner.api.schemas.calendar_entry import (
     CalendarEntryIn,
     CalendarEntryOut,
+    ConfirmWeekIn,
 )
 from ninja.errors import HttpError
 from typing import List
@@ -20,6 +21,7 @@ from planner.services.calendar_services import (
     update_calendar_entry,
     get_calendar,
     delete_calendar_entry,
+    confirm_week_entries,
 )
 from core.utils.auth import get_user_divisions
 
@@ -205,6 +207,32 @@ def list_calendar_entries_by_employee(
         api_logger.error("Employee calendar not retrieved")
         error_logger.error(f"{str(e)}")
         raise HttpError(500, "Employee calendar not retrieved")
+
+
+@calendar_entry_router.post("/confirm_week")
+def confirm_week_endpoint(request, payload: ConfirmWeekIn):
+    """
+    Bulk-confirms all unconfirmed calendar entries for an employee for a given
+    week range.
+
+    Endpoint:
+        - **Path**: `/api/v1/calendar/confirm_week`
+        - **Method**: `POST`
+
+    Args:
+        payload (ConfirmWeekIn): employee_id, week_start, week_end.
+
+    Returns:
+        (dict): {'confirmed': count of entries updated}
+    """
+    try:
+        count = confirm_week_entries(payload.employee_id, payload.week_start, payload.week_end)
+        api_logger.info(f"Confirmed {count} entries for employee {payload.employee_id}")
+        return {"confirmed": count}
+    except Exception as e:
+        api_logger.error("Confirm week failed")
+        error_logger.error(str(e))
+        raise HttpError(500, "Confirm week failed")
 
 
 @calendar_entry_router.delete("/delete_entry/{calendar_entry_id}")
