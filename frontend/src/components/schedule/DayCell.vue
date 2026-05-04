@@ -25,9 +25,6 @@
           icon="mdi-pencil"
         />
       </v-chip>
-      <div v-if="entryCode(entry)" class="code-label">
-        {{ entryCode(entry) }}
-      </div>
       <div v-if="locationLabel(entry)" class="location-label">
         {{ locationLabel(entry) }}
       </div>
@@ -89,14 +86,6 @@ function chipLabel(entry) {
     return inner ? `${timeStr} (${inner})` : timeStr;
   }
   return entry.entry_type || "—";
-}
-
-function entryCode(entry) {
-  if (entry.source === "holiday") return null;
-  if (!entry.entry_type) return null;
-  // Only show code as a sub-label when there are times (otherwise chipLabel already shows it)
-  if (entry.start_time && entry.end_time) return entry.entry_type;
-  return null;
 }
 
 function locationLabel(entry) {
