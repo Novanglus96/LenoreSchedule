@@ -1,3 +1,10 @@
+# [0.1.0-beta.8](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.7...v0.1.0-beta.8) (2026-05-04)
+
+
+### Features
+
+* add break time to schedule templates and overrides ([#60](https://github.com/Novanglus96/LenoreSchedule/issues/60)) ([0f4019f](https://github.com/Novanglus96/LenoreSchedule/commit/0f4019f22ec50f090fb301ce7f83bb30133608b2))
+
 # [0.1.0-beta.7](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.6...v0.1.0-beta.7) (2026-05-04)
 
 
