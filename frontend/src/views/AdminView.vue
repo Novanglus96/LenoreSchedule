@@ -116,9 +116,22 @@
 
       <!-- ── SCHEDULE TEMPLATES ─────────────────────────── -->
       <v-tabs-window-item value="templates">
+        <div class="d-flex align-center gap-3 mb-3">
+          <v-select
+            v-model="templateEmployeeFilter"
+            :items="employeeSelectItems"
+            item-title="label"
+            item-value="id"
+            label="Filter by Employee"
+            density="compact"
+            clearable
+            hide-details
+            style="max-width: 260px"
+          />
+        </div>
         <EntityPanel
           title="Schedule Templates"
-          :items="templates || []"
+          :items="filteredTemplates"
           :loading="templatesLoading"
           :headers="[
             { key: 'id', label: 'ID' },
@@ -242,6 +255,7 @@ import { useScheduleTemplates } from "@/composables/useScheduleTemplates.js";
 
 const activeTab = ref("groups");
 const formRef = ref(null);
+const templateEmployeeFilter = ref(null);
 
 // ── Data ──────────────────────────────────────────────────
 const {
@@ -359,6 +373,18 @@ const MUTATIONS = computed(() => ({
     delete: deleteTemplate,
   },
 }));
+
+const employeeSelectItems = computed(() =>
+  (employees.value ?? [])
+    .map((e) => ({ id: e.id, label: `${e.last_name}, ${e.first_name}` }))
+    .sort((a, b) => a.label.localeCompare(b.label)),
+);
+
+const filteredTemplates = computed(() => {
+  const all = templates.value ?? [];
+  if (!templateEmployeeFilter.value) return all;
+  return all.filter((t) => t.employee?.id === templateEmployeeFilter.value);
+});
 
 const isSaving = computed(() => {
   const m = MUTATIONS.value[dialog.value.entity];
