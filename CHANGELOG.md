@@ -1,3 +1,38 @@
+# [0.1.0-beta.8](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.7...v0.1.0-beta.8) (2026-05-04)
+
+
+### Features
+
+* add break time to schedule templates and overrides ([#60](https://github.com/Novanglus96/LenoreSchedule/issues/60)) ([0f4019f](https://github.com/Novanglus96/LenoreSchedule/commit/0f4019f22ec50f090fb301ce7f83bb30133608b2))
+
+# [0.1.0-beta.7](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.6...v0.1.0-beta.7) (2026-05-04)
+
+
+### Features
+
+* allow multiple overrides per day via hover add button ([#59](https://github.com/Novanglus96/LenoreSchedule/issues/59)) ([b12a49a](https://github.com/Novanglus96/LenoreSchedule/commit/b12a49a70dfb33e50757a9f6fa2ed51f1fab5924))
+
+# [0.1.0-beta.6](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.5...v0.1.0-beta.6) (2026-05-04)
+
+
+### Bug Fixes
+
+* open Django Admin link in same window instead of new tab ([#58](https://github.com/Novanglus96/LenoreSchedule/issues/58)) ([dc83460](https://github.com/Novanglus96/LenoreSchedule/commit/dc834601356cc2d52469b39071170b3f0258275f))
+
+# [0.1.0-beta.5](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.4...v0.1.0-beta.5) (2026-05-04)
+
+
+### Bug Fixes
+
+* correct pay period number and add week suffix in PDF filename ([#57](https://github.com/Novanglus96/LenoreSchedule/issues/57)) ([37d51b7](https://github.com/Novanglus96/LenoreSchedule/commit/37d51b770539687f06851224d390b245832f18c3))
+
+# [0.1.0-beta.4](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.3...v0.1.0-beta.4) (2026-05-04)
+
+
+### Bug Fixes
+
+* remove redundant group label and correct pay period number ([#56](https://github.com/Novanglus96/LenoreSchedule/issues/56)) ([9d466f0](https://github.com/Novanglus96/LenoreSchedule/commit/9d466f08ec1033ae639bdeb7f69f5a896d9443c8))
+
 # [0.1.0-beta.3](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.2...v0.1.0-beta.3) (2026-05-04)
 
 
