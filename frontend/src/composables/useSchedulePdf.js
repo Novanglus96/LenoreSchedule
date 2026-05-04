@@ -110,10 +110,12 @@ export function useSchedulePdf() {
 
     // Build day column headers from the first available employee across filtered divisions
     let dayDates = [];
-    for (const div of divisions) {
-      if (div.employees.length && div.employees[0].days.length) {
-        dayDates = div.employees[0].days.map((d) => d.date);
-        break;
+    outer: for (const div of divisions) {
+      for (const grp of div.groups) {
+        if (grp.employees.length && grp.employees[0].days.length) {
+          dayDates = grp.employees[0].days.map((d) => d.date);
+          break outer;
+        }
       }
     }
 
@@ -136,12 +138,27 @@ export function useSchedulePdf() {
         ]);
       }
 
-      for (const emp of div.employees) {
-        const row = [`${emp.last_name}, ${emp.first_name}`];
-        for (const day of emp.days) {
-          row.push(day.entries.length === 0 ? "—" : day.entries.map(entryText).join("\n"));
+      for (const grp of div.groups) {
+        body.push([
+          {
+            content: grp.group_name,
+            colSpan: 1 + dayDates.length,
+            styles: {
+              fontStyle: "italic",
+              fillColor: [245, 245, 245],
+              textColor: [100, 100, 100],
+              fontSize: 6,
+            },
+          },
+        ]);
+
+        for (const emp of grp.employees) {
+          const row = [`${emp.last_name}, ${emp.first_name}`];
+          for (const day of emp.days) {
+            row.push(day.entries.length === 0 ? "—" : day.entries.map(entryText).join("\n"));
+          }
+          body.push(row);
         }
-        body.push(row);
       }
     }
 

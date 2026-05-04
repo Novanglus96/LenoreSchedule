@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from itertools import groupby
 from django.db.models import Q
 
 from planner.models import CalendarEntry, ScheduleTemplate, Holiday
@@ -6,6 +7,7 @@ from planner.dto import (
     DomainDayEntry,
     DomainEmployeeDay,
     DomainEmployeeWeekSchedule,
+    DomainGroupWeekSchedule,
     DomainDivisionWeekSchedule,
     DomainWeeklySchedule,
 )
@@ -93,7 +95,7 @@ def get_weekly_division_schedule(
             Employee.objects.filter(division=division)
             .filter(Q(start_date__isnull=True) | Q(start_date__lte=week_end))
             .filter(Q(end_date__isnull=True) | Q(end_date__gte=week_start))
-            .order_by("last_name", "first_name")
+            .order_by("group__group_name", "last_name", "first_name")
             .select_related("location", "division", "group")
         )
 
@@ -183,11 +185,15 @@ def get_weekly_division_schedule(
             )
 
         if employee_schedules:
+            groups_out = [
+                DomainGroupWeekSchedule(group_name=gname, employees=list(emps))
+                for gname, emps in groupby(employee_schedules, key=lambda e: e.group_name)
+            ]
             divisions_out.append(
                 DomainDivisionWeekSchedule(
                     division_id=division.id,
                     division_name=division.division_name,
-                    employees=employee_schedules,
+                    groups=groups_out,
                 )
             )
 

@@ -253,8 +253,10 @@ const overrideDialog = ref({
 
 function employeeName(employeeId) {
   for (const div of schedule.value?.divisions ?? []) {
-    const emp = div.employees.find((e) => e.employee_id === employeeId);
-    if (emp) return `${emp.first_name} ${emp.last_name}`;
+    for (const grp of div.groups) {
+      const emp = grp.employees.find((e) => e.employee_id === employeeId);
+      if (emp) return `${emp.first_name} ${emp.last_name}`;
+    }
   }
   return "";
 }
@@ -277,13 +279,16 @@ function openCreateOverride({ employeeId, date }) {
 function openEditOverride({ calendarEntryId, employeeId, date }) {
   // Find the existing entry data from the schedule to pre-fill the form
   let item = null;
-  for (const div of schedule.value?.divisions ?? []) {
-    const emp = div.employees.find((e) => e.employee_id === employeeId);
-    if (emp) {
-      const day = emp.days.find((d) => d.date === date);
-      if (day) {
-        const entry = day.entries.find((e) => e.calendar_entry_id === calendarEntryId);
-        if (entry) item = { ...entry, id: calendarEntryId };
+  outer: for (const div of schedule.value?.divisions ?? []) {
+    for (const grp of div.groups) {
+      const emp = grp.employees.find((e) => e.employee_id === employeeId);
+      if (emp) {
+        const day = emp.days.find((d) => d.date === date);
+        if (day) {
+          const entry = day.entries.find((e) => e.calendar_entry_id === calendarEntryId);
+          if (entry) item = { ...entry, id: calendarEntryId };
+        }
+        break outer;
       }
     }
   }
