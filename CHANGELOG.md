@@ -1,3 +1,10 @@
+# [0.1.0-beta.11](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.10...v0.1.0-beta.11) (2026-05-04)
+
+
+### Bug Fixes
+
+* display entry type code inside hours parentheses as (7h SCH) ([#63](https://github.com/Novanglus96/LenoreSchedule/issues/63)) ([39691fa](https://github.com/Novanglus96/LenoreSchedule/commit/39691faef5b75de3b03e155628c04b96313b3665))
+
 # [0.1.0-beta.10](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.9...v0.1.0-beta.10) (2026-05-04)
 
 
