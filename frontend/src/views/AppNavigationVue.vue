@@ -35,7 +35,7 @@
           color="selected"
           title="Django Admin"
           href="/admin/"
-          target="_blank"
+          target="_self"
         ></v-list-item>
 
         <v-spacer />
@@ -90,7 +90,7 @@
               color="selected"
               title="Django Admin"
               href="/admin/"
-              target="_blank"
+              target="_self"
             ></v-list-item>
             <v-divider />
             <v-list-item
