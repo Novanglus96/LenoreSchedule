@@ -12,7 +12,7 @@ these files are ~10 lines each.
 | Stub | Calls | Fires on |
 |---|---|---|
 | `release.yml` | `release.yml@v1` | push to `main`/`rc`/`beta`/`alpha` |
-| `build-publish.yml` | `build-publish.yml@v1` (`image_list: app`) | `release: published`, or dispatch by tag |
+| `build-publish.yml` | `build-publish.yml@v1` (`image_list: frontend,backend,worker`) | `release: published`, or dispatch by tag |
 | `docs.yml` | `docs.yml@v1` (`mode: preview`) | push to `main` |
 | `docs-release.yml` | `docs.yml@v1` (`mode: release`) | `release: published`, or dispatch by tag |
 | `announce.yml` | `announce.yml@v1` (`target: reddit`) | `release: published`, or dispatch by tag |
