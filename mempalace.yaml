@@ -1,0 +1,40 @@
+wing: lenoreschedule
+rooms:
+- name: scripts
+  description: Files from scripts/
+  keywords:
+  - scripts
+  - scripts
+- name: frontend
+  description: Files from frontend/
+  keywords:
+  - frontend
+  - frontend
+- name: backend
+  description: Files from backend/
+  keywords:
+  - backend
+  - backend
+- name: nginx
+  description: Files from nginx/
+  keywords:
+  - nginx
+  - nginx
+- name: backups
+  description: Files from backups/
+  keywords:
+  - backups
+  - backups
+- name: team
+  description: Files from staff/
+  keywords:
+  - team
+  - staff
+- name: documentation
+  description: Files from docs/
+  keywords:
+  - documentation
+  - docs
+- name: general
+  description: Files that don't fit other rooms
+  keywords: []
