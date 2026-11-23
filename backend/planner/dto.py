@@ -108,6 +108,10 @@ class DomainDayEntry:
 class DomainEmployeeDay:
     date: date
     entries: List[DomainDayEntry] = field(default_factory=list)
+    # The employee's recurring template blocks for this weekday, regardless of
+    # whether an override or holiday supersedes them in `entries`. Used to
+    # pre-fill new overrides and to "accept default schedule".
+    template_entries: List[DomainDayEntry] = field(default_factory=list)
 
 
 @dataclass

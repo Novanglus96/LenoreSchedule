@@ -84,6 +84,9 @@ import { useEntryTypes } from "@/composables/useEntryTypes.js";
 
 const props = defineProps({
   modelValue: { type: Object, default: null },
+  // Pre-fill values for a NEW entry (ignored when editing). Typically the
+  // employee's template block for that day plus their default location.
+  defaults: { type: Object, default: null },
 });
 const emit = defineEmits(["submit"]);
 
@@ -118,6 +121,19 @@ const BREAK_OPTIONS = [
   { title: "2 hr", value: 120 },
 ];
 
+const BLANK = {
+  entry_type: "SCH",
+  start_time: "",
+  end_time: "",
+  location_id: null,
+  break_minutes: 0,
+  notes: "",
+  confirmed: false,
+};
+
+// "08:00:00" → "08:00" so <input type="time"> and string comparisons agree.
+const hhmm = (t) => (t ? String(t).slice(0, 5) : "");
+
 const { handleSubmit, errors, resetForm, setValues } = useForm({
   validationSchema: {
     entry_type: (v) => (v ? true : "Type is required"),
@@ -133,15 +149,7 @@ const { handleSubmit, errors, resetForm, setValues } = useForm({
       return true;
     },
   },
-  initialValues: {
-    entry_type: "SCH",
-    start_time: "",
-    end_time: "",
-    location_id: null,
-    break_minutes: 0,
-    notes: "",
-    confirmed: false,
-  },
+  initialValues: { ...BLANK },
 });
 
 const { value: entryType } = useField("entry_type");
@@ -153,20 +161,27 @@ const { value: notes } = useField("notes");
 const { value: confirmed } = useField("confirmed");
 
 watch(
-  () => props.modelValue,
-  (val) => {
+  () => [props.modelValue, props.defaults],
+  ([val, defaults]) => {
     if (val) {
       setValues({
-        entry_type: val.entry_type ?? "scheduled",
-        start_time: val.start_time ?? "",
-        end_time: val.end_time ?? "",
+        entry_type: val.entry_type ?? "SCH",
+        start_time: hhmm(val.start_time),
+        end_time: hhmm(val.end_time),
         location_id: val.location?.id ?? val.location_id ?? null,
         break_minutes: val.break_minutes ?? 0,
         notes: val.notes ?? "",
         confirmed: val.confirmed ?? false,
       });
     } else {
-      resetForm();
+      resetForm({
+        values: {
+          ...BLANK,
+          ...(defaults ?? {}),
+          start_time: hhmm(defaults?.start_time),
+          end_time: hhmm(defaults?.end_time),
+        },
+      });
     }
   },
   { immediate: true },

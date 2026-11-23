@@ -130,6 +130,18 @@ def get_weekly_division_schedule(
                 dow = current_date.weekday()  # 0=Mon, matches ScheduleTemplate
                 day_entries = []
 
+                template_entries = [
+                    DomainDayEntry(
+                        source="template",
+                        entry_type="SCH",
+                        start_time=t.start_time,
+                        end_time=t.end_time,
+                        location=model_to_domain_location(t.location) if t.location else None,
+                        break_minutes=t.break_minutes,
+                    )
+                    for t in template_by_dow.get(dow, [])
+                ]
+
                 cal_entries = entries_by_date.get(current_date, [])
                 holiday_names = holiday_map.get(current_date, [])
 
@@ -161,19 +173,15 @@ def get_weekly_division_schedule(
                         )
                 else:
                     # Fall back to recurring template entries
-                    for t in template_by_dow.get(dow, []):
-                        day_entries.append(
-                            DomainDayEntry(
-                                source="template",
-                                entry_type="SCH",
-                                start_time=t.start_time,
-                                end_time=t.end_time,
-                                location=model_to_domain_location(t.location) if t.location else None,
-                                break_minutes=t.break_minutes,
-                            )
-                        )
+                    day_entries.extend(template_entries)
 
-                days.append(DomainEmployeeDay(date=current_date, entries=day_entries))
+                days.append(
+                    DomainEmployeeDay(
+                        date=current_date,
+                        entries=day_entries,
+                        template_entries=template_entries,
+                    )
+                )
 
             employee_schedules.append(
                 DomainEmployeeWeekSchedule(
