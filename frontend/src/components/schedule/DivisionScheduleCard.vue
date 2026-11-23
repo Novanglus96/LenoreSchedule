@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mb-4" variant="outlined">
+  <v-card class="mb-4 division-card" variant="outlined">
     <v-card-title
       class="d-flex align-center cursor-pointer py-2 px-4"
       @click="open = !open"
@@ -14,7 +14,7 @@
     <v-expand-transition>
       <div v-show="open">
         <v-divider />
-        <div class="overflow-x-auto">
+        <div class="schedule-scroll">
           <table class="schedule-table w-100">
             <thead>
               <tr>
@@ -91,6 +91,39 @@ const dayHeaders = computed(() => {
 </script>
 
 <style scoped>
+/* Sticky date header.
+   position: sticky binds to the nearest ancestor with overflow != visible,
+   so v-card's overflow:hidden and any horizontal scroller must be relaxed
+   on wide screens for the header to stick to the page under the app bar. */
+.division-card {
+  overflow: visible;
+}
+.schedule-scroll {
+  overflow: visible;
+}
+.schedule-table thead th {
+  position: sticky;
+  top: 48px; /* compact v-app-bar height */
+  z-index: 2;
+  background: rgb(var(--v-theme-surface));
+  box-shadow: inset 0 -1px 0 rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.schedule-table thead th.today-col {
+  background:
+    linear-gradient(rgba(var(--v-theme-primary), 0.06), rgba(var(--v-theme-primary), 0.06)),
+    rgb(var(--v-theme-surface));
+}
+/* Narrow screens need horizontal scrolling, so the table scrolls inside a
+   bounded box and the header sticks to the top of that box instead. */
+@media (max-width: 959px) {
+  .schedule-scroll {
+    overflow: auto;
+    max-height: calc(100dvh - 140px);
+  }
+  .schedule-table thead th {
+    top: 0;
+  }
+}
 .schedule-table {
   border-collapse: collapse;
 }
