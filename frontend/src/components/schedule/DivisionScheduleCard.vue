@@ -45,6 +45,7 @@
                   @click-day="emit('click-day', $event)"
                   @click-entry="emit('click-entry', $event)"
                   @confirm-all="emit('confirm-all', $event)"
+                  @accept-default="emit('accept-default', $event)"
                 />
               </template>
             </tbody>
@@ -64,7 +65,7 @@ const props = defineProps({
   isStaff: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(["click-day", "click-entry", "confirm-all"]);
+const emit = defineEmits(["click-day", "click-entry", "confirm-all", "accept-default"]);
 
 const open = ref(true);
 

@@ -121,6 +121,7 @@
           @click-day="openCreateOverride"
           @click-entry="openEditOverride"
           @confirm-all="confirmAllOverrides"
+          @accept-default="acceptDefaultWeek"
         />
         <v-alert
           v-if="!schedule.divisions.length"
@@ -247,7 +248,13 @@ const {
 const { downloadPdf } = useSchedulePdf();
 
 // ── Override dialog ───────────────────────────────────────
-const { createMutation, updateMutation, deleteMutation, confirmWeekMutation } = useCalendarEntries();
+const {
+  createMutation,
+  updateMutation,
+  deleteMutation,
+  confirmWeekMutation,
+  acceptDefaultWeekMutation,
+} = useCalendarEntries();
 
 const overrideFormRef = ref(null);
 const overrideDialog = ref({
@@ -365,6 +372,15 @@ function deleteOverride() {
 function confirmAllOverrides({ employeeId }) {
   if (!schedule.value) return;
   confirmWeekMutation.mutate({
+    employee_id: employeeId,
+    week_start: schedule.value.week_start,
+    week_end: schedule.value.week_end,
+  });
+}
+
+function acceptDefaultWeek({ employeeId }) {
+  if (!schedule.value) return;
+  acceptDefaultWeekMutation.mutate({
     employee_id: employeeId,
     week_start: schedule.value.week_start,
     week_end: schedule.value.week_end,

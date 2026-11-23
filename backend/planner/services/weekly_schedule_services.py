@@ -216,3 +216,70 @@ def get_weekly_division_schedule(
         current_page=current_page,
         divisions=divisions_out,
     )
+
+
+def accept_default_week(employee_id: int, week_start: date, week_end: date) -> int:
+    """
+    `accept_default_week` turns an employee's template schedule for a week into
+    confirmed calendar overrides.
+
+    For each date in the range that would currently fall back to the template,
+    a confirmed "SCH" CalendarEntry is created per template block (copying
+    times, break and location; a block with no location gets the employee's
+    default location). Dates are skipped when they already have a calendar
+    entry, are holidays, have no template blocks, or fall outside the
+    employee's start/end dates.
+
+    Args:
+        employee_id (int): The employee whose week to accept.
+        week_start (date): First date of the range (inclusive).
+        week_end (date): Last date of the range (inclusive).
+
+    Raises:
+        Employee.DoesNotExist: No such employee.
+
+    Returns:
+        (int): Number of calendar entries created.
+    """
+    employee = Employee.objects.get(id=employee_id)
+
+    template_by_dow: dict = {}
+    for t in ScheduleTemplate.objects.filter(employee=employee).order_by("start_time"):
+        template_by_dow.setdefault(t.day_of_week, []).append(t)
+
+    dates_with_entries = set(
+        CalendarEntry.objects.filter(
+            employee=employee,
+            calendar_date__range=(week_start, week_end),
+        ).values_list("calendar_date", flat=True)
+    )
+    holiday_map = _holidays_for_range(week_start, week_end)
+
+    to_create = []
+    current = week_start
+    while current <= week_end:
+        employed = (employee.start_date is None or employee.start_date <= current) and (
+            employee.end_date is None or employee.end_date >= current
+        )
+        if (
+            employed
+            and current not in dates_with_entries
+            and current not in holiday_map
+        ):
+            for t in template_by_dow.get(current.weekday(), []):
+                to_create.append(
+                    CalendarEntry(
+                        employee=employee,
+                        calendar_date=current,
+                        start_time=t.start_time,
+                        end_time=t.end_time,
+                        break_minutes=t.break_minutes,
+                        location_id=t.location_id or employee.location_id,
+                        entry_type="SCH",
+                        confirmed=True,
+                    )
+                )
+        current += timedelta(days=1)
+
+    CalendarEntry.objects.bulk_create(to_create)
+    return len(to_create)
