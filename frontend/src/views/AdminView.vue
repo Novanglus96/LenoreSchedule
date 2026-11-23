@@ -57,9 +57,17 @@
 
       <!-- ── EMPLOYEES ──────────────────────────────────── -->
       <v-tabs-window-item value="employees">
+        <v-switch
+          v-model="showInactive"
+          label="Show inactive employees"
+          color="primary"
+          density="compact"
+          hide-details
+          class="mb-2"
+        />
         <EntityPanel
           title="Employees"
-          :items="employees || []"
+          :items="visibleEmployees"
           :loading="employeesLoading"
           :headers="[
             { key: 'id', label: 'ID' },
@@ -68,6 +76,8 @@
             { key: '_group', label: 'Group' },
             { key: '_location', label: 'Location' },
             { key: 'start_date', label: 'Start' },
+            { key: 'end_date', label: 'End' },
+            { key: '_status', label: 'Status' },
           ]"
           :cell-formatter="employeeCellFormatter"
           @new="openCreate('employees')"
@@ -145,6 +155,13 @@
             clearable
             hide-details
             style="max-width: 260px"
+          />
+          <v-switch
+            v-model="showInactive"
+            label="Include inactive employees"
+            color="primary"
+            density="compact"
+            hide-details
           />
         </div>
         <EntityPanel
@@ -278,10 +295,12 @@ import { usePayrollInfos } from "@/composables/usePayrollInfos.js";
 import { useEntryTypes } from "@/composables/useEntryTypes.js";
 import { useHolidays } from "@/composables/useHolidays.js";
 import { useScheduleTemplates } from "@/composables/useScheduleTemplates.js";
+import { isEmployeeActive } from "@/utils/employeeStatus.js";
 
 const activeTab = ref("groups");
 const formRef = ref(null);
 const templateEmployeeFilter = ref(null);
+const showInactive = ref(false);
 
 // ── Data ──────────────────────────────────────────────────
 const {
@@ -413,14 +432,24 @@ const MUTATIONS = computed(() => ({
   },
 }));
 
+const inactiveEmployeeIds = computed(
+  () => new Set((employees.value ?? []).filter((e) => !isEmployeeActive(e)).map((e) => e.id)),
+);
+
+const visibleEmployees = computed(() =>
+  (employees.value ?? []).filter((e) => showInactive.value || isEmployeeActive(e)),
+);
+
 const employeeSelectItems = computed(() =>
-  (employees.value ?? [])
+  visibleEmployees.value
     .map((e) => ({ id: e.id, label: `${e.last_name}, ${e.first_name}` }))
     .sort((a, b) => a.label.localeCompare(b.label)),
 );
 
 const filteredTemplates = computed(() => {
-  const all = templates.value ?? [];
+  const all = (templates.value ?? []).filter(
+    (t) => showInactive.value || !inactiveEmployeeIds.value.has(t.employee?.id),
+  );
   if (!templateEmployeeFilter.value) return all;
   return all.filter((t) => t.employee?.id === templateEmployeeFilter.value);
 });
@@ -517,6 +546,7 @@ function deleteLabel(entity, item) {
 
 function employeeCellFormatter(key, item) {
   if (key === "_name") return `${item.last_name}, ${item.first_name}`;
+  if (key === "_status") return isEmployeeActive(item) ? "Active" : "Inactive";
   if (key === "_division") return item.division?.division_name ?? "—";
   if (key === "_group") return item.group?.group_name ?? "—";
   if (key === "_location") return item.location?.location_name ?? "—";

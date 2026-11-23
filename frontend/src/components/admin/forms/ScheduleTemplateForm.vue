@@ -91,6 +91,7 @@ import { computed, ref, watch } from "vue";
 import { useForm, useField } from "vee-validate";
 import { useEmployees } from "@/composables/useEmployees.js";
 import { useLocations } from "@/composables/useLocations.js";
+import { isEmployeeActive } from "@/utils/employeeStatus.js";
 
 const props = defineProps({
   modelValue: { type: Object, default: null },
@@ -103,12 +104,15 @@ const isEditing = computed(() => props.modelValue != null);
 const { data: employees, isLoading: employeesLoading } = useEmployees();
 const { data: locations, isLoading: locationsLoading } = useLocations();
 
+// Hide ex-employees, but keep the one already on a template being edited.
 const employeeItems = computed(
   () =>
-    employees.value?.map((e) => ({
-      title: `${e.last_name}, ${e.first_name}`,
-      value: e.id,
-    })) ?? [],
+    employees.value
+      ?.filter((e) => isEmployeeActive(e) || e.id === (props.modelValue?.employee?.id ?? props.modelValue?.employee_id))
+      .map((e) => ({
+        title: `${e.last_name}, ${e.first_name}`,
+        value: e.id,
+      })) ?? [],
 );
 
 const locationItems = computed(
