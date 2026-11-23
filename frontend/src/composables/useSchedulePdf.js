@@ -59,46 +59,38 @@ function fmtDateRange(weekStart, weekEnd) {
   return `${fmt(weekStart)} – ${fmt(weekEnd)}`;
 }
 
-// Draws the page header box. Returns the Y coordinate where the table should start.
+const MARGIN = 36;
+
+// Draws the compact page header strip. Returns the Y coordinate where the
+// table should start.
 function drawHeader(doc, schedule, year, page) {
   const pageWidth = doc.internal.pageSize.getWidth();
-  const margin = 36;
-  const headerHeight = 54;
   const top = 20;
+  const headerHeight = 26;
+  const baseline = top + 17;
 
-  // Outer border
   doc.setDrawColor(180, 180, 180);
   doc.setLineWidth(0.5);
-  doc.rect(margin, top, pageWidth - margin * 2, headerHeight);
+  doc.rect(MARGIN, top, pageWidth - MARGIN * 2, headerHeight);
 
-  // Left block — title + pay period
   doc.setFont("helvetica", "bold");
   doc.setFontSize(13);
   doc.setTextColor(40, 40, 40);
-  doc.text("Weekly Schedule", margin + 8, top + 16);
+  doc.text("Weekly Schedule", MARGIN + 8, baseline);
 
+  const labelFirst = schedule.week_label?.split(".")?.[0] ?? String(page + 1);
+  const payNum = isNaN(Number(labelFirst)) ? page + 1 : Number(labelFirst);
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
   doc.setTextColor(80, 80, 80);
-  const labelFirst = schedule.week_label?.split(".")?.[0] ?? String(page + 1);
-  const payNum = isNaN(Number(labelFirst)) ? page + 1 : Number(labelFirst);
-  doc.text(`Pay Period: ${year} #${payNum}`, margin + 8, top + 30);
-  doc.text(fmtDateRange(schedule.week_start, schedule.week_end), margin + 8, top + 42);
+  doc.text(
+    `Pay Period: ${year} #${payNum}   ·   ${fmtDateRange(schedule.week_start, schedule.week_end)}`,
+    pageWidth - MARGIN - 8,
+    baseline,
+    { align: "right" },
+  );
 
-  // Vertical divider after left block
-  const divX = margin + 160;
-  doc.setDrawColor(200, 200, 200);
-  doc.line(divX, top, divX, top + headerHeight);
-
-  // Right area — reserved for future additions (notes, signatures, etc.)
-  doc.setFont("helvetica", "italic");
-  doc.setFontSize(7);
-  doc.setTextColor(160, 160, 160);
-  doc.text("Notes / Approvals", divX + 8, top + 12);
-
-  // Reset text color
   doc.setTextColor(0, 0, 0);
-
   return top + headerHeight + 8;
 }
 
@@ -113,8 +105,6 @@ export function useSchedulePdf() {
     const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "letter" });
     const pageWidth = doc.internal.pageSize.getWidth();
 
-    const tableStartY = drawHeader(doc, schedule, year, page);
-
     // Build day column headers from the first available employee across filtered divisions
     let dayDates = [];
     outer: for (const div of divisions) {
@@ -125,36 +115,46 @@ export function useSchedulePdf() {
         }
       }
     }
+    const colSpan = 1 + dayDates.length;
 
-    const head = [["Employee", ...dayDates.map(dayHeader)]];
+    // One table per division, each starting on its own page.
+    divisions.forEach((div, divIndex) => {
+      if (divIndex > 0) doc.addPage();
+      const tableStartY = drawHeader(doc, schedule, year, page);
 
-    const body = [];
-    for (const div of divisions) {
-      // Omit the division header row when exporting a single division
-      if (!divisionId) {
-        body.push([
+      // The division banner lives in the table head so it repeats on any
+      // continuation page of a long division.
+      const head = [
+        [
           {
             content: div.division_name,
-            colSpan: 1 + dayDates.length,
+            colSpan,
             styles: {
               fontStyle: "bold",
-              fillColor: [230, 230, 230],
-              textColor: [50, 50, 50],
+              fontSize: 12,
+              halign: "left",
+              fillColor: [33, 33, 33],
+              textColor: 255,
+              cellPadding: { top: 5, bottom: 5, left: 6, right: 6 },
             },
           },
-        ]);
-      }
+        ],
+        ["Employee", ...dayDates.map(dayHeader)],
+      ];
 
+      const body = [];
       for (const grp of div.groups) {
         body.push([
           {
             content: grp.group_name,
-            colSpan: 1 + dayDates.length,
+            colSpan,
             styles: {
-              fontStyle: "italic",
-              fillColor: [245, 245, 245],
-              textColor: [100, 100, 100],
-              fontSize: 6,
+              fontStyle: "bold",
+              fontSize: 9,
+              halign: "left",
+              fillColor: [210, 210, 210],
+              textColor: [30, 30, 30],
+              cellPadding: { top: 3, bottom: 3, left: 6, right: 6 },
             },
           },
         ]);
@@ -173,31 +173,32 @@ export function useSchedulePdf() {
           body.push(row);
         }
       }
-    }
 
-    autoTable(doc, {
-      head,
-      body,
-      startY: tableStartY,
-      tableWidth: "auto",
-      styles: {
-        fontSize: 7,
-        cellPadding: 3,
-        valign: "middle",
-        halign: "center",
-        overflow: "linebreak",
-        minCellWidth: 60,
-      },
-      headStyles: {
-        fillColor: [66, 66, 66],
-        textColor: 255,
-        fontStyle: "bold",
-        halign: "center",
-      },
-      columnStyles: {
-        0: { halign: "left", fontStyle: "bold", cellWidth: 75 },
-      },
-      alternateRowStyles: { fillColor: [248, 248, 248] },
+      autoTable(doc, {
+        head,
+        body,
+        startY: tableStartY,
+        margin: { top: MARGIN, left: MARGIN, right: MARGIN, bottom: 24 },
+        tableWidth: "auto",
+        styles: {
+          fontSize: 7,
+          cellPadding: 3,
+          valign: "middle",
+          halign: "center",
+          overflow: "linebreak",
+          minCellWidth: 60,
+        },
+        headStyles: {
+          fillColor: [66, 66, 66],
+          textColor: 255,
+          fontStyle: "bold",
+          halign: "center",
+        },
+        columnStyles: {
+          0: { halign: "left", fontStyle: "bold", cellWidth: 75 },
+        },
+        alternateRowStyles: { fillColor: [248, 248, 248] },
+      });
     });
 
     // Footer with generation timestamp on every page
