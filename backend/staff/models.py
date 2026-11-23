@@ -30,9 +30,15 @@ class Division(models.Model):
 
     Attributes:
         division_name (CharField): The name of the division.  Unique.
+        sort_order (PositiveIntegerField): Manual display order; lower first.
+            Ties fall back to division_name.
     """
 
     division_name = models.CharField(unique=True)
+    sort_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["sort_order", "division_name"]
 
     def __str__(self):
         """

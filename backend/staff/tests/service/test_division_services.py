@@ -9,6 +9,7 @@ from staff.services.division_services import (
 from staff.dto import DomainDivisionIn, DomainDivision
 from staff.exceptions import DivisionAlreadyExists, DivisionDoesNotExist
 from staff.models import Division
+from staff.factories import DivisionFactory
 
 
 @pytest.mark.django_db
@@ -181,3 +182,28 @@ def test_delete_division_not_found_raises():
     """
     with pytest.raises(DivisionDoesNotExist):
         delete_division(999)
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_update_division_keep_name_change_sort_order():
+    """
+    Saving a division with its own unchanged name must not raise
+    DivisionAlreadyExists, so sort order can be edited on its own.
+    """
+    division = DivisionFactory(division_name="Keep Me")
+    result = update_division(
+        division.id, DomainDivisionIn(division_name="Keep Me", sort_order=5)
+    )
+    assert result.division_name == "Keep Me"
+    assert result.sort_order == 5
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_divisions_ordered_by_sort_order_then_name():
+    DivisionFactory(division_name="Alpha", sort_order=2)
+    DivisionFactory(division_name="Zulu", sort_order=1)
+    DivisionFactory(division_name="Bravo", sort_order=2)
+    names = [d.division_name for d in get_ordered_list_of_divisions()]
+    assert names == ["Zulu", "Alpha", "Bravo"]

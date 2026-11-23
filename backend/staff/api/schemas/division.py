@@ -1,5 +1,6 @@
 from ninja import Schema
 from pydantic import ConfigDict
+from typing import Optional
 
 
 # The class DivisionIn is a schema for validating divisions.
@@ -12,6 +13,7 @@ class DivisionIn(Schema):
     """
 
     division_name: str
+    sort_order: Optional[int] = None
 
 
 # The class GtroupOut is a schema for representing divisions.
@@ -26,5 +28,6 @@ class DivisionOut(Schema):
 
     id: int
     division_name: str
+    sort_order: int = 0
 
     model_config = ConfigDict(from_attributes=True)

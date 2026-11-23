@@ -14,11 +14,12 @@ class GroupAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 
 class DivisionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["id", "division_name"]
+    list_display = ["id", "division_name", "sort_order"]
+    list_editable = ["sort_order"]
 
     list_display_links = ["division_name"]
 
-    ordering = ["division_name"]
+    ordering = ["sort_order", "division_name"]
 
 
 class EmployeeAdmin(ImportExportModelAdmin, admin.ModelAdmin):

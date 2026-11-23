@@ -35,7 +35,11 @@
           title="Divisions"
           :items="divisions || []"
           :loading="divisionsLoading"
-          :headers="[{ key: 'id', label: 'ID' }, { key: 'division_name', label: 'Name' }]"
+          :headers="[
+            { key: 'sort_order', label: 'Sort' },
+            { key: 'id', label: 'ID' },
+            { key: 'division_name', label: 'Name' },
+          ]"
           @new="openCreate('divisions')"
           @edit="openEdit('divisions', $event)"
           @delete="confirmDelete('divisions', $event)"
@@ -202,12 +206,10 @@
         field-key="group_name"
         @submit="onFormSubmit"
       />
-      <SimpleNameForm
+      <DivisionForm
         v-else-if="dialog.entity === 'divisions'"
         ref="formRef"
         :model-value="dialog.item"
-        field-label="Division Name"
-        field-key="division_name"
         @submit="onFormSubmit"
       />
       <SimpleNameForm
@@ -281,6 +283,7 @@ import { ref, computed } from "vue";
 import AdminFormDialog from "@/components/admin/AdminFormDialog.vue";
 import EntityPanel from "@/components/admin/EntityPanel.vue";
 import SimpleNameForm from "@/components/admin/forms/SimpleNameForm.vue";
+import DivisionForm from "@/components/admin/forms/DivisionForm.vue";
 import EmployeeForm from "@/components/admin/forms/EmployeeForm.vue";
 import PayrollInfoForm from "@/components/admin/forms/PayrollInfoForm.vue";
 import HolidayForm from "@/components/admin/forms/HolidayForm.vue";

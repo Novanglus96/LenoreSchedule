@@ -84,9 +84,9 @@ def get_weekly_division_schedule(
 
     # Resolve which divisions to query
     if divisions is None:
-        division_qs = Division.objects.all().order_by("division_name")
+        division_qs = Division.objects.all().order_by("sort_order", "division_name")
     else:
-        division_qs = divisions.order_by("division_name")
+        division_qs = divisions.order_by("sort_order", "division_name")
 
     divisions_out = []
 

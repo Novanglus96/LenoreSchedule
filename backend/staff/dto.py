@@ -18,11 +18,13 @@ class DomainGroupIn:
 class DomainDivision:
     id: int
     division_name: str
+    sort_order: int = 0
 
 
 @dataclass(frozen=True)
 class DomainDivisionIn:
     division_name: str
+    sort_order: Optional[int] = None
 
 
 @dataclass

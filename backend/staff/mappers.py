@@ -43,18 +43,24 @@ def model_to_domain_group(model: Group) -> DomainGroup:
 def domain_division_to_schema(
     division: DomainDivision,
 ) -> DivisionOut:
-    return DivisionOut(id=division.id, division_name=division.division_name)
+    return DivisionOut(
+        id=division.id,
+        division_name=division.division_name,
+        sort_order=division.sort_order,
+    )
 
 
 def schema_to_domain_division(schema: DivisionIn) -> DomainDivisionIn:
     return DomainDivisionIn(
         division_name=schema.division_name,
+        sort_order=schema.sort_order,
     )
 
 
 def domain_division_to_model(dto: DomainDivisionIn) -> Division:
     return Division(
         division_name=dto.division_name,
+        sort_order=dto.sort_order or 0,
     )
 
 
@@ -62,6 +68,7 @@ def model_to_domain_division(model: Division) -> DomainDivision:
     return DomainDivision(
         id=model.id,
         division_name=model.division_name,
+        sort_order=model.sort_order,
     )
 
 
