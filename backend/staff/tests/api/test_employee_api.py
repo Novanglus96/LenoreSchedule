@@ -251,3 +251,62 @@ def test_delete_employee_not_found(api_client):
     )
 
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+@pytest.mark.api
+@pytest.mark.parametrize(
+    "month,day,ok",
+    [(2, 29, True), (12, 31, True), (None, None, True), (4, 31, False),
+     (13, 1, False), (5, None, False), (None, 5, False), (2, 30, False)],
+)
+def test_employee_birthday_validation(api_client, month, day, ok):
+    from staff.factories import DivisionFactory, GroupFactory, LocationFactory
+    from staff.models import Employee
+
+    payload = {
+        "first_name": "B",
+        "last_name": "Day",
+        "email": f"bday-{month}-{day}@example.com",
+        "division_id": DivisionFactory().id,
+        "group_id": GroupFactory().id,
+        "location_id": LocationFactory().id,
+        "birth_month": month,
+        "birth_day": day,
+    }
+    response = api_client.post(
+        "/employees/create", json=payload, headers={"Authorization": "Bearer test-api-key"}
+    )
+
+    if ok:
+        assert response.status_code == 200
+        emp = Employee.objects.get(id=response.json()["id"])
+        assert (emp.birth_month, emp.birth_day) == (month, day)
+    else:
+        assert response.status_code == 422
+
+
+@pytest.mark.django_db
+@pytest.mark.api
+def test_employee_birthday_can_be_cleared(api_client):
+    from staff.factories import EmployeeFactory
+
+    emp = EmployeeFactory(birth_month=6, birth_day=1)
+    payload = {
+        "first_name": emp.first_name,
+        "last_name": emp.last_name,
+        "email": emp.email,
+        "division_id": emp.division_id,
+        "group_id": emp.group_id,
+        "location_id": emp.location_id,
+        "birth_month": None,
+        "birth_day": None,
+    }
+    response = api_client.put(
+        f"/employees/update/{emp.id}", json=payload,
+        headers={"Authorization": "Bearer test-api-key"},
+    )
+
+    assert response.status_code == 200
+    emp.refresh_from_db()
+    assert emp.birth_month is None and emp.birth_day is None

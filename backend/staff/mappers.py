@@ -85,6 +85,8 @@ def domain_employee_to_schema(
         location=domain_location_to_schema(employee.location),
         start_date=employee.start_date,
         end_date=employee.end_date,
+        birth_month=employee.birth_month,
+        birth_day=employee.birth_day,
     )
 
 
@@ -98,6 +100,8 @@ def schema_to_domain_employee(schema: EmployeeIn) -> DomainEmployeeIn:
         location_id=schema.location_id,
         start_date=schema.start_date,
         end_date=schema.end_date,
+        birth_month=schema.birth_month,
+        birth_day=schema.birth_day,
     )
 
 
@@ -111,6 +115,8 @@ def domain_employee_to_model(dto: DomainEmployeeIn) -> Employee:
         location_id=dto.location_id,
         start_date=dto.start_date,
         end_date=dto.end_date,
+        birth_month=dto.birth_month,
+        birth_day=dto.birth_day,
     )
 
 
@@ -125,6 +131,8 @@ def model_to_domain_employee(model: Employee) -> DomainEmployee:
         location=model_to_domain_location(model.location),
         start_date=model.start_date,
         end_date=model.end_date,
+        birth_month=model.birth_month,
+        birth_day=model.birth_day,
     )
 
 
