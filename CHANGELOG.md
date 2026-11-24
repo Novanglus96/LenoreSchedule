@@ -1,3 +1,21 @@
+# [0.1.0-beta.17](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/compare/v0.1.0-beta.16...v0.1.0-beta.17) (2026-11-24)
+
+
+### Bug Fixes
+
+* declare 200/401 response schemas on login endpoint ([b695b63](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/b695b6398d5fd8d3b1e14f55619bc3f57f577197))
+* entry type create failing from the admin GUI ([d5b6e52](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/d5b6e52e07e31e396e2b6788d3afb4dba1440753))
+
+
+### Features
+
+* accept an employee's default schedule for the week ([9b9bbc1](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/9b9bbc1d0c8e1055b0a5527799aefacde285a732))
+* default new overrides to the employee's template and location ([1cf106b](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/1cf106beaf6a6535c037fbde823eaed2fb7fb5d5))
+* hide ex-employees (past end date) from admin lists and dropdowns ([f43869e](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/f43869e88f7d48ce6f32970390e651d6e3439a4c))
+* manual division sort order ([59b52a5](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/59b52a58d50792eda84e24648fec7010d20bea64))
+* PDF page per division with bolder division/group headers ([c158d07](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/c158d0745187b5960b92cb811f32101cab2c50d7))
+* sticky day/date header on the weekly schedule ([81b7d3a](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/81b7d3a4cd0d3b2fa19711c1664d951377246df7))
+
 # [0.1.0-beta.16](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/compare/v0.1.0-beta.15...v0.1.0-beta.16) (2026-11-24)
 
 
