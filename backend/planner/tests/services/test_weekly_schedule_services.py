@@ -69,3 +69,20 @@ def test_accept_default_week_creates_confirmed_entries_for_template_days_only():
     assert all(e.location_id == emp.location_id for e in new)
     # Running again is a no-op
     assert accept_default_week(emp.id, MONDAY, date(2025, 1, 12)) == 0
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_divisions_ordered_by_sort_order_then_name():
+    from staff.factories import DivisionFactory
+
+    PayrollInfoFactory(payroll_year=2025, payroll_start=MONDAY)
+    alpha = DivisionFactory(division_name="Alpha", sort_order=2)
+    zulu = DivisionFactory(division_name="Zulu", sort_order=1)
+    bravo = DivisionFactory(division_name="Bravo", sort_order=2)
+    for div in (alpha, zulu, bravo):
+        EmployeeFactory(division=div)
+
+    schedule = get_weekly_division_schedule(0, 2025, None)
+
+    assert [d.division_name for d in schedule.divisions] == ["Zulu", "Alpha", "Bravo"]

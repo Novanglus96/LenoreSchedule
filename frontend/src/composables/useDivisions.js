@@ -18,6 +18,7 @@ export function useDivisions() {
     mutationFn: (payload) => api.post("/divisions/create", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["divisions"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Division created", "success");
     },
     onError: (e) =>
@@ -32,6 +33,7 @@ export function useDivisions() {
       api.put(`/divisions/update/${id}`, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["divisions"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Division updated", "success");
     },
     onError: (e) =>
@@ -45,6 +47,7 @@ export function useDivisions() {
     mutationFn: (id) => api.delete(`/divisions/delete/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["divisions"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Division deleted", "success");
     },
     onError: (e) =>

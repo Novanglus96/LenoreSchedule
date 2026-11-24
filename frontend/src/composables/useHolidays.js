@@ -18,6 +18,7 @@ export function useHolidays() {
     mutationFn: (payload) => api.post("/calendar/holidays/create", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["holidays"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Holiday created", "success");
     },
     onError: (e) =>
@@ -32,6 +33,7 @@ export function useHolidays() {
       api.put(`/calendar/holidays/update/${id}`, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["holidays"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Holiday updated", "success");
     },
     onError: (e) =>
@@ -45,6 +47,7 @@ export function useHolidays() {
     mutationFn: (id) => api.delete(`/calendar/holidays/delete/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["holidays"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Holiday deleted", "success");
     },
     onError: (e) =>
