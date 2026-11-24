@@ -1,3 +1,10 @@
+# [0.1.0-beta.18](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/compare/v0.1.0-beta.17...v0.1.0-beta.18) (2026-11-24)
+
+
+### Bug Fixes
+
+* refresh weekly schedule after division, group, location, holiday or payroll edits ([ed9a352](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/ed9a35254b56155cb9d39d85abf669a1757517a1))
+
 # [0.1.0-beta.17](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/compare/v0.1.0-beta.16...v0.1.0-beta.17) (2026-11-24)
 
 
