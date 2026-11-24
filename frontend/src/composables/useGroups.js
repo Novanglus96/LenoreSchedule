@@ -18,6 +18,7 @@ export function useGroups() {
     mutationFn: (payload) => api.post("/groups/create", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["groups"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Group created", "success");
     },
     onError: (e) =>
@@ -31,6 +32,7 @@ export function useGroups() {
     mutationFn: ({ id, ...payload }) => api.put(`/groups/update/${id}`, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["groups"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Group updated", "success");
     },
     onError: (e) =>
@@ -44,6 +46,7 @@ export function useGroups() {
     mutationFn: (id) => api.delete(`/groups/delete/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["groups"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Group deleted", "success");
     },
     onError: (e) =>

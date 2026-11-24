@@ -18,6 +18,7 @@ export function useLocations() {
     mutationFn: (payload) => api.post("/locations/create", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["locations"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Location created", "success");
     },
     onError: (e) =>
@@ -32,6 +33,7 @@ export function useLocations() {
       api.put(`/locations/update/${id}`, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["locations"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Location updated", "success");
     },
     onError: (e) =>
@@ -45,6 +47,7 @@ export function useLocations() {
     mutationFn: (id) => api.delete(`/locations/delete/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["locations"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Location deleted", "success");
     },
     onError: (e) =>

@@ -19,6 +19,7 @@ export function usePayrollInfos() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payrollInfos"] });
       queryClient.invalidateQueries({ queryKey: ["payrollWeeks"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Payroll info created", "success");
     },
     onError: (e) =>
@@ -34,6 +35,7 @@ export function usePayrollInfos() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payrollInfos"] });
       queryClient.invalidateQueries({ queryKey: ["payrollWeeks"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Payroll info updated", "success");
     },
     onError: (e) =>
@@ -48,6 +50,7 @@ export function usePayrollInfos() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payrollInfos"] });
       queryClient.invalidateQueries({ queryKey: ["payrollWeeks"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
       mainStore.showSnackbar("Payroll info deleted", "success");
     },
     onError: (e) =>
