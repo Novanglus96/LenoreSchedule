@@ -1,3 +1,10 @@
+# [0.1.0-beta.20](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/compare/v0.1.0-beta.19...v0.1.0-beta.20) (2026-11-24)
+
+
+### Features
+
+* single "confirm schedule for the week" action ([c6bfcec](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/c6bfcecb711ccfdaea3aa02180214084b9836ec8))
+
 # [0.1.0-beta.19](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/compare/v0.1.0-beta.18...v0.1.0-beta.19) (2026-11-24)
 
 
