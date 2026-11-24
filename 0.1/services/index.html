@@ -4312,7 +4312,12 @@ not exist.</p>
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
-<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dto</span><span class="p">:</span> <span class="n">DomainEmployeeIn</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainEmployee</span><span class="p">:</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dto</span><span class="p">:</span> <span class="n">DomainEmployeeIn</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainEmployee</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    `update_employee` updates a employee</span>
 
@@ -4358,6 +4363,11 @@ not exist.</p>
 
     <span class="k">if</span> <span class="n">dto</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">employee</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">end_date</span>
+
+    <span class="c1"># Always written (not "if not None") so a birthday can be cleared; the</span>
+    <span class="c1"># employee update is a full replace from the admin form.</span>
+    <span class="n">employee</span><span class="o">.</span><span class="n">birth_month</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">birth_month</span>
+    <span class="n">employee</span><span class="o">.</span><span class="n">birth_day</span> <span class="o">=</span> <span class="n">dto</span><span class="o">.</span><span class="n">birth_day</span>
 
     <span class="n">employee</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
@@ -4453,12 +4463,7 @@ EmployeeDoesNotExist if the employee's division is not in the set.</p>
 
             <details class="quote">
               <summary>Source code in <code>backend/staff/services/employee_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
@@ -4470,7 +4475,12 @@ EmployeeDoesNotExist if the employee's division is not in the set.</p>
 <span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
-<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">divisions</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainEmployee</span><span class="p">:</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">divisions</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DomainEmployee</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    `get_employee` returns a domain employee object.</span>
 
@@ -4564,12 +4574,7 @@ belonging to those divisions are returned.</p>
 
             <details class="quote">
               <summary>Source code in <code>backend/staff/services/employee_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
@@ -4580,7 +4585,12 @@ belonging to those divisions are returned.</p>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
-<span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_ordered_list_of_employees</span><span class="p">(</span><span class="n">divisions</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DomainEmployee</span><span class="p">]:</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_ordered_list_of_employees</span><span class="p">(</span><span class="n">divisions</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DomainEmployee</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    `get_ordered_list_of_employees` gets a list of domain employee objects, ordered</span>
 <span class="sd">    by last_name ascending, first_name ascending, id ascending.</span>
@@ -4672,12 +4682,7 @@ belonging to those divisions are returned.</p>
 
             <details class="quote">
               <summary>Source code in <code>backend/staff/services/employee_services.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
@@ -4686,7 +4691,12 @@ belonging to those divisions are returned.</p>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
-<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">delete_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">delete_employee</span><span class="p">(</span><span class="n">employee_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    `delete_employee` deletes a employee and returns the deleted employee name.</span>
 
