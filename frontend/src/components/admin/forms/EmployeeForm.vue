@@ -85,6 +85,9 @@
         :error-messages="errors.end_date"
         variant="outlined"
         density="comfortable"
+        hint="Once this date passes the employee is inactive and hidden from lists"
+        persistent-hint
+        clearable
       />
     </v-col>
   </v-row>

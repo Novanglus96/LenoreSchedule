@@ -228,3 +228,32 @@ def test_delete_calendar_entry_not_found_returns_404(api_client):
     )
 
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+@pytest.mark.api
+def test_accept_default_week_endpoint(api_client):
+    from datetime import time
+    from planner.factories import ScheduleTemplateFactory
+    from staff.factories import EmployeeFactory
+
+    emp = EmployeeFactory()
+    ScheduleTemplateFactory(employee=emp, day_of_week=0, start_time=time(9, 0), end_time=time(17, 0))
+    response = api_client.post(
+        "/calendar/accept_default_week",
+        json={"employee_id": emp.id, "week_start": "2025-01-06", "week_end": "2025-01-12"},
+        headers={"Authorization": "Bearer test-api-key"},
+    )
+    assert response.status_code == 200
+    assert response.json() == {"created": 1}
+
+
+@pytest.mark.django_db
+@pytest.mark.api
+def test_accept_default_week_unknown_employee(api_client):
+    response = api_client.post(
+        "/calendar/accept_default_week",
+        json={"employee_id": 999999, "week_start": "2025-01-06", "week_end": "2025-01-12"},
+        headers={"Authorization": "Bearer test-api-key"},
+    )
+    assert response.status_code == 404

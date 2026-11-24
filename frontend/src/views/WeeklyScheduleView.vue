@@ -121,6 +121,7 @@
           @click-day="openCreateOverride"
           @click-entry="openEditOverride"
           @confirm-all="confirmAllOverrides"
+          @accept-default="acceptDefaultWeek"
         />
         <v-alert
           v-if="!schedule.divisions.length"
@@ -143,6 +144,7 @@
         <CalendarEntryForm
           ref="overrideFormRef"
           :model-value="overrideDialog.item"
+          :defaults="overrideDialog.defaults"
           @submit="onOverrideSubmit"
         />
       </v-card-text>
@@ -246,7 +248,13 @@ const {
 const { downloadPdf } = useSchedulePdf();
 
 // ── Override dialog ───────────────────────────────────────
-const { createMutation, updateMutation, deleteMutation, confirmWeekMutation } = useCalendarEntries();
+const {
+  createMutation,
+  updateMutation,
+  deleteMutation,
+  confirmWeekMutation,
+  acceptDefaultWeekMutation,
+} = useCalendarEntries();
 
 const overrideFormRef = ref(null);
 const overrideDialog = ref({
@@ -256,16 +264,36 @@ const overrideDialog = ref({
   employeeName: "",
   date: null,
   item: null,
+  defaults: null,
 });
 
-function employeeName(employeeId) {
+function findEmployee(employeeId) {
   for (const div of schedule.value?.divisions ?? []) {
     for (const grp of div.groups) {
       const emp = grp.employees.find((e) => e.employee_id === employeeId);
-      if (emp) return `${emp.first_name} ${emp.last_name}`;
+      if (emp) return emp;
     }
   }
-  return "";
+  return null;
+}
+
+function employeeName(employeeId) {
+  const emp = findEmployee(employeeId);
+  return emp ? `${emp.first_name} ${emp.last_name}` : "";
+}
+
+// Defaults for a new override: the employee's template block for that day
+// (first block if the day is split) and their default location.
+function overrideDefaults(employeeId, date) {
+  const emp = findEmployee(employeeId);
+  if (!emp) return null;
+  const tmpl = emp.days.find((d) => d.date === date)?.template_entries?.[0];
+  return {
+    start_time: tmpl?.start_time ?? "",
+    end_time: tmpl?.end_time ?? "",
+    break_minutes: tmpl?.break_minutes ?? 0,
+    location_id: tmpl?.location?.id ?? emp.default_location_id ?? null,
+  };
 }
 
 function fmtDate(isoDate) {
@@ -280,6 +308,7 @@ function openCreateOverride({ employeeId, date }) {
     employeeId,
     date,
     item: null,
+    defaults: overrideDefaults(employeeId, date),
   };
 }
 
@@ -309,7 +338,14 @@ function openEditOverride({ calendarEntryId, employeeId, date }) {
 }
 
 function closeOverrideDialog() {
-  overrideDialog.value = { open: false, title: "", employeeId: null, date: null, item: null };
+  overrideDialog.value = {
+    open: false,
+    title: "",
+    employeeId: null,
+    date: null,
+    item: null,
+    defaults: null,
+  };
 }
 
 function onOverrideSubmit(values) {
@@ -336,6 +372,15 @@ function deleteOverride() {
 function confirmAllOverrides({ employeeId }) {
   if (!schedule.value) return;
   confirmWeekMutation.mutate({
+    employee_id: employeeId,
+    week_start: schedule.value.week_start,
+    week_end: schedule.value.week_end,
+  });
+}
+
+function acceptDefaultWeek({ employeeId }) {
+  if (!schedule.value) return;
+  acceptDefaultWeekMutation.mutate({
     employee_id: employeeId,
     week_start: schedule.value.week_start,
     week_end: schedule.value.week_end,

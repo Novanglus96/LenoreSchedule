@@ -75,11 +75,17 @@ def update_division(division_id: int, dto: DomainDivisionIn) -> DomainDivision:
     """
     division = get_division_model_or_raise(division_id)
 
-    if Division.objects.filter(division_name=dto.division_name).exists():
+    if (
+        Division.objects.filter(division_name=dto.division_name)
+        .exclude(id=division_id)
+        .exists()
+    ):
         raise DivisionAlreadyExists()
 
     if dto.division_name is not None:
         division.division_name = dto.division_name
+    if dto.sort_order is not None:
+        division.sort_order = dto.sort_order
 
     division.save()
 
@@ -104,12 +110,12 @@ def get_division(division_id: int) -> DomainDivision:
 def get_ordered_list_of_divisions() -> List[DomainDivision]:
     """
     `get_ordered_list_of_divisions` gets a list of domain division objects, ordered
-    by division_name ascending.
+    by sort_order then division_name.
 
     Returns:
         List[DomainDivision]: A list of domain division objects.
     """
-    divisions = Division.objects.all().order_by("division_name")
+    divisions = Division.objects.all().order_by("sort_order", "division_name")
 
     return [model_to_domain_division(g) for g in divisions]
 

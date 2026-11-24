@@ -35,7 +35,11 @@
           title="Divisions"
           :items="divisions || []"
           :loading="divisionsLoading"
-          :headers="[{ key: 'id', label: 'ID' }, { key: 'division_name', label: 'Name' }]"
+          :headers="[
+            { key: 'sort_order', label: 'Sort' },
+            { key: 'id', label: 'ID' },
+            { key: 'division_name', label: 'Name' },
+          ]"
           @new="openCreate('divisions')"
           @edit="openEdit('divisions', $event)"
           @delete="confirmDelete('divisions', $event)"
@@ -57,9 +61,17 @@
 
       <!-- ── EMPLOYEES ──────────────────────────────────── -->
       <v-tabs-window-item value="employees">
+        <v-switch
+          v-model="showInactive"
+          label="Show inactive employees"
+          color="primary"
+          density="compact"
+          hide-details
+          class="mb-2"
+        />
         <EntityPanel
           title="Employees"
-          :items="employees || []"
+          :items="visibleEmployees"
           :loading="employeesLoading"
           :headers="[
             { key: 'id', label: 'ID' },
@@ -68,6 +80,8 @@
             { key: '_group', label: 'Group' },
             { key: '_location', label: 'Location' },
             { key: 'start_date', label: 'Start' },
+            { key: 'end_date', label: 'End' },
+            { key: '_status', label: 'Status' },
           ]"
           :cell-formatter="employeeCellFormatter"
           @new="openCreate('employees')"
@@ -146,6 +160,13 @@
             hide-details
             style="max-width: 260px"
           />
+          <v-switch
+            v-model="showInactive"
+            label="Include inactive employees"
+            color="primary"
+            density="compact"
+            hide-details
+          />
         </div>
         <EntityPanel
           title="Schedule Templates"
@@ -185,12 +206,10 @@
         field-key="group_name"
         @submit="onFormSubmit"
       />
-      <SimpleNameForm
+      <DivisionForm
         v-else-if="dialog.entity === 'divisions'"
         ref="formRef"
         :model-value="dialog.item"
-        field-label="Division Name"
-        field-key="division_name"
         @submit="onFormSubmit"
       />
       <SimpleNameForm
@@ -264,6 +283,7 @@ import { ref, computed } from "vue";
 import AdminFormDialog from "@/components/admin/AdminFormDialog.vue";
 import EntityPanel from "@/components/admin/EntityPanel.vue";
 import SimpleNameForm from "@/components/admin/forms/SimpleNameForm.vue";
+import DivisionForm from "@/components/admin/forms/DivisionForm.vue";
 import EmployeeForm from "@/components/admin/forms/EmployeeForm.vue";
 import PayrollInfoForm from "@/components/admin/forms/PayrollInfoForm.vue";
 import HolidayForm from "@/components/admin/forms/HolidayForm.vue";
@@ -278,10 +298,12 @@ import { usePayrollInfos } from "@/composables/usePayrollInfos.js";
 import { useEntryTypes } from "@/composables/useEntryTypes.js";
 import { useHolidays } from "@/composables/useHolidays.js";
 import { useScheduleTemplates } from "@/composables/useScheduleTemplates.js";
+import { isEmployeeActive } from "@/utils/employeeStatus.js";
 
 const activeTab = ref("groups");
 const formRef = ref(null);
 const templateEmployeeFilter = ref(null);
+const showInactive = ref(false);
 
 // ── Data ──────────────────────────────────────────────────
 const {
@@ -413,14 +435,24 @@ const MUTATIONS = computed(() => ({
   },
 }));
 
+const inactiveEmployeeIds = computed(
+  () => new Set((employees.value ?? []).filter((e) => !isEmployeeActive(e)).map((e) => e.id)),
+);
+
+const visibleEmployees = computed(() =>
+  (employees.value ?? []).filter((e) => showInactive.value || isEmployeeActive(e)),
+);
+
 const employeeSelectItems = computed(() =>
-  (employees.value ?? [])
+  visibleEmployees.value
     .map((e) => ({ id: e.id, label: `${e.last_name}, ${e.first_name}` }))
     .sort((a, b) => a.label.localeCompare(b.label)),
 );
 
 const filteredTemplates = computed(() => {
-  const all = templates.value ?? [];
+  const all = (templates.value ?? []).filter(
+    (t) => showInactive.value || !inactiveEmployeeIds.value.has(t.employee?.id),
+  );
   if (!templateEmployeeFilter.value) return all;
   return all.filter((t) => t.employee?.id === templateEmployeeFilter.value);
 });
@@ -517,6 +549,7 @@ function deleteLabel(entity, item) {
 
 function employeeCellFormatter(key, item) {
   if (key === "_name") return `${item.last_name}, ${item.first_name}`;
+  if (key === "_status") return isEmployeeActive(item) ? "Active" : "Inactive";
   if (key === "_division") return item.division?.division_name ?? "—";
   if (key === "_group") return item.group?.group_name ?? "—";
   if (key === "_location") return item.location?.location_name ?? "—";

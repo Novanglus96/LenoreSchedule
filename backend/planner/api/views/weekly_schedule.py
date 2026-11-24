@@ -14,6 +14,21 @@ error_logger = logging.getLogger("error")
 weekly_schedule_router = Router(tags=["WeeklySchedule"])
 
 
+def _entry_out(e) -> dict:
+    return {
+        "source": e.source,
+        "entry_type": e.entry_type,
+        "start_time": e.start_time,
+        "end_time": e.end_time,
+        "location": e.location,
+        "confirmed": e.confirmed,
+        "break_minutes": e.break_minutes,
+        "notes": e.notes,
+        "holiday_name": e.holiday_name,
+        "calendar_entry_id": e.calendar_entry_id,
+    }
+
+
 @weekly_schedule_router.get("/weekly_schedule", response=WeeklyScheduleOut)
 def get_weekly_schedule(request, page: int = 0, payroll_year: int = None):
     """
@@ -74,20 +89,9 @@ def get_weekly_schedule(request, page: int = 0, payroll_year: int = None):
                                 "days": [
                                     {
                                         "date": day.date,
-                                        "entries": [
-                                            {
-                                                "source": e.source,
-                                                "entry_type": e.entry_type,
-                                                "start_time": e.start_time,
-                                                "end_time": e.end_time,
-                                                "location": e.location,
-                                                "confirmed": e.confirmed,
-                                                "break_minutes": e.break_minutes,
-                                                "notes": e.notes,
-                                                "holiday_name": e.holiday_name,
-                                                "calendar_entry_id": e.calendar_entry_id,
-                                            }
-                                            for e in day.entries
+                                        "entries": [_entry_out(e) for e in day.entries],
+                                        "template_entries": [
+                                            _entry_out(e) for e in day.template_entries
                                         ],
                                     }
                                     for day in emp.days

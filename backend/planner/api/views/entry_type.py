@@ -24,12 +24,12 @@ error_logger = logging.getLogger("error")
 entry_type_router = Router(tags=["EntryTypes"])
 
 
-@entry_type_router.get("", response=List[EntryTypeOut])
+@entry_type_router.get("/list", response=List[EntryTypeOut])
 def list_entry_types(request):
     return [domain_entry_type_to_schema(t) for t in get_all_entry_types()]
 
 
-@entry_type_router.post("")
+@entry_type_router.post("/create")
 def create_entry_type_endpoint(request, payload: EntryTypeIn):
     try:
         dto = schema_to_domain_entry_type(payload)
@@ -46,7 +46,7 @@ def create_entry_type_endpoint(request, payload: EntryTypeIn):
         raise HttpError(500, "EntryType creation error")
 
 
-@entry_type_router.put("/{entry_type_id}")
+@entry_type_router.put("/update/{entry_type_id}")
 def update_entry_type_endpoint(request, entry_type_id: int, payload: EntryTypeIn):
     try:
         dto = schema_to_domain_entry_type(payload)
@@ -63,7 +63,7 @@ def update_entry_type_endpoint(request, entry_type_id: int, payload: EntryTypeIn
         raise HttpError(500, "EntryType update error")
 
 
-@entry_type_router.delete("/{entry_type_id}")
+@entry_type_router.delete("/delete/{entry_type_id}")
 def delete_entry_type_endpoint(request, entry_type_id: int):
     try:
         delete_entry_type(entry_type_id)

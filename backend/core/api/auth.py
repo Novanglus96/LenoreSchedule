@@ -20,7 +20,7 @@ class LoginIn(Schema):
     password: str
 
 
-@router.post("/auth/login", auth=None)
+@router.post("/auth/login", auth=None, response={200: dict, 401: dict})
 def login_view(request: HttpRequest, payload: LoginIn):
     """
     The function `login_view` logs a user in.

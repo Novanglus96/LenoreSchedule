@@ -3,6 +3,24 @@
     <td class="employee-name text-body-2 font-weight-medium pa-2" style="white-space: nowrap">
       <div class="d-flex align-center gap-1">
         <span>{{ employee.last_name }}, {{ employee.first_name }}</span>
+        <v-tooltip
+          v-if="isStaff && hasTemplateDays"
+          text="Accept default schedule for the week"
+          location="right"
+        >
+          <template #activator="{ props: tooltipProps }">
+            <v-btn
+              v-bind="tooltipProps"
+              icon
+              size="x-small"
+              variant="text"
+              color="primary"
+              @click.stop="emit('accept-default', { employeeId: employee.employee_id })"
+            >
+              <v-icon size="14">mdi-calendar-check</v-icon>
+            </v-btn>
+          </template>
+        </v-tooltip>
         <v-tooltip v-if="isStaff && hasUnconfirmed" text="Confirm all overrides" location="right">
           <template #activator="{ props: tooltipProps }">
             <v-btn
@@ -40,7 +58,12 @@ const props = defineProps({
   isStaff: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(["click-day", "click-entry", "confirm-all"]);
+const emit = defineEmits(["click-day", "click-entry", "confirm-all", "accept-default"]);
+
+// Any day still falling back to the template schedule (not yet accepted).
+const hasTemplateDays = computed(() =>
+  props.employee.days.some((d) => d.entries.some((e) => e.source === "template")),
+);
 
 const hasUnconfirmed = computed(() =>
   props.employee.days.some((d) =>

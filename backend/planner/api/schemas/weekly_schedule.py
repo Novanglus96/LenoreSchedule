@@ -20,6 +20,7 @@ class DayEntryOut(Schema):
 class EmployeeDayOut(Schema):
     date: date
     entries: List[DayEntryOut]
+    template_entries: List[DayEntryOut] = []
 
 
 class EmployeeWeekScheduleOut(Schema):

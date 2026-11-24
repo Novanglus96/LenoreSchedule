@@ -9,14 +9,14 @@ export function useEntryTypes() {
   const query = useQuery({
     queryKey: ["entryTypes"],
     queryFn: async () => {
-      const { data } = await api.get("/entry_types");
+      const { data } = await api.get("/entry_types/list");
       return data;
     },
     staleTime: 1000 * 60 * 10,
   });
 
   const createMutation = useMutation({
-    mutationFn: (payload) => api.post("/entry_types", payload),
+    mutationFn: (payload) => api.post("/entry_types/create", payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["entryTypes"] });
       mainStore.showSnackbar("Entry type created", "success");
@@ -29,7 +29,7 @@ export function useEntryTypes() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, ...payload }) => api.put(`/entry_types/${id}`, payload),
+    mutationFn: ({ id, ...payload }) => api.put(`/entry_types/update/${id}`, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["entryTypes"] });
       mainStore.showSnackbar("Entry type updated", "success");
@@ -42,7 +42,7 @@ export function useEntryTypes() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => api.delete(`/entry_types/${id}`),
+    mutationFn: (id) => api.delete(`/entry_types/delete/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["entryTypes"] });
       mainStore.showSnackbar("Entry type deleted", "success");

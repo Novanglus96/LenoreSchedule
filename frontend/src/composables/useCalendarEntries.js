@@ -59,5 +59,28 @@ export function useCalendarEntries() {
       ),
   });
 
-  return { createMutation, updateMutation, deleteMutation, confirmWeekMutation };
+  const acceptDefaultWeekMutation = useMutation({
+    mutationFn: (payload) => api.post("/calendar/accept_default_week", payload),
+    onSuccess: ({ data }) => {
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
+      const n = data?.created ?? 0;
+      mainStore.showSnackbar(
+        n ? `Default schedule accepted (${n} ${n === 1 ? "entry" : "entries"})` : "Nothing to accept",
+        "success",
+      );
+    },
+    onError: (e) =>
+      mainStore.showSnackbar(
+        e.response?.data?.detail || "Failed to accept default schedule",
+        "error",
+      ),
+  });
+
+  return {
+    createMutation,
+    updateMutation,
+    deleteMutation,
+    confirmWeekMutation,
+    acceptDefaultWeekMutation,
+  };
 }
