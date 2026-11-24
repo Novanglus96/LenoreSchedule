@@ -5,6 +5,7 @@ from staff.exceptions import (
     DivisionAlreadyExists,
     DivisionCreationError,
     DivisionDoesNotExist,
+    DivisionReorderMismatch,
 )
 from staff.mappers import domain_division_to_model, model_to_domain_division
 from typing import List
@@ -135,3 +136,35 @@ def delete_division(division_id: int) -> str:
 
     division.delete()
     return division_name
+
+
+def reorder_divisions(division_ids: List[int]) -> List[DomainDivision]:
+    """
+    `reorder_divisions` sets every division's sort_order from its position in
+    ``division_ids`` (1-based), in a single transaction.
+
+    Args:
+        division_ids (List[int]): Every division ID, once each, in the new order.
+
+    Raises:
+        DivisionReorderMismatch: The list is missing a division, repeats one,
+            or names one that does not exist.
+
+    Returns:
+        List[DomainDivision]: The divisions in their new order.
+    """
+    with transaction.atomic():
+        divisions = {d.id: d for d in Division.objects.select_for_update()}
+        if len(division_ids) != len(set(division_ids)) or set(division_ids) != set(
+            divisions
+        ):
+            raise DivisionReorderMismatch()
+
+        ordered = []
+        for position, division_id in enumerate(division_ids, start=1):
+            division = divisions[division_id]
+            division.sort_order = position
+            ordered.append(division)
+        Division.objects.bulk_update(ordered, ["sort_order"])
+
+    return [model_to_domain_division(d) for d in ordered]

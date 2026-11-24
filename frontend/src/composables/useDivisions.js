@@ -57,5 +57,44 @@ export function useDivisions() {
       ),
   });
 
-  return { ...listQuery, createMutation, updateMutation, deleteMutation };
+  // Drag-and-drop reorder. Applies the new order to the cached list at once so
+  // the row does not jump back while the request is in flight; rolls back on
+  // failure.
+  const reorderMutation = useMutation({
+    mutationFn: (divisionIds) =>
+      api.post("/divisions/reorder", { division_ids: divisionIds }),
+    onMutate: async (divisionIds) => {
+      await queryClient.cancelQueries({ queryKey: ["divisions"] });
+      const previous = queryClient.getQueryData(["divisions"]);
+      if (previous) {
+        const byId = new Map(previous.map((d) => [d.id, d]));
+        queryClient.setQueryData(
+          ["divisions"],
+          divisionIds.map((id, i) => ({ ...byId.get(id), sort_order: i + 1 })),
+        );
+      }
+      return { previous };
+    },
+    onError: (e, _ids, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(["divisions"], context.previous);
+      }
+      mainStore.showSnackbar(
+        e.response?.data?.detail || "Failed to reorder divisions",
+        "error",
+      );
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["divisions"] });
+      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
+    },
+  });
+
+  return {
+    ...listQuery,
+    createMutation,
+    updateMutation,
+    deleteMutation,
+    reorderMutation,
+  };
 }
