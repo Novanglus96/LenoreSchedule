@@ -1,0 +1,24 @@
+name: Security Scan
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  # Scan any branch on demand — e.g. beta itself, to see what is on it now.
+  workflow_dispatch:
+jobs:
+  scan:
+    uses: lenore/lenore-ci/.forgejo/workflows/security.yml@v1
+    with:
+      # The single-container image this branch ships (docker-compose-prod.yml
+      # service `app`). Built with the repo root as context.
+      dockerfiles: Dockerfile.combined
+      # The Vue bundle is baked into the image as minified JS, which an image
+      # scan cannot see into, so its lockfile is scanned separately.
+      lockfile_dirs: frontend
+      # BLOCKING from the start: a local run of this exact scan (trivy 0.74.0,
+      # --ignore-unfixed, HIGH/CRITICAL) came back clean on 2026-11-23. A
+      # fixable HIGH/CRITICAL fails the PR, and so does an unreachable
+      # vulnerability DB. Accepted exceptions go in a repo-root
+      # .trivyignore.yaml, each with a `statement` and an `expired_at`.
+      blocking: true
+    # No `secrets: inherit`: the scan reads none, and it builds whatever
+    # Dockerfile the PR carries, so it should not be handed any.
