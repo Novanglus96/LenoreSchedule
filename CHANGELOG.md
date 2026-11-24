@@ -1,3 +1,10 @@
+# [0.1.0-beta.19](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/compare/v0.1.0-beta.18...v0.1.0-beta.19) (2026-11-24)
+
+
+### Features
+
+* drag and drop to reorder divisions ([9007b54](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/9007b54628d357ef51a1afc787e0739c996de95a))
+
 # [0.1.0-beta.18](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/compare/v0.1.0-beta.17...v0.1.0-beta.18) (2026-11-24)
 
 
