@@ -156,3 +156,21 @@ def test_delete_division_not_found(api_client):
     )
 
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+@pytest.mark.api
+def test_reorder_divisions_api(api_client):
+    a, b = DivisionFactory(division_name="A"), DivisionFactory(division_name="B")
+    headers = {"Authorization": "Bearer test-api-key"}
+
+    response = api_client.post(
+        "/divisions/reorder", json={"division_ids": [b.id, a.id]}, headers=headers
+    )
+    assert response.status_code == 200
+    assert [d["division_name"] for d in response.json()] == ["B", "A"]
+
+    bad = api_client.post(
+        "/divisions/reorder", json={"division_ids": [b.id]}, headers=headers
+    )
+    assert bad.status_code == 400

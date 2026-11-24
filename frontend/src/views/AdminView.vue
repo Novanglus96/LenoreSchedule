@@ -34,7 +34,8 @@
         <EntityPanel
           title="Divisions"
           :items="divisions || []"
-          :loading="divisionsLoading"
+          :loading="divisionsLoading || reorderDivisions.isPending.value"
+          reorderable
           :headers="[
             { key: 'sort_order', label: 'Sort' },
             { key: 'id', label: 'ID' },
@@ -43,6 +44,7 @@
           @new="openCreate('divisions')"
           @edit="openEdit('divisions', $event)"
           @delete="confirmDelete('divisions', $event)"
+          @reorder="reorderDivisions.mutate($event)"
         />
       </v-tabs-window-item>
 
@@ -320,6 +322,7 @@ const {
   createMutation: createDivision,
   updateMutation: updateDivision,
   deleteMutation: deleteDivision,
+  reorderMutation: reorderDivisions,
 } = useDivisions();
 
 const {

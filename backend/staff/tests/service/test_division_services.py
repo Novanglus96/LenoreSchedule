@@ -207,3 +207,42 @@ def test_divisions_ordered_by_sort_order_then_name():
     DivisionFactory(division_name="Bravo", sort_order=2)
     names = [d.division_name for d in get_ordered_list_of_divisions()]
     assert names == ["Zulu", "Alpha", "Bravo"]
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_reorder_divisions_sets_positions():
+    from staff.factories import DivisionFactory
+    from staff.services.division_services import reorder_divisions
+
+    a, b, c = (DivisionFactory(sort_order=0) for _ in range(3))
+
+    result = reorder_divisions([c.id, a.id, b.id])
+
+    assert [d.id for d in result] == [c.id, a.id, b.id]
+    assert [d.sort_order for d in result] == [1, 2, 3]
+    c.refresh_from_db()
+    b.refresh_from_db()
+    assert (c.sort_order, b.sort_order) == (1, 3)
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+@pytest.mark.parametrize("shape", ["missing", "duplicate", "unknown"])
+def test_reorder_divisions_rejects_mismatched_list(shape):
+    from staff.exceptions import DivisionReorderMismatch
+    from staff.factories import DivisionFactory
+    from staff.models import Division
+    from staff.services.division_services import reorder_divisions
+
+    a, b = DivisionFactory(sort_order=5), DivisionFactory(sort_order=6)
+    ids = {
+        "missing": [a.id],
+        "duplicate": [a.id, b.id, a.id],
+        "unknown": [a.id, b.id, 99999],
+    }[shape]
+
+    with pytest.raises(DivisionReorderMismatch):
+        reorder_divisions(ids)
+    # Nothing changed
+    assert list(Division.objects.order_by("id").values_list("sort_order", flat=True)) == [5, 6]

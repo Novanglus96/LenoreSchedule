@@ -1,6 +1,6 @@
 from ninja import Schema
 from pydantic import ConfigDict
-from typing import Optional
+from typing import List, Optional
 
 
 # The class DivisionIn is a schema for validating divisions.
@@ -31,3 +31,14 @@ class DivisionOut(Schema):
     sort_order: int = 0
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class DivisionReorderIn(Schema):
+    """
+    Schema for reordering divisions.
+
+    Attributes:
+        division_ids (List[int]): Every division ID, once each, in display order.
+    """
+
+    division_ids: List[int]

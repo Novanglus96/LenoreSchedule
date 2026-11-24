@@ -52,3 +52,9 @@ class LocationDoesNotExist(Exception):
     def __init__(self, location_id: int):
         super().__init__(f"Location {location_id} does not exist")
         self.location_id = location_id
+
+
+class DivisionReorderMismatch(Exception):
+    """The reorder list does not contain exactly every division once."""
+
+    pass
