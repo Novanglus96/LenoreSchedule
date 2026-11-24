@@ -120,8 +120,7 @@
           :is-staff="isStaff"
           @click-day="openCreateOverride"
           @click-entry="openEditOverride"
-          @confirm-all="confirmAllOverrides"
-          @accept-default="acceptDefaultWeek"
+          @confirm-week="confirmWeek"
         />
         <v-alert
           v-if="!schedule.divisions.length"
@@ -253,7 +252,6 @@ const {
   updateMutation,
   deleteMutation,
   confirmWeekMutation,
-  acceptDefaultWeekMutation,
 } = useCalendarEntries();
 
 const overrideFormRef = ref(null);
@@ -369,18 +367,9 @@ function deleteOverride() {
   deleteMutation.mutate(item.id, { onSuccess: closeOverrideDialog });
 }
 
-function confirmAllOverrides({ employeeId }) {
+function confirmWeek({ employeeId }) {
   if (!schedule.value) return;
   confirmWeekMutation.mutate({
-    employee_id: employeeId,
-    week_start: schedule.value.week_start,
-    week_end: schedule.value.week_end,
-  });
-}
-
-function acceptDefaultWeek({ employeeId }) {
-  if (!schedule.value) return;
-  acceptDefaultWeekMutation.mutate({
     employee_id: employeeId,
     week_start: schedule.value.week_start,
     week_end: schedule.value.week_end,
