@@ -12,7 +12,7 @@ RUN npm run build
 #########################
 # Stage 2: Python wheels #
 #########################
-FROM python:3.11.4-slim-bookworm AS python-build
+FROM python:3.11-slim-bookworm AS python-build
 
 WORKDIR /usr/src/app
 
@@ -28,7 +28,7 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requir
 ######################
 # Stage 3: Final image #
 ######################
-FROM python:3.11.4-slim-bookworm
+FROM python:3.11-slim-bookworm
 
 LABEL maintainer="John Adams"
 
@@ -52,7 +52,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install Python dependencies
 COPY --from=python-build /usr/src/app/wheels /wheels
 COPY --from=python-build /usr/src/app/requirements.txt .
-RUN pip install --upgrade pip && pip install --no-cache /wheels/*
+# setuptools is upgraded because the base image's copy vendors vulnerable
+# wheel/jaraco.context. pip is removed once the wheels are in: the app never
+# calls it at runtime, and its own _vendor/vendor.txt pins setuptools 70.3.0,
+# which the CI Trivy scan reports as CVE-2025-47273.
+RUN pip install --no-cache-dir --upgrade pip setuptools \
+    && pip install --no-cache-dir /wheels/* \
+    && pip uninstall -y pip \
+    && rm -rf /wheels
 
 # Copy Django backend
 COPY backend/ $APP_HOME/
