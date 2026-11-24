@@ -17,6 +17,7 @@ these files are ~10 lines each.
 | `docs-release.yml` | `docs.yml@v1` (`mode: release`) | `release: published`, or dispatch by tag |
 | `announce.yml` | `announce.yml@v1` (`target: reddit`) | `release: published`, or dispatch by tag |
 | `pr-title-lint.yml` | `pr-title-lint.yml@v1` | `pull_request` |
+| `security.yml` | `security.yml@v1` (`Dockerfile.combined` + `frontend` lockfile, blocking) | `pull_request`, or dispatch |
 
 ## 🔴 `.github/workflows/` is gone, and it must stay gone
 
