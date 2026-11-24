@@ -1,3 +1,11 @@
+# [0.1.0-beta.16](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/compare/v0.1.0-beta.15...v0.1.0-beta.16) (2026-11-24)
+
+
+### Bug Fixes
+
+* apply pending Debian security updates in the image build ([406c2d0](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/406c2d037276b89ab8321c465e70a3b4591e8b9f))
+* clear fixable HIGH/CRITICAL vulnerabilities in the shipped image ([4beb1e6](https://forge.lan.danielleandjohn.love/lenore/LenoreSchedule/commit/4beb1e63218e9aa77fa61bd16a03d06b07df085c))
+
 # [0.1.0-beta.15](https://github.com/Novanglus96/LenoreSchedule/compare/v0.1.0-beta.14...v0.1.0-beta.15) (2026-05-04)
 
 
