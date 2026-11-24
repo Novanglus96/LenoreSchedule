@@ -85,6 +85,8 @@ class Employee(models.Model):
         location (ForeignKey): The locations for the employee. Required.
         start_date (date): The start date for the employee. Optional. Default None.
         end_date (date): The end date for the employee. Optional. Default None.
+        birth_month (int): Birthday month, 1-12. Optional; set with birth_day.
+        birth_day (int): Birthday day of month. Optional; no year is stored.
     """
 
     first_name = models.CharField(max_length=256)
@@ -95,6 +97,25 @@ class Employee(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     start_date = models.DateField(default=None, null=True, blank=True)
     end_date = models.DateField(default=None, null=True, blank=True)
+    birth_month = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
+    birth_day = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            # Both or neither, and a real month/day (Feb 29 allowed).
+            models.CheckConstraint(
+                condition=(
+                    models.Q(birth_month__isnull=True, birth_day__isnull=True)
+                    | models.Q(
+                        birth_month__gte=1,
+                        birth_month__lte=12,
+                        birth_day__gte=1,
+                        birth_day__lte=31,
+                    )
+                ),
+                name="employee_birthday_month_day_valid",
+            ),
+        ]
 
     def __str__(self):
         """

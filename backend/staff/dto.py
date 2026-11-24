@@ -49,6 +49,8 @@ class DomainEmployee:
     location: DomainLocation
     start_date: Optional[date] = None
     end_date: Optional[date] = None
+    birth_month: Optional[int] = None
+    birth_day: Optional[int] = None
 
 
 @dataclass(frozen=True)
@@ -61,3 +63,5 @@ class DomainEmployeeIn:
     location_id: int
     start_date: Optional[date] = None
     end_date: Optional[date] = None
+    birth_month: Optional[int] = None
+    birth_day: Optional[int] = None

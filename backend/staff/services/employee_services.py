@@ -106,6 +106,11 @@ def update_employee(employee_id: int, dto: DomainEmployeeIn) -> DomainEmployee:
     if dto.end_date is not None:
         employee.end_date = dto.end_date
 
+    # Always written (not "if not None") so a birthday can be cleared; the
+    # employee update is a full replace from the admin form.
+    employee.birth_month = dto.birth_month
+    employee.birth_day = dto.birth_day
+
     employee.save()
 
     return model_to_domain_employee(employee)

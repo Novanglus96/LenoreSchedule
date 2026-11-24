@@ -90,11 +90,36 @@
         clearable
       />
     </v-col>
+    <v-col cols="12" sm="6" class="mt-4">
+      <v-select
+        v-model="birthMonth"
+        label="Birthday Month"
+        :items="MONTHS"
+        :error-messages="errors.birth_month"
+        variant="outlined"
+        density="comfortable"
+        hint="Optional — no year is stored"
+        persistent-hint
+        clearable
+      />
+    </v-col>
+    <v-col cols="12" sm="6" class="mt-4">
+      <v-select
+        v-model="birthDay"
+        label="Birthday Day"
+        :items="dayOptions"
+        :error-messages="errors.birth_day"
+        :disabled="!birthMonth"
+        variant="outlined"
+        density="comfortable"
+        clearable
+      />
+    </v-col>
   </v-row>
 </template>
 
 <script setup>
-import { watch } from "vue";
+import { computed, watch } from "vue";
 import { useForm, useField } from "vee-validate";
 import { useGroups } from "@/composables/useGroups.js";
 import { useDivisions } from "@/composables/useDivisions.js";
@@ -111,6 +136,14 @@ const { data: locations, isLoading: locationsLoading } = useLocations();
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const MONTHS = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+].map((title, i) => ({ title, value: i + 1 }));
+
+// Days in a month, using a leap year so Feb 29 birthdays can be entered.
+const daysInMonth = (month) => new Date(2000, month, 0).getDate();
+
 const { handleSubmit, errors, resetForm, setValues } = useForm({
   validationSchema: {
     first_name: (v) => (v?.trim() ? true : "First name is required"),
@@ -123,6 +156,11 @@ const { handleSubmit, errors, resetForm, setValues } = useForm({
     division_id: (v) => (v != null ? true : "Division is required"),
     group_id: (v) => (v != null ? true : "Group is required"),
     location_id: (v) => (v != null ? true : "Location is required"),
+    birth_day: (v, { form }) => {
+      if (!form.birth_month) return true;
+      if (v == null) return "Pick a day, or clear the month";
+      return v <= daysInMonth(form.birth_month) ? true : "Not a valid day for that month";
+    },
   },
   initialValues: {
     first_name: "",
@@ -133,6 +171,8 @@ const { handleSubmit, errors, resetForm, setValues } = useForm({
     location_id: null,
     start_date: "",
     end_date: "",
+    birth_month: null,
+    birth_day: null,
   },
 });
 
@@ -144,6 +184,22 @@ const { value: groupId } = useField("group_id");
 const { value: locationId } = useField("location_id");
 const { value: startDate } = useField("start_date");
 const { value: endDate } = useField("end_date");
+const { value: birthMonth } = useField("birth_month");
+const { value: birthDay } = useField("birth_day");
+
+const dayOptions = computed(() =>
+  birthMonth.value
+    ? Array.from({ length: daysInMonth(birthMonth.value) }, (_, i) => i + 1)
+    : [],
+);
+
+// Clearing the month clears the day; switching to a shorter month drops a day
+// that no longer exists (e.g. 31 → April).
+watch(birthMonth, (month) => {
+  if (!month || (birthDay.value && birthDay.value > daysInMonth(month))) {
+    birthDay.value = null;
+  }
+});
 
 watch(
   () => props.modelValue,
@@ -158,6 +214,8 @@ watch(
         location_id: val.location?.id ?? null,
         start_date: val.start_date ?? "",
         end_date: val.end_date ?? "",
+        birth_month: val.birth_month ?? null,
+        birth_day: val.birth_day ?? null,
       });
     } else {
       resetForm();
@@ -176,6 +234,8 @@ const submit = handleSubmit((values) => {
     location_id: values.location_id,
     start_date: values.start_date || null,
     end_date: values.end_date || null,
+    birth_month: values.birth_month || null,
+    birth_day: values.birth_month ? values.birth_day : null,
   };
   emit("submit", payload);
 });

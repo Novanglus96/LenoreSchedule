@@ -83,6 +83,7 @@
             { key: '_location', label: 'Location' },
             { key: 'start_date', label: 'Start' },
             { key: 'end_date', label: 'End' },
+            { key: '_birthday', label: 'Birthday' },
             { key: '_status', label: 'Status' },
           ]"
           :cell-formatter="employeeCellFormatter"
@@ -556,6 +557,11 @@ function employeeCellFormatter(key, item) {
   if (key === "_division") return item.division?.division_name ?? "—";
   if (key === "_group") return item.group?.group_name ?? "—";
   if (key === "_location") return item.location?.location_name ?? "—";
+  if (key === "_birthday") {
+    return item.birth_month
+      ? `${MONTH_NAMES[item.birth_month - 1]} ${item.birth_day}`
+      : "—";
+  }
   return null;
 }
 
