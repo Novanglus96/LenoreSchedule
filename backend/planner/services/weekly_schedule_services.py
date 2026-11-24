@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 from itertools import groupby
+from django.db import transaction
 from django.db.models import Q
 
 from planner.models import CalendarEntry, ScheduleTemplate, Holiday
@@ -11,6 +12,7 @@ from planner.dto import (
     DomainDivisionWeekSchedule,
     DomainWeeklySchedule,
 )
+from planner.services.calendar_services import confirm_week_entries
 from planner.services.holiday_services import get_holiday_date_for_year
 from staff.models import Division, Employee
 from staff.mappers import model_to_domain_location
@@ -171,8 +173,11 @@ def get_weekly_division_schedule(
                                 holiday_name=holiday_name,
                             )
                         )
-                else:
-                    # Fall back to recurring template entries
+                elif (employee.start_date is None or employee.start_date <= current_date) and (
+                    employee.end_date is None or employee.end_date >= current_date
+                ):
+                    # Fall back to recurring template entries — only while the
+                    # employee is employed (matches accept_default_week).
                     day_entries.extend(template_entries)
 
                 days.append(
@@ -283,3 +288,28 @@ def accept_default_week(employee_id: int, week_start: date, week_end: date) -> i
 
     CalendarEntry.objects.bulk_create(to_create)
     return len(to_create)
+
+
+def confirm_week_schedule(employee_id: int, week_start: date, week_end: date) -> dict:
+    """
+    `confirm_week_schedule` confirms an employee's whole week in one step:
+    every unconfirmed override in the range is marked confirmed, and every day
+    still on the default (template) schedule gets confirmed entries via
+    `accept_default_week`. Runs in one transaction.
+
+    Args:
+        employee_id (int): The employee whose week to confirm.
+        week_start (date): First date of the range (inclusive).
+        week_end (date): Last date of the range (inclusive).
+
+    Raises:
+        Employee.DoesNotExist: No such employee.
+
+    Returns:
+        (dict): {"confirmed": overrides confirmed, "created": entries created}
+    """
+    with transaction.atomic():
+        employee = Employee.objects.get(id=employee_id)
+        confirmed = confirm_week_entries(employee.id, week_start, week_end)
+        created = accept_default_week(employee.id, week_start, week_end)
+    return {"confirmed": confirmed, "created": created}

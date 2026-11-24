@@ -86,3 +86,38 @@ def test_divisions_ordered_by_sort_order_then_name():
     schedule = get_weekly_division_schedule(0, 2025, None)
 
     assert [d.division_name for d in schedule.divisions] == ["Zulu", "Alpha", "Bravo"]
+
+
+@pytest.mark.django_db
+@pytest.mark.service
+def test_no_template_fallback_after_end_date_and_confirm_week_clears_all():
+    from planner.services.weekly_schedule_services import confirm_week_schedule
+
+    PayrollInfoFactory(payroll_year=2025, payroll_start=MONDAY)
+    emp = EmployeeFactory(end_date=date(2025, 1, 7))  # leaves Tuesday
+    for dow in range(5):
+        ScheduleTemplateFactory(
+            employee=emp, day_of_week=dow, start_time=time(8, 0), end_time=time(16, 0)
+        )
+    CalendarEntryFactory(
+        employee=emp, calendar_date=MONDAY, entry_type="VAC", confirmed=False
+    )
+
+    days = _employee_days(get_weekly_division_schedule(0, 2025, None), emp.id)
+    # Wed onward: no default schedule shown after the end date
+    assert all(d.entries == [] for d in days[2:])
+    assert days[2].template_entries  # still available for override defaults
+
+    assert confirm_week_schedule(emp.id, MONDAY, date(2025, 1, 12)) == {
+        "confirmed": 1,
+        "created": 1,
+    }
+
+    days = _employee_days(get_weekly_division_schedule(0, 2025, None), emp.id)
+    unconfirmed = [
+        e
+        for d in days
+        for e in d.entries
+        if e.source == "template" or (e.source == "calendar" and not e.confirmed)
+    ]
+    assert unconfirmed == []

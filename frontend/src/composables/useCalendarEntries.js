@@ -46,32 +46,21 @@ export function useCalendarEntries() {
       ),
   });
 
+  // Confirms the whole week: unconfirmed overrides plus any days still on the
+  // default schedule.
   const confirmWeekMutation = useMutation({
     mutationFn: (payload) => api.post("/calendar/confirm_week", payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
-      mainStore.showSnackbar("All overrides confirmed", "success");
-    },
-    onError: (e) =>
-      mainStore.showSnackbar(
-        e.response?.data?.detail || "Failed to confirm overrides",
-        "error",
-      ),
-  });
-
-  const acceptDefaultWeekMutation = useMutation({
-    mutationFn: (payload) => api.post("/calendar/accept_default_week", payload),
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({ queryKey: ["weeklySchedule"] });
-      const n = data?.created ?? 0;
+      const n = (data?.confirmed ?? 0) + (data?.created ?? 0);
       mainStore.showSnackbar(
-        n ? `Default schedule accepted (${n} ${n === 1 ? "entry" : "entries"})` : "Nothing to accept",
+        n ? "Schedule confirmed for the week" : "Nothing to confirm",
         "success",
       );
     },
     onError: (e) =>
       mainStore.showSnackbar(
-        e.response?.data?.detail || "Failed to accept default schedule",
+        e.response?.data?.detail || "Failed to confirm schedule",
         "error",
       ),
   });
@@ -81,6 +70,5 @@ export function useCalendarEntries() {
     updateMutation,
     deleteMutation,
     confirmWeekMutation,
-    acceptDefaultWeekMutation,
   };
 }

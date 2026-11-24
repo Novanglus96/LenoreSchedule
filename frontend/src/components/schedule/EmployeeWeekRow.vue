@@ -4,8 +4,8 @@
       <div class="d-flex align-center gap-1">
         <span>{{ employee.last_name }}, {{ employee.first_name }}</span>
         <v-tooltip
-          v-if="isStaff && hasTemplateDays"
-          text="Accept default schedule for the week"
+          v-if="isStaff && needsConfirmation"
+          text="Confirm schedule for the week"
           location="right"
         >
           <template #activator="{ props: tooltipProps }">
@@ -14,22 +14,8 @@
               icon
               size="x-small"
               variant="text"
-              color="primary"
-              @click.stop="emit('accept-default', { employeeId: employee.employee_id })"
-            >
-              <v-icon size="14">mdi-calendar-check</v-icon>
-            </v-btn>
-          </template>
-        </v-tooltip>
-        <v-tooltip v-if="isStaff && hasUnconfirmed" text="Confirm all overrides" location="right">
-          <template #activator="{ props: tooltipProps }">
-            <v-btn
-              v-bind="tooltipProps"
-              icon
-              size="x-small"
-              variant="text"
               color="success"
-              @click.stop="emit('confirm-all', { employeeId: employee.employee_id })"
+              @click.stop="emit('confirm-week', { employeeId: employee.employee_id })"
             >
               <v-icon size="14">mdi-check-all</v-icon>
             </v-btn>
@@ -58,16 +44,15 @@ const props = defineProps({
   isStaff: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(["click-day", "click-entry", "confirm-all", "accept-default"]);
+const emit = defineEmits(["click-day", "click-entry", "confirm-week"]);
 
-// Any day still falling back to the template schedule (not yet accepted).
-const hasTemplateDays = computed(() =>
-  props.employee.days.some((d) => d.entries.some((e) => e.source === "template")),
-);
-
-const hasUnconfirmed = computed(() =>
+// Shown while anything this week is unconfirmed: a day still falling back to
+// the default (template) schedule, or an override not yet confirmed.
+const needsConfirmation = computed(() =>
   props.employee.days.some((d) =>
-    d.entries.some((e) => e.source === "calendar" && !e.confirmed),
+    d.entries.some(
+      (e) => e.source === "template" || (e.source === "calendar" && !e.confirmed),
+    ),
   ),
 );
 </script>

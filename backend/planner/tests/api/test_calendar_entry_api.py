@@ -232,28 +232,52 @@ def test_delete_calendar_entry_not_found_returns_404(api_client):
 
 @pytest.mark.django_db
 @pytest.mark.api
-def test_accept_default_week_endpoint(api_client):
-    from datetime import time
+def test_confirm_week_confirms_overrides_and_accepts_defaults(api_client):
+    from datetime import date, time
     from planner.factories import ScheduleTemplateFactory
     from staff.factories import EmployeeFactory
 
     emp = EmployeeFactory()
-    ScheduleTemplateFactory(employee=emp, day_of_week=0, start_time=time(9, 0), end_time=time(17, 0))
-    response = api_client.post(
-        "/calendar/accept_default_week",
-        json={"employee_id": emp.id, "week_start": "2025-01-06", "week_end": "2025-01-12"},
-        headers={"Authorization": "Bearer test-api-key"},
+    # Mon + Tue on the template; Mon has an unconfirmed override already.
+    for dow in (0, 1):
+        ScheduleTemplateFactory(
+            employee=emp, day_of_week=dow, start_time=time(9, 0), end_time=time(17, 0)
+        )
+    override = CalendarEntryFactory(
+        employee=emp, calendar_date=date(2025, 1, 6), entry_type="VAC", confirmed=False
     )
+
+    response = api_client.post(
+        f"{BASE}/confirm_week",
+        json={"employee_id": emp.id, "week_start": "2025-01-06", "week_end": "2025-01-12"},
+        headers=AUTH,
+    )
+
     assert response.status_code == 200
-    assert response.json() == {"created": 1}
+    assert response.json() == {"confirmed": 1, "created": 1}
+    override.refresh_from_db()
+    assert override.confirmed
+    tuesday = CalendarEntry.objects.get(employee=emp, calendar_date=date(2025, 1, 7))
+    assert tuesday.confirmed and tuesday.entry_type == "SCH"
 
 
 @pytest.mark.django_db
 @pytest.mark.api
-def test_accept_default_week_unknown_employee(api_client):
+def test_confirm_week_unknown_employee(api_client):
     response = api_client.post(
-        "/calendar/accept_default_week",
+        f"{BASE}/confirm_week",
         json={"employee_id": 999999, "week_start": "2025-01-06", "week_end": "2025-01-12"},
-        headers={"Authorization": "Bearer test-api-key"},
+        headers=AUTH,
     )
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+@pytest.mark.api
+def test_confirm_week_rejects_reversed_range(api_client):
+    response = api_client.post(
+        f"{BASE}/confirm_week",
+        json={"employee_id": 1, "week_start": "2025-01-12", "week_end": "2025-01-06"},
+        headers=AUTH,
+    )
+    assert response.status_code == 400

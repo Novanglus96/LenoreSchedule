@@ -21,9 +21,8 @@ from planner.services.calendar_services import (
     update_calendar_entry,
     get_calendar,
     delete_calendar_entry,
-    confirm_week_entries,
 )
-from planner.services.weekly_schedule_services import accept_default_week
+from planner.services.weekly_schedule_services import confirm_week_schedule
 from staff.models import Employee
 from core.utils.auth import get_user_divisions
 
@@ -214,8 +213,9 @@ def list_calendar_entries_by_employee(
 @calendar_entry_router.post("/confirm_week")
 def confirm_week_endpoint(request, payload: ConfirmWeekIn):
     """
-    Bulk-confirms all unconfirmed calendar entries for an employee for a given
-    week range.
+    Confirms an employee's schedule for a week: confirms every unconfirmed
+    override and turns each day still on the default (template) schedule into
+    confirmed entries. Holidays and days with no template are left alone.
 
     Endpoint:
         - **Path**: `/api/v1/calendar/confirm_week`
@@ -225,49 +225,25 @@ def confirm_week_endpoint(request, payload: ConfirmWeekIn):
         payload (ConfirmWeekIn): employee_id, week_start, week_end.
 
     Returns:
-        (dict): {'confirmed': count of entries updated}
-    """
-    try:
-        count = confirm_week_entries(payload.employee_id, payload.week_start, payload.week_end)
-        api_logger.info(f"Confirmed {count} entries for employee {payload.employee_id}")
-        return {"confirmed": count}
-    except Exception as e:
-        api_logger.error("Confirm week failed")
-        error_logger.error(str(e))
-        raise HttpError(500, "Confirm week failed")
-
-
-@calendar_entry_router.post("/accept_default_week")
-def accept_default_week_endpoint(request, payload: ConfirmWeekIn):
-    """
-    Accepts an employee's default (template) schedule for a week by creating
-    confirmed calendar entries for every day still on the template. Days with
-    existing entries, holidays and days off are left alone.
-
-    Endpoint:
-        - **Path**: `/api/v1/calendar/accept_default_week`
-        - **Method**: `POST`
-
-    Args:
-        payload (ConfirmWeekIn): employee_id, week_start, week_end.
-
-    Returns:
-        (dict): {'created': count of entries created}
+        (dict): {'confirmed': overrides confirmed, 'created': entries created}
     """
     if payload.week_end < payload.week_start:
         raise HttpError(400, "week_end must not be before week_start")
     try:
-        count = accept_default_week(payload.employee_id, payload.week_start, payload.week_end)
-        api_logger.info(
-            f"Accepted default week: {count} entries for employee {payload.employee_id}"
+        result = confirm_week_schedule(
+            payload.employee_id, payload.week_start, payload.week_end
         )
-        return {"created": count}
+        api_logger.info(
+            f"Confirmed week for employee {payload.employee_id}: "
+            f"{result['confirmed']} confirmed, {result['created']} created"
+        )
+        return result
     except Employee.DoesNotExist:
         raise HttpError(404, f"Employee {payload.employee_id} not found")
     except Exception as e:
-        api_logger.error("Accept default week failed")
+        api_logger.error("Confirm week failed")
         error_logger.error(str(e))
-        raise HttpError(500, "Accept default week failed")
+        raise HttpError(500, "Confirm week failed")
 
 
 @calendar_entry_router.delete("/delete_entry/{calendar_entry_id}")
